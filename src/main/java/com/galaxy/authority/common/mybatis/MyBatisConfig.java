@@ -1,4 +1,4 @@
-package com.galaxy.authority.common;
+package com.galaxy.authority.common.mybatis;
 
 import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
