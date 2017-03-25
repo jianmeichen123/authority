@@ -1,0 +1,12 @@
+
+server: 
+  context-path: /power
+  port: 8888
+  
+spring:
+  profiles: 
+    active: dev
+    
+mybatis: 
+  typeAliasesPackage: com.galaxy.authority.bean
+  mapperLocations: classpath:mapper/*.xml
