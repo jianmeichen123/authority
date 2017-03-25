@@ -116,17 +116,4 @@ public class AESUtil {
 		return null;
 	}
 
-	public static void main(String[] args) throws Exception {
-
-		String content = "{\"id\":\"222\",\"realName\":\"keifer\",\"nickName\":\"xingkaihu\",\"email\":\"xingkaihu\"}";
-		// 加密
-		System.out.println("加密前：" + content);
-		byte[] encryptResult = encrypt(content);
-
-		System.out.println(new String(encryptResult, "utf-8"));
-		// 解密
-		byte[] decryptResult = decrypt(encryptResult);
-		System.out.println("解密后：" + new String(decryptResult));
-	}
-
 }

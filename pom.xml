@@ -1,4 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+	http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.galaxy.authority</groupId>
   <artifactId>authority</artifactId>
@@ -9,12 +13,12 @@
   	<ezmorph-version>1.0.6</ezmorph-version>
   	<mysql-driver-version>5.1.39</mysql-driver-version>
   </properties>
-  
+   
     <build>
 	<plugins> 
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-compiler-plugin</artifactId>
+			<artifactId>maven-compiler-plugin</artifactId> 
 			<executions>
                 <execution>
                     <id>default-testCompile</id>
@@ -48,7 +52,7 @@
   <parent>
 	<groupId>org.springframework.boot</groupId>
    	<artifactId>spring-boot-starter-parent</artifactId>
-   	<version>1.4.1.RELEASE</version>
+   	<version>1.5.2.RELEASE</version>
   </parent>
   
     <dependencies>
@@ -73,7 +77,7 @@
 	<!-- 第一步、整合mybatis http://www.cnblogs.com/java-zhao/p/5350021.html-->
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-jdbc</artifactId>
+		<artifactId>spring-boot-starter-jdbc</artifactId> 
 	</dependency>
     
     <dependency>
@@ -115,11 +119,18 @@
 	    <groupId>commons-beanutils</groupId>
 	    <artifactId>commons-beanutils</artifactId>
 	</dependency>  
-	
+	 
 	<!-- 用于base64加密 -->
- 	<dependency>
+ 	<dependency> 
 	    <groupId>commons-codec</groupId>
 	    <artifactId>commons-codec</artifactId>
+	</dependency>
+	
+	<dependency>
+	    <groupId>javax</groupId>
+	    <artifactId>javaee-api</artifactId>
+	    <version>7.0</version>
+	    <scope>provided</scope>
 	</dependency>
 	
 	

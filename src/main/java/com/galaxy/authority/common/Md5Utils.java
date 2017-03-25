@@ -165,12 +165,4 @@ public class Md5Utils {
 		return convertMD5(convertMD5(md5Input));
 	}
 
-	public static void main(String args[]) {
-		String s = new String("{\"id\":\"222\",\"realName\":\"keifer\",\"nickName\":\"xingkaihu\",\"email\":\"xingkaihu\"}");
-		System.out.println("原始：" + s);
-		System.out.println("MD5后：" + md5Crypt(s));
-		System.out.println("解密的：" + getStrByMd5(s));
-		System.out.println("解密的：" + getStrByMd5(""));
-	}
-
 }

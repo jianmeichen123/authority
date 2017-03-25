@@ -36,13 +36,4 @@ public class Base64Util {
 		}
 		return data;
 	}
-
-	public static void main(String[] args) {
-		try {
-			System.out.println(decode("eyJpZCI6IjIyMiIsInJlYWxOYW1lIjoia2VpZmVyIiwibmlja05hbWUiOiJ4aW5na2FpaHUiLCJlbWFpbCI6InhpbmdrYWlodSJ9&_=1461144730207"));
-			System.out.println(encoded("123"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	}
 }
