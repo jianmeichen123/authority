@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="com.galaxy.authority.dao.depart.IDepartDao">
+	
+	<select id="getDepartById" parameterType="long" resultType="DepartBean" resultMap="departBeanMap">
+		select * from department where id=#{id};
+	</select>
+	
+<!-- 		<insert id="saveUser" parameterType="TestUserBean" keyColumn="id">
+		insert into test_user(name,email) values(#{name},#{email});
+	</insert> -->
+	
+	<resultMap type="DepartBean" id="departBeanMap">
+		<id column="id" property="id"/>
+		<result column="dep_name" property="depName"/>
+		<result column="parent_id" property="parentId"/>
+		<result column="index_no" property="indexNo"/>
+		<result column="is_show" property="isShow"/>
+		<result column="crement_time" property="crementTime"/>
+		<result column="create_id" property="createId"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="update_id" property="updateId"/>
+		<result column="is_del" property="isDel"/>
+		<result column="is_outtage" property="isOuttage"/>
+		<result column="company_id" property="companyId"/>
+	</resultMap>
+	
+	
+	
+	
+
+</mapper>

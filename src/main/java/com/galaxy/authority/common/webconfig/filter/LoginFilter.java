@@ -16,16 +16,16 @@ public class LoginFilter implements Filter{
 	}
 
 	@Override
-	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2) throws IOException, ServletException {
-		System.out.println("filter");
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		
-		
-		
+		filterChain.doFilter(request, response);
 	}
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 	}
+
+
 	
 	
 

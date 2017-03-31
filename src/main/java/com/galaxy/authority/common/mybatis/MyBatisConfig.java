@@ -18,7 +18,7 @@ import com.alibaba.druid.pool.DruidDataSource;
  *
  */
 @Configuration    //该注解类似于spring配置文件
-@MapperScan(basePackages="com.galaxy.authority.dao.*")
+@MapperScan(basePackages="com.galaxy.authority.*dao.*")
 public class MyBatisConfig {
 	
 	@Autowired
