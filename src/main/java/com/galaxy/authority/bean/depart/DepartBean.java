@@ -1,9 +1,13 @@
 package com.galaxy.authority.bean.depart;
 
+import java.util.Date;
+
+import com.galaxy.authority.common.DateUtil;
+
 public class DepartBean {
 	private long id;
-	private String depCode;
-	private String depName;
+	private String depCode = "";
+	private String depName = "";
 	private long parentId;
 	private int indexNo;
 	private int isShow;
@@ -15,7 +19,10 @@ public class DepartBean {
 	private int isOuttage;
 	private int companyId;
 	
-	public DepartBean(){}
+	public DepartBean(){
+		this.crementTime = DateUtil.getMillis(new Date());
+		this.updateTime = DateUtil.getMillis(new Date());
+	}
 
 	public long getId() {
 		return id;

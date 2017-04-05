@@ -9,6 +9,23 @@
 		select * from department where id=#{id};
 	</select>
 	
+	<select id="getDepartTreeList" parameterType="hashmap" resultType="hashmap">
+		select id,d.dep_name name,d.parent_id parentId
+		from department d 
+			where 
+			d.parent_id=#{parentId}
+			and
+		d.is_del=0 and is_outtage=0 and is_show=0 and company_id=#{companyId} order by index_no;
+	</select>
+	
+	<insert id="saveDepart" parameterType="DepartBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+		insert into `power`.`department` (`dep_code`, `dep_name`, `parent_id`, `index_no`, `is_show`, `is_del`, `is_outtage`, `company_id`) 
+		values (#{depCode}, #{depName}, #{parentId}, #{indexNo}, #{isShow}, #{isDel}, #{isOuttage}, #{companyId});
+		<selectKey keyProperty="id" resultType="long" order="AFTER">  
+            SELECT LAST_INSERT_ID();  
+        </selectKey>  
+	</insert>
+	
 <!-- 		<insert id="saveUser" parameterType="TestUserBean" keyColumn="id">
 		insert into test_user(name,email) values(#{name},#{email});
 	</insert> -->

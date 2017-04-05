@@ -3,6 +3,7 @@ package com.galaxy.authority.common;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.beanutils.BeanUtils;
@@ -37,8 +38,6 @@ public class CUtils {
 	public String map2String(Map<String,? extends Object> map){
 		return mapIsNotEmpty(map)?object2JSONString(map):null;
 	}
-	
-
 	
 	/**
 	 * object 转 Integer
@@ -151,6 +150,24 @@ public class CUtils {
 		}
 		return resVal;
 	}
+	
+	/**
+	 * object 转 jsonObject
+	 * @param obj
+	 * @return
+	 */
+	public JSONObject object2JSONObject(Object obj){
+		JSONObject json = null;
+		try{
+			if(stringIsNotEmpty(obj)){
+				json = new JSONObject(object2String(obj));
+			}
+		}catch(Exception e){
+		}
+		return json;
+	}
+	
+	
 	
 	/**
 	 * 连接字符串
@@ -285,6 +302,10 @@ public class CUtils {
 			paramStrng = "";
 		}
 		return paramStrng;
+	}
+	
+	public String List2JSONString(List<Map<String,Object>> list){
+		return object2JSONString(list);
 	}
 	
 	/**

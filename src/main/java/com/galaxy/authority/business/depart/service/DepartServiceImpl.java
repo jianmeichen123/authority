@@ -1,8 +1,9 @@
 package com.galaxy.authority.business.depart.service;
 
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import com.galaxy.authority.bean.depart.DepartBean;
 import com.galaxy.authority.dao.depart.IDepartDao;
 
@@ -16,6 +17,18 @@ public class DepartServiceImpl implements IDepartService{
 	public DepartBean getDepartmentById(long id) {
 		return dao.getDepartById(id);
 	}
+
+	@Override
+	public List<Map<String,Object>> getDepartTreeList(Map<String,Object> paramMap) {
+		return dao.getDepartTreeList(paramMap);
+	}
+
+	@Override
+	public int saveDepart(DepartBean departBean) {
+		return dao.saveDepart(departBean);
+	}
+	
+	
 	
 	
 	
