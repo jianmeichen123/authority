@@ -32,6 +32,12 @@ public class DepartServiceImpl implements IDepartService{
 	public List<Map<String, Object>> getDepartList(Map<String, Object> param) {
 		return dao.getDepartList(param);
 	}
+
+	@Override
+	public List<Map<String, Object>> getDepartForComboxTree(Map<String, Object> param) {
+		return dao.getDepartForComboxTree(param);
+	}
+	
 	
 	
 	

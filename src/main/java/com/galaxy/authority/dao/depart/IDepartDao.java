@@ -10,4 +10,6 @@ public interface IDepartDao {
 	List<Map<String,Object>> getDepartTreeList(Map<String,Object> param);
 	int saveDepart(DepartBean departBean);
 	List<Map<String,Object>> getDepartList(Map<String,Object> param);
+	List<Map<String,Object>> getDepartForComboxTree(Map<String,Object> param);
+	
 }

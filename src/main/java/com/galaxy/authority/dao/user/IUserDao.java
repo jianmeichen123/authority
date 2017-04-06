@@ -1,5 +1,7 @@
 package com.galaxy.authority.dao.user;
 
-public class IUserDao {
+import com.galaxy.authority.bean.user.UserBean;
 
+public interface IUserDao {
+	int saveUser(UserBean userBean);
 }

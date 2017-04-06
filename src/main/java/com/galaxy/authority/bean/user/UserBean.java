@@ -1,12 +1,16 @@
 package com.galaxy.authority.bean.user;
 
+import java.util.Date;
+
+import com.galaxy.authority.common.DateUtil;
+
 public class UserBean {
 	private long id;
 	private String loginName;
 	private String userName;
 	private String telphone;
 	private String mobilePhone;
-	private String eamil1;
+	private String email1;
 	private String email2;
 	private String employNo;			//工号
 	private int sex;
@@ -20,6 +24,21 @@ public class UserBean {
 	private long updateTime;
 	private long updateId;
 	private long companyId;
+	
+	public UserBean(){
+		this.loginName = " ";
+		this.userName = " ";
+		this.telphone = " ";
+		this.mobilePhone = " ";
+		this.email1 = "";
+		this.email2 = "";
+		this.employNo = "";
+		this.isShow = 0;
+		this.isDel = 0;
+		this.isOuttage = 0;
+		this.createTime = DateUtil.getMillis(new Date());
+		this.updateTime = DateUtil.getMillis(new Date());
+	}
 	
 	public long getId() {
 		return id;
@@ -51,12 +70,15 @@ public class UserBean {
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
 	}
-	public String getEamil1() {
-		return eamil1;
+
+	public String getEmail1() {
+		return email1;
 	}
-	public void setEamil1(String eamil1) {
-		this.eamil1 = eamil1;
+
+	public void setEmail1(String email1) {
+		this.email1 = email1;
 	}
+
 	public String getEmail2() {
 		return email2;
 	}

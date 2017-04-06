@@ -4,8 +4,21 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
   
 <mapper namespace="com.galaxy.authority.dao.user.IUserDao">
-	
-	
+
+	<!-- 保存部门 -->
+	<insert id="saveUser" parameterType="UserBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+		INSERT INTO `user` (`login_name`, `user_name`, `telphone`, `mobile_phone`, `email1`, 
+		`sex`, `password`, `origin_password`, `is_show`, `is_del`, `is_outtage`) VALUES 
+		(#{loginName}, #{userName}, #{telphone}, #{mobilePhone}, #{email1}, #{sex}, 
+			#{password}, #{originPassword}, #{isShow}, #{isDel}, #{isOuttage});
+		<selectKey keyProperty="id" resultType="long" order="AFTER">  
+            SELECT LAST_INSERT_ID();  
+        </selectKey>  
+	</insert>
+
+
+
+
 	<resultMap type="UserBean" id="userBeanMap">
 		<id column="id" property="id"/>
 		<result column="login_name" property="loginName"/>
@@ -27,9 +40,5 @@
 		<result column="update_id" property="updateId"/>
 		<result column="company_id" property="companyId"/>
 	</resultMap>
-	
-	
-	
-	
 
 </mapper>

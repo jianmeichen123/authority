@@ -1,5 +1,7 @@
 package com.galaxy.authority.business.user.service;
 
-public interface IUserService {
+import java.util.Map;
 
+public interface IUserService {
+	boolean saveUser(Map<String,Object> map);
 }

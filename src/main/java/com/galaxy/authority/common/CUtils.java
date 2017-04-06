@@ -309,6 +309,25 @@ public class CUtils {
 	}
 	
 	/**
+	 * 将json转换为map
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public Map<String,Object> jsonString2map(Object obj){
+		Map<String,Object> map = null;
+		if(obj!=null){
+			ObjectMapper mapper = new ObjectMapper();
+			try{
+				map = mapper.readValue(object2String(obj), Map.class);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return map;
+	}
+
+	
+	/**
 	 * ------------- 私有方法 --------------------
 	 */
 	private String object2JSONString(Object object){

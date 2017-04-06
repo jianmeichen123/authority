@@ -9,9 +9,19 @@
 		select * from department where id=#{id};
 	</select>
 	
-	<!-- 查询部门树型列表 -->
+	<!-- 查询部门树型列表 ztree-->
 	<select id="getDepartTreeList" parameterType="hashmap" resultType="hashmap">
 		select id,d.dep_name name,d.parent_id parentId
+		from department d 
+			where 
+			d.parent_id=#{parentId}
+			and
+		d.is_del=0 and is_outtage=0 and is_show=0 and company_id=#{companyId} order by index_no;
+	</select>
+	
+	<!-- 查询部门树型列表 -->
+	<select id="getDepartForComboxTree" parameterType="hashmap" resultType="hashmap">
+		select id,d.dep_name text
 		from department d 
 			where 
 			d.parent_id=#{parentId}

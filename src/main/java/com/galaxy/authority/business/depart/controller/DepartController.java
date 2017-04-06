@@ -23,7 +23,6 @@ public class DepartController {
 	@Autowired
 	private IDepartService service;
 	private Map<String,Object> paramMap = new HashMap<String,Object>();
-	private List<Map<String,Object>> departList = null;
 	
 	@RequestMapping("getDeaprtList")
 	@ResponseBody
@@ -36,7 +35,6 @@ public class DepartController {
 		if(CUtils.get().stringIsNotEmpty(paramString)){
 			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
 			if(paramJson!=null && paramJson.has("parentId")){
-				//System.out.println(paramJson.getLong("parentId"));
 				paramMap.put("parentId", paramJson.getLong("parentId"));
 			}
 		}
@@ -47,13 +45,11 @@ public class DepartController {
 		}
 		result.setValue(dataList);
 		
-		System.out.println(CUtils.get().List2JSONString(dataList));
-		
 		return result;
 	}
 	
 	/**
-	 * 显示部门树型结构
+	 * 显示部门树型结构-ztree
 	 * @param paramString
 	 * @return
 	 */
@@ -69,8 +65,25 @@ public class DepartController {
 				paramMap.put("parentId", paramJson.getLong("parentId"));
 			}
 		}
-		departList = service.getDepartTreeList(paramMap);
-		createDepartChild(departList);
+		List<Map<String,Object>> departList = service.getDepartTreeList(paramMap);
+		createDepartChild(departList,"ztree");
+		return departList;
+	}
+	
+	@RequestMapping("getDepartComboxTree")
+	@ResponseBody
+	public Object showDepartComboxTree(@RequestBody String paramString){
+		paramMap.put("parentId", -1);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		
+		if(CUtils.get().stringIsNotEmpty(paramString)){
+			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
+			if(paramJson!=null && paramJson.has("parentId")){
+				paramMap.put("parentId", paramJson.getLong("parentId"));
+			}
+		}
+		List<Map<String,Object>> departList = service.getDepartForComboxTree(paramMap);
+		createDepartChild(departList,"comboxTree");
 		return departList;
 	}
 	
@@ -117,14 +130,20 @@ public class DepartController {
 	 * 生成树型列表
 	 * @param depList
 	 */
-	private void createDepartChild(List<Map<String,Object>> depList){
+	private void createDepartChild(List<Map<String,Object>> depList,String state){
 		for(int i=0;i<depList.size();i++){
 			if(depList.get(i)!=null){
 				paramMap.put("parentId", depList.get(i).get("id"));
 				paramMap.put("companyId", StaticConst.COMPANY_ID);
-				List<Map<String,Object>> dataList = service.getDepartTreeList(paramMap);
+				List<Map<String,Object>> dataList = null;
+				if("ztree".equals(state)){
+					dataList = service.getDepartTreeList(paramMap);
+				}else{
+					dataList = service.getDepartForComboxTree(paramMap);
+				}
+				
 				if(dataList!=null && !dataList.isEmpty()){
-					createDepartChild(dataList);
+					createDepartChild(dataList,state);
 					depList.get(i).put("children", dataList);
 				}
 			}
