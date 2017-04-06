@@ -27,6 +27,11 @@ public class DepartServiceImpl implements IDepartService{
 	public int saveDepart(DepartBean departBean) {
 		return dao.saveDepart(departBean);
 	}
+
+	@Override
+	public List<Map<String, Object>> getDepartList(Map<String, Object> param) {
+		return dao.getDepartList(param);
+	}
 	
 	
 	

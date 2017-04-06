@@ -9,4 +9,5 @@ public interface IDepartDao {
 	DepartBean getDepartById(long id);
 	List<Map<String,Object>> getDepartTreeList(Map<String,Object> param);
 	int saveDepart(DepartBean departBean);
+	List<Map<String,Object>> getDepartList(Map<String,Object> param);
 }

@@ -9,6 +9,7 @@
 		select * from department where id=#{id};
 	</select>
 	
+	<!-- 查询部门树型列表 -->
 	<select id="getDepartTreeList" parameterType="hashmap" resultType="hashmap">
 		select id,d.dep_name name,d.parent_id parentId
 		from department d 
@@ -18,6 +19,7 @@
 		d.is_del=0 and is_outtage=0 and is_show=0 and company_id=#{companyId} order by index_no;
 	</select>
 	
+	<!-- 保存部门 -->
 	<insert id="saveDepart" parameterType="DepartBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
 		insert into `power`.`department` (`dep_code`, `dep_name`, `parent_id`, `index_no`, `is_show`, `is_del`, `is_outtage`, `company_id`) 
 		values (#{depCode}, #{depName}, #{parentId}, #{indexNo}, #{isShow}, #{isDel}, #{isOuttage}, #{companyId});
@@ -25,6 +27,14 @@
             SELECT LAST_INSERT_ID();  
         </selectKey>  
 	</insert>
+	
+	<!-- 取得对应父级部门的列表 -->
+	<select id="getDepartList" parameterType="hashmap" resultType="hashmap">
+			select a1.id,a1.dep_name depName,ifnull(d.dep_name,'') superName,ifnull(a3.countno,0) childCount from department a1   
+		left join department d on d.id=a1.parent_id
+		left join (select count(id) countno, parent_id from  department group by parent_id) a3 on a3.parent_id = a1.id
+		where a1.id=#{parentId};
+	</select>
 	
 <!-- 		<insert id="saveUser" parameterType="TestUserBean" keyColumn="id">
 		insert into test_user(name,email) values(#{name},#{email});

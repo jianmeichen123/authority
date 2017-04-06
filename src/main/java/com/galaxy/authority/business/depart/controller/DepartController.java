@@ -25,9 +25,41 @@ public class DepartController {
 	private Map<String,Object> paramMap = new HashMap<String,Object>();
 	private List<Map<String,Object>> departList = null;
 	
-	@RequestMapping("getDepartList")
+	@RequestMapping("getDeaprtList")
 	@ResponseBody
-	public Object showDepart(@RequestBody String paramString){
+	public Object showDepartList(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+	
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("parentId", -1L);
+		if(CUtils.get().stringIsNotEmpty(paramString)){
+			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
+			if(paramJson!=null && paramJson.has("parentId")){
+				//System.out.println(paramJson.getLong("parentId"));
+				paramMap.put("parentId", paramJson.getLong("parentId"));
+			}
+		}
+		
+		List<Map<String,Object>> dataList = service.getDepartList(paramMap);
+		if(dataList!=null && dataList.size()>0){
+			result.setSuccess(true);
+		}
+		result.setValue(dataList);
+		
+		System.out.println(CUtils.get().List2JSONString(dataList));
+		
+		return result;
+	}
+	
+	/**
+	 * 显示部门树型结构
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("getDepartTree")
+	@ResponseBody
+	public Object showDepartTree(@RequestBody String paramString){
 		paramMap.put("parentId", -1);
 		paramMap.put("companyId", StaticConst.COMPANY_ID);
 		
@@ -39,33 +71,14 @@ public class DepartController {
 		}
 		departList = service.getDepartTreeList(paramMap);
 		createDepartChild(departList);
-		
-		
-		System.out.println(CUtils.get().List2JSONString(departList));
-		
 		return departList;
 	}
 	
 	/**
-	 * 生成树型列表
-	 * @param depList
+	 * 创建部门
+	 * @param paramString
+	 * @return
 	 */
-	private void createDepartChild(List<Map<String,Object>> depList){
-		for(int i=0;i<depList.size();i++){
-			Map<String,Object> map = depList.get(i);
-			if(map!=null){
-				String parentId = CUtils.get().object2String(map.get("id"));
-				paramMap.put("parentId", parentId);
-				paramMap.put("companyId", StaticConst.COMPANY_ID);
-				List<Map<String,Object>> dataList = service.getDepartTreeList(paramMap);
-				if(dataList!=null && !dataList.isEmpty()){
-					createDepartChild(dataList);
-					map.put("children", dataList);
-				}
-			}
-		}
-	}
-	
 	@RequestMapping("save")
 	@ResponseBody
 	public Object saveDepart(@RequestBody String paramString){
@@ -99,34 +112,24 @@ public class DepartController {
 		return result;
 	}
 	
-//	JSONObject json = null;
-//	Map<String,Object> paramMap = new HashMap<String,Object>();
-//	Map<String,Object> resultMap = new HashMap<String,Object>();
-//	List<DepartBean> dataList = null;
-//	private JSONObject createDepartJson(){
-//		if(json==null){
-//			paramMap.put("parentId", -1);
-//			paramMap.put("companyId", StaticConst.COMPANY_ID);
-//		}
-//		
-//		dataList = service.getDepartTreeList(paramMap);
-//		if(dataList!=null && dataList.size()>0){
-//			for(int i=0;i<dataList.size();i++){
-//				if(dataList.get(0).getParentId()==0){
-//					
-//				}else{
-//					
-//				}
-//				
-//				
-//			}
-//		}
-//		
-//		
-//		
-//		
-//		return json;
-//	}
+	/*----------------------------------------*/
+	/**
+	 * 生成树型列表
+	 * @param depList
+	 */
+	private void createDepartChild(List<Map<String,Object>> depList){
+		for(int i=0;i<depList.size();i++){
+			if(depList.get(i)!=null){
+				paramMap.put("parentId", depList.get(i).get("id"));
+				paramMap.put("companyId", StaticConst.COMPANY_ID);
+				List<Map<String,Object>> dataList = service.getDepartTreeList(paramMap);
+				if(dataList!=null && !dataList.isEmpty()){
+					createDepartChild(dataList);
+					depList.get(i).put("children", dataList);
+				}
+			}
+		}
+	}
 	
 	
 

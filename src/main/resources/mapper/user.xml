@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="com.galaxy.authority.dao.user.IUserDao">
+	
+	
+	<resultMap type="UserBean" id="userBeanMap">
+		<id column="id" property="id"/>
+		<result column="login_name" property="loginName"/>
+		<result column="user_name" property="userName"/>
+		<result column="telphone" property="telphone"/>
+		<result column="mobile_phone" property="mobilePhone"/>
+		<result column="eamil1" property="eamil1"/>
+		<result column="email2" property="email2"/>
+		<result column="employ_no" property="employNo"/>
+		<result column="sex" property="sex"/>
+		<result column="password" property="password"/>
+		<result column="origin_password" property="originPassword"/>
+		<result column="is_show" property="isShow"/>
+		<result column="is_del" property="isDel"/>
+		<result column="is_outtage" property="isOuttage"/>
+		<result column="create_time" property="createTime"/>
+		<result column="create_id" property="createId"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="update_id" property="updateId"/>
+		<result column="company_id" property="companyId"/>
+	</resultMap>
+	
+	
+	
+	
+
+</mapper>
