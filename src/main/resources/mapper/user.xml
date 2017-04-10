@@ -5,12 +5,90 @@
   
 <mapper namespace="com.galaxy.authority.dao.user.IUserDao">
 
+	<!-- 取得对应父级部门的列表 -->
+	<select id="getUserList" parameterType="hashmap" resultType="hashmap">
+		select 
+			u.id userId,
+		    u.login_name loginName,
+		    u.user_name userName,
+		    u.telphone telphone,
+			u.mobile_phone mobilePhone,
+			u.email1 email1,
+		    u.sex sex,
+		    u.create_id createId,
+		    u.create_time createTime,
+		    u.update_id updateId,
+		    u.update_time updateTime,
+			d.id depId,
+		    d.dep_name depName
+		from user u,
+			rel_dep_user rdu,
+			department d 
+		<include refid="getUserListWhere"/>
+			and u.company_id=d.company_id and
+		    u.company_id=rdu.company_id and 
+		    rdu.dep_id=d.id and
+		    rdu.user_id=u.id and
+		    u.is_show=0 and 
+		    u.is_del=0 and 
+		    u.is_outtage=0 
+			order by u.create_time desc
+			limit #{startNo},#{pageSize};
+	</select>
+	
+	<!-- 获取总记录数 -->
+	<select id="getUserListCount" resultType="Integer" parameterType="Map">
+		select count(1)
+		from user u
+		<include refid="getUserListWhere"/>
+	</select>
+	
+	<!-- 列表查询条件 -->
+	<sql id="getUserListWhere" >
+		<where>
+			<trim prefixOverrides="and">
+				<if test="companyId != null ">and u.company_id=#{companyId}</if>
+			</trim>
+		</where>
+	</sql>
+	
+	
+
 	<!-- 保存部门 -->
 	<insert id="saveUser" parameterType="UserBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
-		INSERT INTO `user` (`login_name`, `user_name`, `telphone`, `mobile_phone`, `email1`, 
-		`sex`, `password`, `origin_password`, `is_show`, `is_del`, `is_outtage`) VALUES 
-		(#{loginName}, #{userName}, #{telphone}, #{mobilePhone}, #{email1}, #{sex}, 
-			#{password}, #{originPassword}, #{isShow}, #{isDel}, #{isOuttage});
+		INSERT INTO `user` (
+			`login_name`, 
+			`user_name`, 
+			`telphone`, 
+			`mobile_phone`, 
+			`email1`, 
+			`sex`, 
+			`password`, 
+			`origin_password`, 
+			`is_show`, 
+			`is_del`, 
+			`is_outtage`,
+			`create_id`,
+			`create_time`,
+			`update_id`,
+			`update_time`
+		)VALUES(
+			#{loginName}, 
+			#{userName}, 
+			#{telphone}, 
+			#{mobilePhone}, 
+			#{email1}, 
+			#{sex}, 
+			#{password}, 
+			#{originPassword}, 
+			#{isShow}, 
+			#{isDel}, 
+			#{isOuttage},
+			#{createId}, 
+			#{createTime}, 
+			#{updateId}, 
+			#{updateTime}
+		);
 		<selectKey keyProperty="id" resultType="long" order="AFTER">  
             SELECT LAST_INSERT_ID();  
         </selectKey>  
@@ -25,7 +103,7 @@
 		<result column="user_name" property="userName"/>
 		<result column="telphone" property="telphone"/>
 		<result column="mobile_phone" property="mobilePhone"/>
-		<result column="eamil1" property="eamil1"/>
+		<result column="email1" property="email1"/>
 		<result column="email2" property="email2"/>
 		<result column="employ_no" property="employNo"/>
 		<result column="sex" property="sex"/>

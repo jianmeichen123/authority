@@ -8,8 +8,8 @@
 
 	<!-- 保存关联 -->
 	<insert id="saveRelDepUser" parameterType="RelDepUser" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
-		INSERT INTO `rel_dep_user` (`dep_id`, `user_id`, `is_del`, `is_outtage`) 
-		VALUES (#{depId}, #{userId}, #{isDel}, #{isOuttage});
+		INSERT INTO `rel_dep_user` (`dep_id`, `user_id`, `is_del`, `is_outtage`,`company_id`) 
+		VALUES (#{depId}, #{userId}, #{isDel}, #{isOuttage},#{companyId});
 		<selectKey keyProperty="id" resultType="long" order="AFTER">  
             SELECT LAST_INSERT_ID();  
         </selectKey>  

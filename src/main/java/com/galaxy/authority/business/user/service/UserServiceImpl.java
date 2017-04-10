@@ -1,8 +1,11 @@
 package com.galaxy.authority.business.user.service;
 
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.galaxy.authority.bean.Page;
 import com.galaxy.authority.bean.depart.RelDepUser;
 import com.galaxy.authority.bean.user.UserBean;
 import com.galaxy.authority.common.CUtils;
@@ -42,6 +45,21 @@ public class UserServiceImpl implements IUserService{
 		}
 		return flag;
 	}
+
+	@Override
+	public Page<UserBean> getUserList(Map<String, Object> paramMap) {
+		Page<UserBean> page = new Page<UserBean>();
+		
+		List<Map<String,Object>> dataList = dao.getUserList(paramMap);
+		int count = dao.getUserListCount(paramMap);
+		page.setResultCount(count);
+		if(dataList!=null){
+			page.setMapList(dataList);
+		}
+		return page;
+	}
+	
+	
 	
 	
 
