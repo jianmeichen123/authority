@@ -7,6 +7,23 @@
 
 	<!-- 取得对应父级部门的列表 -->
 	<select id="getUserList" parameterType="hashmap" resultType="hashmap">
+		<include refid="getUserListHeader"></include>
+		<include refid="getUserListWhere"/>
+			order by u.create_time desc
+			limit #{startNo},#{pageSize};
+	</select>
+	
+	<!-- 获取总记录数 -->
+	<select id="getUserListCount" resultType="Integer" parameterType="Map">
+		select count(1)
+			from user u,
+			rel_dep_user rdu,
+			department d 
+		<include refid="getUserListWhere"/>
+	</select>
+	
+	<!-- 列表字段 -->
+	<sql id="getUserListHeader">
 		select 
 			u.id userId,
 		    u.login_name loginName,
@@ -24,35 +41,19 @@
 		from user u,
 			rel_dep_user rdu,
 			department d 
-		<include refid="getUserListWhere"/>
-			and u.company_id=d.company_id and
+	</sql>
+	
+	<!-- 列表查询条件 -->
+	<sql id="getUserListWhere" >
+		where u.company_id=d.company_id and
 		    u.company_id=rdu.company_id and 
 		    rdu.dep_id=d.id and
 		    rdu.user_id=u.id and
 		    u.is_show=0 and 
 		    u.is_del=0 and 
 		    u.is_outtage=0 
-			order by u.create_time desc
-			limit #{startNo},#{pageSize};
-	</select>
-	
-	<!-- 获取总记录数 -->
-	<select id="getUserListCount" resultType="Integer" parameterType="Map">
-		select count(1)
-		from user u
-		<include refid="getUserListWhere"/>
-	</select>
-	
-	<!-- 列表查询条件 -->
-	<sql id="getUserListWhere" >
-		<where>
-			<trim prefixOverrides="and">
-				<if test="companyId != null ">and u.company_id=#{companyId}</if>
-			</trim>
-		</where>
+		<if test="companyId != null ">and u.company_id=#{companyId}</if>
 	</sql>
-	
-	
 
 	<!-- 保存部门 -->
 	<insert id="saveUser" parameterType="UserBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
@@ -71,7 +72,8 @@
 			`create_id`,
 			`create_time`,
 			`update_id`,
-			`update_time`
+			`update_time`,
+			`company_id` 
 		)VALUES(
 			#{loginName}, 
 			#{userName}, 
@@ -87,7 +89,8 @@
 			#{createId}, 
 			#{createTime}, 
 			#{updateId}, 
-			#{updateTime}
+			#{updateTime},
+			#{companyId}
 		);
 		<selectKey keyProperty="id" resultType="long" order="AFTER">  
             SELECT LAST_INSERT_ID();  
