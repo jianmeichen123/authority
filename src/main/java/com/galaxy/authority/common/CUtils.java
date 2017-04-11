@@ -223,6 +223,20 @@ public class CUtils {
 	}
 	
 	/**
+	 * 判断 list 为空
+	 */
+	public boolean listIsEmpty(List<?> list){
+		return !listIsNotEmpty(list);
+	}
+	
+	/**
+	 * 判断 list 为非空
+	 */
+	public boolean listIsNotEmpty(List<?> list){
+		return  (list!=null && !list.isEmpty())?true:false;
+	}
+	
+	/**
 	 * 判断 字符串 为空
 	 * @param str
 	 * @return

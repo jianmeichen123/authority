@@ -24,8 +24,8 @@ public class DepartServiceImpl implements IDepartService{
 	}
 
 	@Override
-	public int saveDepart(DepartBean departBean) {
-		return dao.saveDepart(departBean);
+	public boolean saveDepart(DepartBean departBean) {
+		return dao.saveDepart(departBean)>0;
 	}
 
 	@Override

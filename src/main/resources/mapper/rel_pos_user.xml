@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="com.galaxy.authority.dao.position.IRelPosUserDao">
+
+
+	<!-- 保存关联 -->
+	<insert id="saveRelPosUser" parameterType="RelPosUser" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+		INSERT INTO `rel_pos_user` (
+			`pos_id`, 
+			`user_id`, 
+			`is_del`, 
+			`is_outtage`, 
+			`create_time`, 
+			`update_time`, 
+			`create_id`, 
+			`update_id`, 
+			`company_id`
+		) VALUES (
+			#{posId}, 
+			#{userId}, 
+			#{isDel}, 
+			#{isOuttage}, 
+			#{createTime}, 
+			#{updateTime}, 
+			#{createId}, 
+			#{updateId}, 
+			#{companyId});
+		<selectKey keyProperty="id" resultType="long" order="AFTER">  
+            SELECT LAST_INSERT_ID();  
+        </selectKey>  
+	</insert>
+</mapper>

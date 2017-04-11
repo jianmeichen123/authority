@@ -94,33 +94,21 @@ public class DepartController {
 	 */
 	@RequestMapping("save")
 	@ResponseBody
-	public Object saveDepart(@RequestBody String paramString){
+	public Object saveDepart(@RequestBody DepartBean bean){
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
-		result.setMessage("添加部门失败");
 		
-		JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
-		if(paramJson!=null){
-			DepartBean departBean = new DepartBean();
-			departBean.setDepName(paramJson.getString("departName"));
-			departBean.setParentId(-1);
-			if(paramJson.has("departId") && CUtils.get().stringIsNotEmpty(paramJson.getString("departId"))){
-				departBean.setParentId(CUtils.get().object2Long(paramJson.getString("departId"),-1L));
-			}
-			departBean.setCompanyId(StaticConst.COMPANY_ID);
-			int count = service.saveDepart(departBean);
-			System.out.println(departBean.getId());
-			
-			if(count>0){
+		if(bean!=null){
+			bean.setCompanyId(StaticConst.COMPANY_ID);
+			if(service.saveDepart(bean)){
 				Map<String,Object> map = new HashMap<String,Object>();
-				map.put("id", departBean.getId());
-				map.put("name", departBean.getDepName());
-				map.put("parentId", departBean.getParentId());
+				map.put("id", bean.getId());
+				map.put("name", bean.getDepName());
+				map.put("parentId", bean.getParentId());
 				result.setValue(map);
 				result.setSuccess(true);
 				result.setMessage("添加部门成功");
 			}
-			
 		}
 		return result;
 	}
