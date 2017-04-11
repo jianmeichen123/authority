@@ -9,4 +9,7 @@ public interface IPositionService {
 	Page<PositionBean> getPositionList(Map<String,Object> paramMap);
 	boolean savePosition(PositionBean bean);
 	List<Map<String,Object>> getPositionComboxList(Map<String,Object> paramMap);
+	boolean checkPositionDel(Map<String,Object> paramMap);
+	boolean outtagePos(Map<String,Object> paramMap);
+	boolean delPos(Map<String,Object> paramMap);
 }

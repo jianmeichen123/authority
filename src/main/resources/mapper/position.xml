@@ -13,7 +13,6 @@
 			limit #{startNo},#{pageSize};
 	</select>
 	
-	
 	<!-- 下拉选择职位 -->
 	<select id="getPositionComboxList" parameterType="hashmap" resultType="hashmap">
 		select 
@@ -46,6 +45,35 @@
 		    p.company_id companyId
 		from position p
 	</sql>
+	
+	<!-- 检查是否 -->
+	<select id="checkPositionDel" resultType="Integer" parameterType="Map">
+		select count(1)
+			from user u,position p,rel_pos_user rpu
+			where u.company_id=p.company_id
+			and u.company_id=rpu.company_id
+			and u.id=rpu.user_id
+			and p.id=rpu.pos_id
+			and u.is_del=0
+			and p.id=#{posId}
+			and u.company_id=#{companyId};
+	</select>
+	
+	<!-- 禁用 -->
+	<update id="outtagePos" parameterType="hashmap">
+		update position p set p.is_outtage=1 
+		where p.id=#{posId}
+		and p.company_id=#{companyId};
+	</update>
+	
+	<!-- 删除 -->
+	<update id="delPos" parameterType="hashmap">
+		update position p set p.is_del=1 
+		where p.id=#{posId}
+		and p.company_id=#{companyId};
+	</update>
+	
+	
 	
 	<!-- 列表查询条件 -->
 	<sql id="getPositionListWhere" >

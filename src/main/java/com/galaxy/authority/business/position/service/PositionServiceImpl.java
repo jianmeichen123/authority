@@ -32,6 +32,24 @@ public class PositionServiceImpl implements IPositionService{
 	public List<Map<String, Object>> getPositionComboxList(Map<String, Object> paramMap) {
 		return dao.getPositionComboxList(paramMap);
 	}
+
+	@Override
+	public boolean checkPositionDel(Map<String, Object> paramMap) {
+		int count = dao.checkPositionDel(paramMap);
+		return count>0;
+	}
+
+	@Override
+	public boolean outtagePos(Map<String, Object> paramMap) {
+		int count = dao.outtagePos(paramMap);
+		return count>0;
+	}
+
+	@Override
+	public boolean delPos(Map<String, Object> paramMap) {
+		int count = dao.delPos(paramMap);
+		return count>0;
+	}
 	
 	
 	

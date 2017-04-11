@@ -88,9 +88,35 @@ public class PositionController {
 	@ResponseBody
 	public Object checkPosition(@RequestBody String mapString){
 		ResultBean result = ResultBean.instance();
+		result.setSuccess(true);
 		
+		Map<String,Object> paramMap = CUtils.get().jsonString2map(mapString);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		if(CUtils.get().mapIsNotEmpty(paramMap)){
+			if(service.checkPositionDel(paramMap)){
+				result.setSuccess(false);
+			}
+		}
 		return result;
 	}
 	
+	/**
+	 * 禁用或删除
+	 */
+	@RequestMapping("delOrOuttage")
+	@ResponseBody
+	public Object delOrOuttage(@RequestBody String mapString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+		
+		Map<String,Object> paramMap = CUtils.get().jsonString2map(mapString);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		if(CUtils.get().mapIsNotEmpty(paramMap)){
+			if(service.outtagePos(paramMap)){
+				result.setSuccess(true);
+			}
+		}
+		return result;
+	}
 	
 }
