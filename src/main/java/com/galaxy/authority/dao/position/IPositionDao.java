@@ -13,4 +13,5 @@ public interface IPositionDao {
 	int checkPositionDel(Map<String,Object> paramMap);
 	int outtagePos(Map<String,Object> paramMap);
 	int delPos(Map<String,Object> paramMap);
+	int updatePos(PositionBean bean);
 }

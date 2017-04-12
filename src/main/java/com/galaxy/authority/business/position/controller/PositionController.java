@@ -1,5 +1,6 @@
 package com.galaxy.authority.business.position.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.bean.position.PositionBean;
 import com.galaxy.authority.business.position.service.IPositionService;
 import com.galaxy.authority.common.CUtils;
+import com.galaxy.authority.common.DateUtil;
 import com.galaxy.authority.common.StaticConst;
 
 @Controller
@@ -59,7 +61,13 @@ public class PositionController {
 		
 		if(bean!=null){
 			bean.setCompanyId(StaticConst.COMPANY_ID);
-			result.setSuccess(service.savePosition(bean));
+			System.out.println(CUtils.get().bean2Map(bean));
+			if(CUtils.get().stringIsNotEmpty(bean.getId())){
+				bean.setUpdateTime(DateUtil.getMillis(new Date()));
+				result.setSuccess(service.updatePos(bean));
+			}else{
+				result.setSuccess(service.savePosition(bean));
+			}
 		}
 		return result;
 	}
@@ -112,8 +120,16 @@ public class PositionController {
 		Map<String,Object> paramMap = CUtils.get().jsonString2map(mapString);
 		paramMap.put("companyId", StaticConst.COMPANY_ID);
 		if(CUtils.get().mapIsNotEmpty(paramMap)){
-			if(service.outtagePos(paramMap)){
-				result.setSuccess(true);
+			System.out.println(CUtils.get().map2String(paramMap));
+			String state = CUtils.get().object2String(paramMap.get("state"));
+			if("outtage".equals(state)){
+				if(service.outtagePos(paramMap)){
+					result.setSuccess(true);
+				}
+			}else if("delete".equals(state)){
+				if(service.delPos(paramMap)){
+					result.setSuccess(true);
+				}
 			}
 		}
 		return result;

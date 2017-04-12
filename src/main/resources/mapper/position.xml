@@ -9,7 +9,7 @@
 	<select id="getPositionList" parameterType="hashmap" resultType="hashmap">
 		<include refid="getPositionListHeader"></include>
 		<include refid="getPositionListWhere"/>
-			order by p.create_time desc
+			order by p.is_outtage asc,p.create_time desc
 			limit #{startNo},#{pageSize};
 	</select>
 	
@@ -73,12 +73,11 @@
 		and p.company_id=#{companyId};
 	</update>
 	
-	
-	
 	<!-- 列表查询条件 -->
 	<sql id="getPositionListWhere" >
 		where p.is_del=0
-		and p.is_outtage=0
+		<if test="isOuttage != null ">and p.is_outtage=#{isOuttage}</if>
+		<if test="findKey != null ">and p.pos_name like #{findKey}</if>
 		<if test="companyId != null ">and p.company_id=#{companyId}</if>
 	</sql>
 
@@ -109,5 +108,12 @@
             SELECT LAST_INSERT_ID();  
         </selectKey>  
 	</insert>
+	
+	<!-- 更新职位 -->
+	<update id="updatePos" parameterType="PositionBean">
+		update position p set p.pos_name=#{posName} 
+		where p.id=#{id}
+		and p.company_id=#{companyId};
+	</update>
 	
 </mapper>

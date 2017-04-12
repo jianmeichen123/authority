@@ -12,4 +12,5 @@ public interface IPositionService {
 	boolean checkPositionDel(Map<String,Object> paramMap);
 	boolean outtagePos(Map<String,Object> paramMap);
 	boolean delPos(Map<String,Object> paramMap);
+	boolean updatePos(PositionBean bean);
 }

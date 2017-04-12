@@ -50,6 +50,13 @@ public class PositionServiceImpl implements IPositionService{
 		int count = dao.delPos(paramMap);
 		return count>0;
 	}
+
+	@Override
+	public boolean updatePos(PositionBean bean) {
+		int count = dao.updatePos(bean);
+		return count>0;
+	}
+	
 	
 	
 	
