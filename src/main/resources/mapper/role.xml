@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="com.galaxy.authority.dao.role.IRoleDao">
+	<!-- 列表查询字段 -->
+	<sql id="getRoleListHeader">
+		select 
+			r.id,
+		    r.role_name roleName,
+		    r.role_demo roleDemo,
+		    r.is_del isDel
+		from role r
+	</sql>
+	<!-- 列表查询条件 -->
+	<sql id="getRoleListWhere" >
+		where r.is_del=0
+		and r.is_outtage=0
+		<if test="companyId != null ">and r.company_id=#{companyId}</if>
+	</sql>
+	
+	<!-- 获取角色的列表 -->
+	<select id="getRoleList" parameterType="hashmap" resultType="hashmap">
+		<include refid="getRoleListHeader"/>
+		<include refid="getRoleListWhere"/>
+			order by r.create_time desc
+			limit #{startNo},#{pageSize};
+	</select>
+	
+	<!-- 获取角色列表总记录数 -->
+	<select id="getRoleListCount" resultType="Integer" parameterType="Map">
+		select count(1) from role r 
+		<include refid="getRoleListWhere"/>
+	</select>
+	
+	<!-- 保存角色 -->
+	<insert id="saveRole" parameterType="RoleBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+		INSERT INTO `power`.`role` (
+			`role_code`, 
+			`role_name`, 
+			`role_demo`, 
+			`is_del`, 
+			`is_outtage`, 
+			`create_id`, 
+			`create_time`, 
+			`update_id`, 
+			`update_time`, 
+			`company_id`
+		) VALUES (
+			#{roleCode}, 
+			#{roleName}, 
+			#{roleDemo}, 
+			#{isDel}, 
+			#{isOuttage}, 
+			#{createId}, 
+			#{createTime}, 
+			#{updateId}, 
+			#{updateTime}, 
+			#{companyId}
+		);
+		<selectKey keyProperty="id" resultType="long" order="AFTER">  
+            SELECT LAST_INSERT_ID();  
+        </selectKey>  
+	</insert>
+	<!-- 更新角色信息 -->
+	<update id="updateRole" parameterType="RoleBean">
+		update role set role_name=#{roleName},role_demo=#{roleDemo}, create_time=#{createTime},update_time=#{updateTime} 
+	    where id = #{id};
+	</update>
+	
+	<!-- 删除角色 -->
+	<delete id="delRoleById" parameterType="Map">
+		DELETE FROM `power`.`role` WHERE
+		<if test="id != null ">id=#{id}</if>
+	</delete>
+	
+	<!--通过部门id获取部门人数list-->
+	<select id="getUserListByDeptId" parameterType="hashmap" resultType="hashmap">
+		select id,d.dep_name name,d.parent_id parentId
+		from department d 
+			where 
+			d.parent_id=#{parentId}
+			and
+		d.is_del=0 and is_outtage=0 and is_show=0 and company_id=#{companyId} order by index_no;
+	</select>
+	
+	<!--通过部门id获取部门人数list-->
+	<select id="getUserNameByDeptId" parameterType="hashmap" resultType="hashmap">
+		SELECT u.id,u.user_name FROM rel_dep_user du LEFT JOIN `user` u on u.id=du.user_id WHERE du.dep_id=#{id};
+	</select>
+</mapper>
