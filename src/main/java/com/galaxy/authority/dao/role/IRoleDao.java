@@ -20,7 +20,7 @@ public interface IRoleDao {
 	public boolean updateRole(RoleBean bean);
 	//通过部门id获取部门人数list
 	public List<Map<String, Object>> getUserListByDeptId(Map<String, Object> paramMap);
-	
+	//通过部门id获取部门下所有账号
 	public List<Map<String, Object>> getUserNameByDeptId(Map<String, Object> deptParamMap);
 
 }
