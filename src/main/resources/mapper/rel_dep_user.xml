@@ -5,6 +5,12 @@
   
 <mapper namespace="com.galaxy.authority.dao.user.IRelDepUserDao">
 
+	<!-- 删除关联 -->
+	<delete id="delRelDepUser" parameterType="hashmap">
+		delete from rel_dep_user
+			where company_id=#{companyId}
+			and user_id=#{userId};
+	</delete>
 
 	<!-- 保存关联 -->
 	<insert id="saveRelDepUser" parameterType="RelDepUser" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">

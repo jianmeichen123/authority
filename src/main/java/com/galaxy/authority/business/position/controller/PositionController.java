@@ -55,14 +55,17 @@ public class PositionController {
 	
 	@RequestMapping("savePosition")
 	@ResponseBody
-	public Object savePosition(@RequestBody PositionBean bean){
+	public Object savePosition(@RequestBody String beanString){
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
 		
+		Map<String,Object> map = CUtils.get().jsonString2map(beanString);
+		PositionBean bean = new PositionBean();
+		bean.setPosName(CUtils.get().object2String(map.get("posName")));
+		
 		if(bean!=null){
 			bean.setCompanyId(StaticConst.COMPANY_ID);
-			System.out.println(CUtils.get().bean2Map(bean));
-			if(CUtils.get().stringIsNotEmpty(bean.getId())){
+			if(bean.getId()!=0){
 				bean.setUpdateTime(DateUtil.getMillis(new Date()));
 				result.setSuccess(service.updatePos(bean));
 			}else{
@@ -134,5 +137,7 @@ public class PositionController {
 		}
 		return result;
 	}
+	
+	
 	
 }

@@ -35,7 +35,6 @@ public class UserServiceImpl implements IUserService{
 		userBean.setCompanyId(StaticConst.COMPANY_ID);
 		int count = dao.saveUser(userBean);
 		
-		
 		if(count>0){
 			//保存部门关联表
 			RelDepUser rdu = new RelDepUser();
@@ -54,10 +53,45 @@ public class UserServiceImpl implements IUserService{
 			if(cc>0 && dd>0){
 				flag = true;
 			}
-			
 		}
 		return flag;
 	}
+	
+	@Override
+	public boolean updateUser(Map<String, Object> paramMap) {
+		boolean flag = false;
+		//删除职位关联表相关数据
+		int cc = rDao.delRelDepUser(paramMap);
+		
+		//删除部门关联表相关数据
+		int dd = pDao.delRelPosUser(paramMap);
+		
+		if(cc>0 && dd>0){
+			long userId = CUtils.get().object2Long(paramMap.get("userId"));
+			
+			//保存部门关联表
+			RelDepUser rdu = new RelDepUser();
+			rdu.setCompanyId(StaticConst.COMPANY_ID);
+			rdu.setDepId(CUtils.get().object2Long(paramMap.get("departId")));
+			rdu.setUserId(userId);
+			rDao.saveRelDepUser(rdu);
+			
+			//保存职位关联表
+			RelPosUser rpu = new RelPosUser();
+			rpu.setCompanyId(StaticConst.COMPANY_ID);
+			rpu.setPosId(CUtils.get().object2Long(paramMap.get("positionId")));
+			rpu.setUserId(userId);
+			pDao.saveRelPosUser(rpu);
+			
+			flag = dao.updateUser(paramMap)>0;
+		}
+		
+		
+		
+		return flag;
+	}
+
+
 
 	@Override
 	public Page<UserBean> getUserList(Map<String, Object> paramMap) {
@@ -71,9 +105,25 @@ public class UserServiceImpl implements IUserService{
 		}
 		return page;
 	}
-	
-	
-	
-	
+
+	@Override
+	public boolean outtageUser(Map<String, Object> paramMap) {
+		return dao.outtageUser(paramMap)>0;
+	}
+
+	@Override
+	public boolean deleteUser(Map<String, Object> paramMap) {
+		return dao.deleteUser(paramMap)>0;
+	}
+
+	@Override
+	public boolean editUser(UserBean bean) {
+		return dao.editUser(bean)>0;
+	}
+
+	@Override
+	public boolean resetPassword(Map<String, Object> paramMap) {
+		return dao.resetPassword(paramMap)>0;
+	}
 
 }

@@ -59,9 +59,9 @@
 			and u.company_id=#{companyId};
 	</select>
 	
-	<!-- 禁用 -->
+	<!-- 禁用或启用 -->
 	<update id="outtagePos" parameterType="hashmap">
-		update position p set p.is_outtage=1 
+		update position p set p.is_outtage=#{outtageValue}
 		where p.id=#{posId}
 		and p.company_id=#{companyId};
 	</update>
@@ -82,7 +82,7 @@
 	</sql>
 
 	<!-- 保存职位 -->
-	<insert id="savePosition" parameterType="PositionBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	<insert id="savePosition" parameterType="hashmap" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
 		INSERT INTO `power`.`position` (
 			`pos_code`, 
 			`pos_name`, 

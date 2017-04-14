@@ -4,7 +4,37 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
   
 <mapper namespace="com.galaxy.authority.dao.user.IUserDao">
+	
+	<!-- 重置密码 -->
+	<update id="resetPassword" parameterType="hashMap">
+		update user u set 
+			u.password=#{password},
+			u.origin_password=#{originPassword}
+		where u.id=#{userId}
+		and u.company_id=#{companyId};
+	</update>
 
+	<!-- 禁用或启用 -->
+	<update id="outtageUser" parameterType="hashMap">
+		update user u set u.is_outtage=${isOuttage} where u.id=#{id} and u.company_id=#{companyId};
+	</update>
+	
+	<!-- 删除 -->
+	<update id="deleteUser" parameterType="hashMap">
+		update user u set u.is_del=1 where u.id=#{id} and u.company_id=#{companyId};
+	</update>
+	
+	<!-- 编辑 -->
+	<update id="editUser" parameterType="UserBean">
+		update user u set 
+		u.login_name=#{loginName},
+		u.user_name=#{userName},
+		u.mobile_phone=#{mobilePhone},
+		u.email1=#{email1},
+		u.update_time=#{updateTime}
+		where u.id=#{id} and u.company_id=#{companyId};
+	</update>
+	
 	<!-- 取得对应父级部门的列表 -->
 	<select id="getUserList" parameterType="hashmap" resultType="hashmap">
 		<include refid="getUserListHeader"></include>
@@ -15,18 +45,17 @@
 	
 	<!-- 获取总记录数 -->
 	<select id="getUserListCount" resultType="Integer" parameterType="Map">
-		select count(1)
-			from user u,
-			rel_dep_user rdu,
-			department d,
-			position p,
-			rel_pos_user rpu 
+		select count(1) from user u
+			left join rel_dep_user rdu on rdu.user_id=u.id
+            left join rel_pos_user rpu on rpu.user_id=u.id
+			left join department d on rdu.dep_id=d.id
+			left join position p on rpu.pos_id=p.id
 		<include refid="getUserListWhere"/>
 	</select>
 	
 	<!-- 列表字段 -->
 	<sql id="getUserListHeader">
-		select 
+				select 
 			u.id userId,
 		    u.login_name loginName,
 		    u.user_name userName,
@@ -43,11 +72,11 @@
 		    d.dep_name depName,
 		    p.id posId,
 		    p.pos_name posName
-		from user u,
-			rel_dep_user rdu,
-			department d,
-			position p,
-			rel_pos_user rpu 
+		from user u
+			left join rel_dep_user rdu on rdu.user_id=u.id
+            left join rel_pos_user rpu on rpu.user_id=u.id
+			left join department d on rdu.dep_id=d.id
+			left join position p on rpu.pos_id=p.id
 	</sql>
 	
 	<!-- 列表查询条件 -->
@@ -55,17 +84,29 @@
 		where u.company_id=d.company_id and
 		    u.company_id=rdu.company_id and 
 		    u.company_id=rpu.company_id and
-		    rdu.dep_id=d.id and
-		    rdu.user_id=u.id and
-		    rpu.user_id=u.id and
-		    rpu.pos_id=p.id and
-		    u.is_show=0 and 
-		    u.is_del=0 and 
-		    u.is_outtage=0 
-		<if test="companyId != null ">and u.company_id=#{companyId}</if>
+		    u.is_show=0 
+		<if test="loginName != null ">and u.login_name like #{loginName}</if>
+		<if test="userName != null ">and u.user_name like #{userName}</if>
+		<if test="email1 != null ">and u.email1 like #{email1}</if>
+		<if test="positionId != null ">and p.id=#{positionId}</if>
+		<if test="state != null ">and u.is_outtage=#{state}</if>
+		<if test="departmentId != null ">and d.id=#{departmentId}</if>
+		
 	</sql>
+	
+	<!-- 编辑用户 -->
+	<update id="updateUser" parameterType="hashmap">
+		update user u set 
+			u.login_name=#{loginName},
+		    u.user_name=#{userName},
+		    u.mobile_phone=#{mobilePhone},
+		    u.email1=#{email1},
+		    u.update_time=#{updateTime}
+		where u.id=${userId}
+		and u.company_id=${companyId};
+	</update>
 
-	<!-- 保存部门 -->
+	<!-- 保存用户 -->
 	<insert id="saveUser" parameterType="UserBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
 		INSERT INTO `user` (
 			`login_name`, 

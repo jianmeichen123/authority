@@ -1,5 +1,6 @@
 package com.galaxy.authority.business.user.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.bean.user.UserBean;
 import com.galaxy.authority.business.user.service.IUserService;
 import com.galaxy.authority.common.CUtils;
+import com.galaxy.authority.common.DateUtil;
+import com.galaxy.authority.common.Md5Utils;
 import com.galaxy.authority.common.StaticConst;
 
 @Controller
@@ -30,9 +33,10 @@ public class UserController {
 		int pageSize = CUtils.get().object2Integer(map.get("pageSize"));
 		int startNo = (pageNo-1)*pageSize;
 		map.put("startNo", startNo<0?0:startNo);
-		
 		map.put("companyId", StaticConst.COMPANY_ID);
 		Page<UserBean> page = service.getUserList(map);
+		
+		System.out.println(CUtils.get().map2String(map));
 		
 		if(page!=null && page.getMapList()!=null){
 			result.setSuccess(true);
@@ -43,26 +47,77 @@ public class UserController {
 			result.setValue(dataMap);
 		}
 		
-		
 		return result;
 	}
 	
 	/**
-	 * 新增用户
+	 * 新增或编辑用户
 	 * @param userString
 	 * @return
 	 */
-	@RequestMapping("save")
+	@RequestMapping("saveOrUpdate")
 	@ResponseBody
 	public Object saveUser(@RequestBody String userString){
 		ResultBean result = ResultBean.instance();
 		Map<String,Object> map = CUtils.get().jsonString2map(userString);
-		boolean ifSuccess = service.saveUser(map);
-		
-		result.setSuccess(ifSuccess);
-		
+		String userId = CUtils.get().object2String(map.get("userId"));
+		map.put("companyId", StaticConst.COMPANY_ID);
+		if(CUtils.get().stringIsNotEmpty(userId)){
+			map.put("updateTime", DateUtil.getMillis(new Date()));
+			result.setSuccess(service.updateUser(map));
+		}else{
+			result.setSuccess(service.saveUser(map));
+		}
 		return result;
 	}
 	
+	/**
+	 * 禁用或启用
+	 */
+	@RequestMapping("outtage")
+	@ResponseBody
+	public Object outtageUser(@RequestBody String userString){
+		ResultBean result = ResultBean.instance();
+		Map<String,Object> map = CUtils.get().jsonString2map(userString);
+		map.put("companyId", StaticConst.COMPANY_ID);
+		boolean ifSuccess = service.outtageUser(map);
+		result.setSuccess(ifSuccess);
+		return result;
+	}
+	
+	/**
+	 * 删除
+	 */
+	@RequestMapping("delete")
+	@ResponseBody
+	public Object deleteUser(@RequestBody String userString){
+		ResultBean result = ResultBean.instance();
+		Map<String,Object> map = CUtils.get().jsonString2map(userString);
+		map.put("companyId", StaticConst.COMPANY_ID);
+		boolean ifSuccess = service.deleteUser(map);
+		result.setSuccess(ifSuccess);
+		return result;
+	}
+	
+	/**
+	 * 重置密码
+	 */
+	@RequestMapping("resetPassword")
+	@ResponseBody
+	public Object resetPassword(@RequestBody String userString){
+		ResultBean result = ResultBean.instance();
+		Map<String,Object> map = CUtils.get().jsonString2map(userString);
+		
+		if(CUtils.get().mapIsNotEmpty(map)){
+			String password = CUtils.get().object2String(map.get("password"));
+			String originPassword = Md5Utils.md5Crypt(password);
+			map.put("originPassword", originPassword);
+		}
+		
+		map.put("companyId", StaticConst.COMPANY_ID);
+		boolean ifSuccess = service.resetPassword(map);
+		result.setSuccess(ifSuccess);
+		return result;
+	}
 
 }
