@@ -87,7 +87,11 @@ public class RoleController {
 		}
 		return result;
 	}
-	
+	/**
+	 * 删除角色
+	 * @param paramString
+	 * @return
+	 */
 	@RequestMapping("delRoleById")
 	@ResponseBody
 	public Object delRoleById(@RequestBody String paramString){
