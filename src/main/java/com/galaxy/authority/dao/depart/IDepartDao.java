@@ -11,5 +11,7 @@ public interface IDepartDao {
 	int saveDepart(DepartBean departBean);
 	List<Map<String,Object>> getDepartList(Map<String,Object> param);
 	List<Map<String,Object>> getDepartForComboxTree(Map<String,Object> param);
-	
+	int updateDepart(DepartBean bean);
+	int getDepUserCount(Map<String,Object> map);
+	int delDepartment(Map<String,Object> map);
 }

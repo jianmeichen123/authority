@@ -11,4 +11,7 @@ public interface IDepartService {
 	boolean saveDepart(DepartBean departBean);
 	List<Map<String,Object>> getDepartList(Map<String,Object> param);
 	List<Map<String,Object>> getDepartForComboxTree(Map<String,Object> param);
+	boolean updateDepart(DepartBean bean);
+	boolean getDepUserCount(Map<String,Object> map);
+	boolean delDepartment(Map<String,Object> map);
 }

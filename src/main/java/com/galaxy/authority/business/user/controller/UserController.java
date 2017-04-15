@@ -36,8 +36,6 @@ public class UserController {
 		map.put("companyId", StaticConst.COMPANY_ID);
 		Page<UserBean> page = service.getUserList(map);
 		
-		System.out.println(CUtils.get().map2String(map));
-		
 		if(page!=null && page.getMapList()!=null){
 			result.setSuccess(true);
 			
@@ -46,7 +44,6 @@ public class UserController {
 			dataMap.put("rows", page.getMapList());
 			result.setValue(dataMap);
 		}
-		
 		return result;
 	}
 	

@@ -1,5 +1,6 @@
 package com.galaxy.authority.business.depart.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.bean.depart.DepartBean;
 import com.galaxy.authority.business.depart.service.IDepartService;
 import com.galaxy.authority.common.CUtils;
+import com.galaxy.authority.common.DateUtil;
 import com.galaxy.authority.common.StaticConst;
 
 @Controller
@@ -31,6 +33,7 @@ public class DepartController {
 		result.setSuccess(false);
 	
 		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
 		paramMap.put("parentId", -1L);
 		if(CUtils.get().stringIsNotEmpty(paramString)){
 			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
@@ -70,6 +73,11 @@ public class DepartController {
 		return departList;
 	}
 	
+	/**
+	 * 下拉树型控件-树型列表数据
+	 * @param paramString
+	 * @return
+	 */
 	@RequestMapping("getDepartComboxTree")
 	@ResponseBody
 	public Object showDepartComboxTree(@RequestBody String paramString){
@@ -100,18 +108,60 @@ public class DepartController {
 		
 		if(bean!=null){
 			bean.setCompanyId(StaticConst.COMPANY_ID);
-			if(service.saveDepart(bean)){
-				Map<String,Object> map = new HashMap<String,Object>();
-				map.put("id", bean.getId());
-				map.put("name", bean.getDepName());
-				map.put("parentId", bean.getParentId());
-				result.setValue(map);
-				result.setSuccess(true);
-				result.setMessage("添加部门成功");
+			
+			if(bean.getId()>0){
+				if(service.updateDepart(bean)){
+					result.setSuccess(true);
+					result.setValue("update");
+				}
+			}else{
+				if(service.saveDepart(bean)){
+					Map<String,Object> map = new HashMap<String,Object>();
+					map.put("id", bean.getId());
+					map.put("name", bean.getDepName());
+					map.put("parentId", bean.getParentId());
+					result.setValue(map);
+					result.setSuccess(true);
+				}
 			}
 		}
 		return result;
 	}
+	
+	/**
+	 * 验证部门是否可删除
+	 */
+	@RequestMapping("checkDel")
+	@ResponseBody
+	public Object checkDelDepart(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		if(CUtils.get().stringIsNotEmpty(paramString)){
+			Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
+			paramMap.put("companyId", StaticConst.COMPANY_ID);
+			result.setSuccess(!service.getDepUserCount(paramMap));
+		}
+		return result;
+	}
+	
+	/**
+	 * 删除部门
+	 */
+	@RequestMapping("delDepartment")
+	@ResponseBody
+	public Object delDepartment(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		if(CUtils.get().stringIsNotEmpty(paramString)){
+			Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
+			paramMap.put("companyId", StaticConst.COMPANY_ID);
+			paramMap.put("updateTime", DateUtil.getMillis(new Date()));
+			result.setSuccess(service.delDepartment(paramMap));
+		}
+		return result;
+	}
+	
+	
+	
+	
 	
 	/*----------------------------------------*/
 	/**

@@ -19,7 +19,7 @@
 		d.is_del=0 and is_outtage=0 and is_show=0 and company_id=#{companyId} order by index_no;
 	</select>
 	
-	<!-- 查询部门树型列表 -->
+	<!-- 查询部门树型列表 easyui combotree-->
 	<select id="getDepartForComboxTree" parameterType="hashmap" resultType="hashmap">
 		select id,d.dep_name text
 		from department d 
@@ -38,12 +38,75 @@
         </selectKey>  
 	</insert>
 	
+	<!-- 更新部门 -->
+	<update id="updateDepart" parameterType="DepartBean">
+		update department d set 
+			d.dep_name=#{depName},
+		    d.parent_id=#{parentId},
+		    d.update_time=#{updateTime}
+		where d.id=#{id};
+	</update>
+	
+	<!-- 验证待删除部门下是否存在用户 -->
+	<select id="getDepUserCount" parameterType="hashmap" resultType="integer">
+		select count(1) 
+			from user u
+			left join rel_dep_user rdu on u.id=rdu.user_id
+			left join department d on d.id=rdu.dep_id
+			where u.company_id=rdu.company_id
+			and u.company_id=d.company_id
+			and u.company_id=#{companyId}
+			and u.is_del=0
+			and d.is_del=0
+			and d.id in 
+			<foreach item="item" index="index" collection="depIds" open="(" separator="," close=")">  
+			  #{item}  
+			</foreach>
+	</select>
+	
+	<!-- 删除 -->
+	<update id="delDepartment" parameterType="hashmap">
+		update department d 
+		set d.is_del=1,
+			d.update_time=#{updateTime}
+		where d.id=#{depId}
+		and d.company_id=#{companyId};
+	</update>
+	
+	
 	<!-- 取得对应父级部门的列表 -->
 	<select id="getDepartList" parameterType="hashmap" resultType="hashmap">
-			select a1.id,a1.dep_name depName,ifnull(d.dep_name,'') superName,ifnull(a3.countno,0) childCount from department a1   
+		select 
+			a1.id,
+			a1.dep_name depName,
+			ifnull(d.id,'') superId,
+			ifnull(d.dep_name,'') superName,
+		    ifnull(a3.childDepCount,0) childDepCount,
+		    ifnull(a4.childPosCount,0) childPosCount
+		from department a1   
 		left join department d on d.id=a1.parent_id
-		left join (select count(id) countno, parent_id from  department group by parent_id) a3 on a3.parent_id = a1.id
-		where a1.id=#{parentId};
+		left join (
+			select 
+				count(id) childDepCount, 
+				parent_id 
+		    from  department 
+		    where company_id=#{companyId}
+		    group by parent_id) a3 on a3.parent_id = a1.id
+		left join (
+			select 
+				d1.id,
+				d1.dep_name,
+				count(1) childPosCount
+			from department d1 
+			left join rel_dep_user rdu on d1.id=rdu.dep_id
+			left join user u on u.id=rdu.user_id
+			where u.is_del=0
+			and d1.company_id=u.company_id
+			and u.company_id=#{companyId}
+			group by d1.id) a4 on a1.id=a4.id
+		where a1.id=#{parentId}
+		and a1.company_id=#{companyId}
+		and a1.is_del=0;
 	</select>
 	
 <!-- 		<insert id="saveUser" parameterType="TestUserBean" keyColumn="id">
