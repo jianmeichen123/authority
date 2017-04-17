@@ -3,10 +3,10 @@ package com.galaxy.authority.dao.role;
 import java.util.List;
 import java.util.Map;
 
-import com.galaxy.authority.bean.role.RelRoleUser;
 import com.galaxy.authority.bean.role.RoleBean;
 
 public interface IRoleDao {
+	
 	//获取角色列表
 	public List<Map<String, Object>> getRoleList(Map<String, Object> paramMap);
 	//获取角色列表总记录数
@@ -27,17 +27,7 @@ public interface IRoleDao {
 	public List<Map<String, Object>> getBindUserInfoListById(Map<String, Object> paramMap);
 	//获取角色绑定的关联账号
 	public List<Map<String, Object>> getUserListByRoleId(Map<String, Object> userParamMap);
-	//用户与角色解除绑定
-	public int delRelRoleUer(Map<String, Object> map);
-	//获取用户角色关联记录数
-	public int getRelRoleUserListCount(Map<String, Object> paramMap);
 	//检测角色是否有绑定账号
 	public int checkBindUser(Map<String, Object> paramMap);
-	//批量保存用户角色关联信息
-	public int saveRelRoleUserBatch(List<RelRoleUser> listBean);
-	//获取用户角色关联信息
-	public RelRoleUser getRelRoleUser(Map<String, Object> paramMap);
-	//更新用户角色关联信息
-	public int updateRelRoleUser(RelRoleUser relbean);
-
+	
 }

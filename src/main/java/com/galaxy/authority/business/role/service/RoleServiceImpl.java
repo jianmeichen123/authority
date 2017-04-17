@@ -13,6 +13,7 @@ import com.galaxy.authority.bean.role.RelRoleUser;
 import com.galaxy.authority.bean.role.RoleBean;
 import com.galaxy.authority.bean.user.UserBean;
 import com.galaxy.authority.common.StaticConst;
+import com.galaxy.authority.dao.role.IRelRoleUserDao;
 import com.galaxy.authority.dao.role.IRoleDao;
 
 @Repository
@@ -20,6 +21,8 @@ public class RoleServiceImpl implements IRoleService{
 	
 	@Autowired
 	private IRoleDao dao;
+	@Autowired
+	private IRelRoleUserDao rdao;
 	
 	
 	/**
@@ -136,6 +139,16 @@ public class RoleServiceImpl implements IRoleService{
 			}
 	    }
 	}
+	
+	/**
+	 * 检测角色是否有绑定账号
+	 */
+	@Override
+	public boolean checkBindUser(Map<String, Object> paramMap) {
+		int count = dao.checkBindUser(paramMap);
+		return count>0;
+	}
+	
 	/**
 	 * 通过角色id获取绑定账号信息list
 	 */
@@ -145,7 +158,7 @@ public class RoleServiceImpl implements IRoleService{
 		
 		List<Map<String,Object>> datalist =dao.getBindUserInfoListById(paramMap);
 		
-		int count = dao.getRelRoleUserListCount(paramMap);
+		int count = rdao.getRelRoleUserListCount(paramMap);
 		page.setResultCount(count);
 		if(datalist!=null){
 			page.setMapList(datalist);
@@ -157,23 +170,15 @@ public class RoleServiceImpl implements IRoleService{
 	 */
 	@Override
 	public int delRelRoleUer(Map<String, Object> map) {
-		int count = dao.delRelRoleUer(map);
+		int count = rdao.delRelRoleUer(map);
 		return count;
-	}
-	/**
-	 * 检测角色是否有绑定账号
-	 */
-	@Override
-	public boolean checkBindUser(Map<String, Object> paramMap) {
-		int count = dao.checkBindUser(paramMap);
-		return count>0;
 	}
 	/**
 	 * 保存用户角色关联信息
 	 */
 	@Override
 	public boolean saveRelRoleUser(List<RelRoleUser> listBean) {
-		int count = dao.saveRelRoleUserBatch(listBean);
+		int count = rdao.saveRelRoleUserBatch(listBean);
 		return count>0;
 	}
 	/**
@@ -181,7 +186,7 @@ public class RoleServiceImpl implements IRoleService{
 	 */
 	@Override
 	public RelRoleUser getRelRoleUser(Map<String, Object> paramMap) {
-		RelRoleUser relRoleUser = dao.getRelRoleUser(paramMap);
+		RelRoleUser relRoleUser = rdao.getRelRoleUser(paramMap);
 		return relRoleUser;
 	}
 	/**
@@ -189,7 +194,7 @@ public class RoleServiceImpl implements IRoleService{
 	 */
 	@Override
 	public boolean updateRelRoleUser(RelRoleUser relbean) {
-		int count = dao.updateRelRoleUser(relbean);
+		int count = rdao.updateRelRoleUser(relbean);
 		return count>0;
 	}
 
