@@ -1,5 +1,9 @@
 package com.galaxy.authority.bean.role;
 
+import java.util.Date;
+
+import com.galaxy.authority.common.DateUtil;
+
 public class RelRoleUser {
 
 	private long id;				//主键id
@@ -14,6 +18,10 @@ public class RelRoleUser {
 	private long companyId;			//租户ID
 	
 	public RelRoleUser(){
+		this.isDel = 0;
+		this.isOuttage = 0;
+		this.createTime = DateUtil.getMillis(new Date());
+		this.updateTime = DateUtil.getMillis(new Date());
 		
 	}
 	

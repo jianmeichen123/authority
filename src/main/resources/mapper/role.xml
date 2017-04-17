@@ -6,11 +6,9 @@
 <mapper namespace="com.galaxy.authority.dao.role.IRoleDao">
 	<!-- 列表查询字段 -->
 	<sql id="getRoleListHeader">
-		select 
-			r.id,
+		select r.id,
 		    r.role_name roleName,
-		    r.role_demo roleDemo,
-		    r.is_del isDel
+		    r.role_demo roleDemo
 		from role r
 	</sql>
 	<!-- 列表查询条件 -->
@@ -27,6 +25,14 @@
 			order by r.create_time desc
 			limit #{startNo},#{pageSize};
 	</select>
+	
+	<!-- 获取角色关联的账号列表 -->
+	<select id="getUserListByRoleId" parameterType="hashmap" resultType="hashmap">
+		select u.login_name loginName from `user` u
+		left join rel_role_user ru on u.id = ru.user_id
+		WHERE ru.role_id=#{id};
+	</select>
+	
 	
 	<!-- 获取角色列表总记录数 -->
 	<select id="getRoleListCount" resultType="Integer" parameterType="Map">
@@ -87,4 +93,72 @@
 	<select id="getUserNameByDeptId" parameterType="hashmap" resultType="hashmap">
 		SELECT u.id,u.user_name FROM rel_dep_user du LEFT JOIN `user` u on u.id=du.user_id WHERE du.dep_id=#{id};
 	</select>
+	
+	<!--通过角色id获取绑定账号信息list-->
+	<select id="getBindUserInfoListById" parameterType="hashmap" resultType="hashmap">
+		select ru.role_id roleId,ru.user_id userId,u.login_name loginName,u.user_name userName,p.pos_name posName from `user` u
+		left join rel_role_user ru on u.id = ru.user_id
+		left join rel_pos_user pu on u.id = pu.user_id
+		left join position p on pu.pos_id = p.id 
+		WHERE ru.role_id=#{id} limit #{startNo},#{pageSize};
+	</select>
+	<!-- 用户与角色解除绑定 -->
+	<delete id="delRelRoleUer" parameterType="Map">
+		DELETE FROM `power`.`rel_role_user` WHERE 
+		<if test="userId != null ">user_id=#{userId} and</if>
+		<if test="roleId != null ">role_id=#{roleId};</if>
+	</delete>
+	
+	<!-- 获取用户角色关联记录数 -->
+	<select id="getRelRoleUserListCount" resultType="Integer" parameterType="Map">
+		SELECT count(1) FROM rel_role_user r WHERE r.role_id=#{id};
+	</select>
+	
+	<!-- 检测角色是否有绑定账号 -->
+	<select id="checkBindUser" resultType="Integer" parameterType="Map">
+		select count(1)
+			from user u,role r,rel_role_user ru
+			where u.company_id=r.company_id
+			and u.company_id=ru.company_id
+			and u.id=ru.user_id
+			and r.id=ru.role_id
+			and u.is_del=0
+			and r.id=#{roleId}
+			and u.company_id=#{companyId};
+	</select>
+	<!-- 批量保存用户角色关联信息 -->
+	<insert id="saveRelRoleUserBatch" useGeneratedKeys="true" parameterType="java.util.List">  
+	    <selectKey resultType="long" keyProperty="id" order="AFTER">  
+	        SELECT  
+	        LAST_INSERT_ID()  
+	    </selectKey>  
+	    	insert into rel_role_user (role_id,user_id,is_del,is_outtage,create_time,create_id,update_time,update_id,company_id)   
+	    	values  
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.roleId},#{item.userId},#{item.isDel},#{item.isOuttage},#{item.createTime},#{item.createId},#{item.updateTime},#{item.updateId},#{item.companyId})  
+	    </foreach>  
+	</insert>  
+
+	<!-- 更新用户角色关联信息 -->
+	<update id="updateRelRoleUser" parameterType="RelPosUser">
+		update rel_role_user set update_time=#{updateTime} 
+	    where id = #{id};
+	</update>
+	<!-- 检测角色是否有绑定账号 -->
+	<select id="getRelRoleUser" resultType="RelRoleUser" parameterType="Map" resultMap="roleMap">
+		select * from rel_role_user
+		where role_id=#{roleId} and user_id=#{userId} and company_id=#{companyId};
+	</select>
+	<resultMap type="RelRoleUser" id="roleMap">
+		<id column="id" property="id"/>
+		<result column="role_id" property="roleId"/>
+		<result column="user_id" property="userId"></result>
+		<result column="is_del" property="isDel"/>
+		<result column="is_outtage" property="isOuttage"/>
+		<result column="create_time" property="createTime"/>
+		<result column="create_id" property="createId"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="update_id" property="updateId"/>
+		<result column="company_id" property="companyId"/>
+	</resultMap>
 </mapper>

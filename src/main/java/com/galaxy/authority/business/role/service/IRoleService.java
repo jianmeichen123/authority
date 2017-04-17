@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.galaxy.authority.bean.Page;
+import com.galaxy.authority.bean.role.RelRoleUser;
 import com.galaxy.authority.bean.role.RoleBean;
 import com.galaxy.authority.bean.user.UserBean;
 
@@ -44,5 +45,40 @@ public interface IRoleService {
 	 * @return
 	 */
 	List<Map<String, Object>> getUserListByDeptId(Map<String, Object> paramMap);
+	/**
+	 * 通过角色id获取绑定账号信息list
+	 * @param paramMap
+	 * @return
+	 */
+	Page<RelRoleUser> getBindUserInfoListById(Map<String, Object> paramMap);
+	/**
+	 * 用户与角色解除绑定
+	 * @param map
+	 * @return
+	 */
+	int delRelRoleUer(Map<String, Object> map);
+	/**
+	 * 检测角色是否有绑定账号
+	 * @param paramMap
+	 * @return
+	 */
+	boolean checkBindUser(Map<String, Object> paramMap);
+	/**
+	 * 保存用户角色关联信息
+	 * @param listBean
+	 * @return
+	 */
+	boolean saveRelRoleUser(List<RelRoleUser> listBean);
+	/**
+	 * 获取用户角色关联信息
+	 * @param paramMap
+	 * @return
+	 */
+	RelRoleUser getRelRoleUser(Map<String, Object> paramMap);
+	/**
+	 * 更新用户角色关联信息
+	 * @param relbean
+	 */
+	boolean updateRelRoleUser(RelRoleUser relbean);
 
 }
