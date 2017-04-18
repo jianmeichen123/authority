@@ -85,17 +85,12 @@ public class UserServiceImpl implements IUserService{
 			
 			flag = dao.updateUser(paramMap)>0;
 		}
-		
-		
-		
 		return flag;
 	}
 
-
-
 	@Override
-	public Page<UserBean> getUserList(Map<String, Object> paramMap) {
-		Page<UserBean> page = new Page<UserBean>();
+	public Page<Map<String, Object>> getUserList(Map<String, Object> paramMap) {
+		Page<Map<String, Object>> page = new Page<Map<String, Object>>();
 		
 		List<Map<String,Object>> dataList = dao.getUserList(paramMap);
 		int count = dao.getUserListCount(paramMap);

@@ -3,6 +3,7 @@ package com.galaxy.authority.business.depart.service;
 import java.util.List;
 import java.util.Map;
 
+import com.galaxy.authority.bean.Page;
 import com.galaxy.authority.bean.depart.DepartBean;
 
 public interface IDepartService {
@@ -14,4 +15,5 @@ public interface IDepartService {
 	boolean updateDepart(DepartBean bean);
 	boolean getDepUserCount(Map<String,Object> map);
 	boolean delDepartment(Map<String,Object> map);
+	Page<Map<String,Object>> getDepartPersonList(Map<String,Object> paramMap);
 }

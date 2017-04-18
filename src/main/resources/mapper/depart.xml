@@ -31,8 +31,35 @@
 	
 	<!-- 保存部门 -->
 	<insert id="saveDepart" parameterType="DepartBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
-		insert into `power`.`department` (`dep_code`, `dep_name`, `parent_id`, `index_no`, `is_show`, `is_del`, `is_outtage`, `company_id`) 
-		values (#{depCode}, #{depName}, #{parentId}, #{indexNo}, #{isShow}, #{isDel}, #{isOuttage}, #{companyId});
+		insert into `department` (
+			`dep_code`, 
+			`dep_name`, 
+			`parent_id`, 
+			`index_no`, 
+			`is_show`, 
+			`is_del`, 
+			`is_outtage`, 
+			`create_id`, 
+			`create_time`, 
+			`update_id`, 
+			`update_time`, 
+			`dep_manager`,
+			`company_id`
+		)values(
+			#{depCode}, 
+			#{depName}, 
+			#{parentId}, 
+			#{indexNo}, 
+			#{isShow}, 
+			#{isDel}, 
+			#{isOuttage}, 
+			#{createId}, 
+			#{createTime}, 
+			#{updateId}, 
+			#{updateTime}, 
+			#{depManager},
+			#{companyId}
+		);
 		<selectKey keyProperty="id" resultType="long" order="AFTER">  
             SELECT LAST_INSERT_ID();  
         </selectKey>  
@@ -43,8 +70,10 @@
 		update department d set 
 			d.dep_name=#{depName},
 		    d.parent_id=#{parentId},
-		    d.update_time=#{updateTime}
-		where d.id=#{id};
+		    d.update_time=#{updateTime},
+		    d.dep_manager=#{depManager}
+		where d.id=#{id}
+		and d.company_id=#{companyId};
 	</update>
 	
 	<!-- 验证待删除部门下是否存在用户 -->
@@ -64,6 +93,15 @@
 			</foreach>
 	</select>
 	
+	<!-- 验证待删除部门下是否存在子部门 -->
+	<select id="getChildDepCount" parameterType="hashmap" resultType="integer">
+		select count(1)
+			from department d
+			where d.parent_id=#{depId}
+			and d.is_del=0
+			and d.company_id=#{companyId};
+	</select>
+	
 	<!-- 删除 -->
 	<update id="delDepartment" parameterType="hashmap">
 		update department d 
@@ -73,18 +111,20 @@
 		and d.company_id=#{companyId};
 	</update>
 	
-	
 	<!-- 取得对应父级部门的列表 -->
 	<select id="getDepartList" parameterType="hashmap" resultType="hashmap">
 		select 
 			a1.id,
 			a1.dep_name depName,
+			a1.dep_manager depManager,
+            u2.user_name depManagerName,
 			ifnull(d.id,'') superId,
 			ifnull(d.dep_name,'') superName,
 		    ifnull(a3.childDepCount,0) childDepCount,
 		    ifnull(a4.childPosCount,0) childPosCount
 		from department a1   
 		left join department d on d.id=a1.parent_id
+		left join user u2 on a1.dep_manager=u2.id
 		left join (
 			select 
 				count(id) childDepCount, 

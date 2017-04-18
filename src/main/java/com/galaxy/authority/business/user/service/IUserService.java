@@ -7,7 +7,7 @@ import com.galaxy.authority.bean.user.UserBean;
 public interface IUserService {
 	boolean saveUser(Map<String,Object> map);
 	boolean updateUser(Map<String,Object> paramMap);
-	Page<UserBean> getUserList(Map<String,Object> paramMap);
+	Page<Map<String, Object>> getUserList(Map<String,Object> paramMap);
 	
 	boolean outtageUser(Map<String,Object> paramMap);
 	boolean deleteUser(Map<String,Object> paramMap);
