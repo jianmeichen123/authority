@@ -41,7 +41,7 @@
 	</select>
 	
 	<!-- 保存角色 -->
-	<insert id="saveRole" parameterType="RoleBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	<insert id="saveRole" parameterType="com.galaxy.authority.bean.role.RoleBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
 		INSERT INTO `power`.`role` (
 			`role_code`, 
 			`role_name`, 
@@ -71,7 +71,7 @@
 	</insert>
 	
 	<!-- 更新角色信息 -->
-	<update id="updateRole" parameterType="RoleBean">
+	<update id="updateRole" parameterType="com.galaxy.authority.bean.role.RoleBean">
 		update role set role_name=#{roleName},role_demo=#{roleDemo}, create_time=#{createTime},update_time=#{updateTime} 
 	    where id = #{id};
 	</update>
