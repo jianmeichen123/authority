@@ -23,7 +23,7 @@
 	</insert>  
 
 	<!-- 更新用户角色关联信息 -->
-	<update id="updateRelRoleUser" parameterType="com.galaxy.authority.bean.role.RelPosUser">
+	<update id="updateRelRoleUser" parameterType="com.galaxy.authority.bean.position.RelPosUser">
 		update rel_role_user set update_time=#{updateTime} 
 	    where id = #{id};
 	</update>
