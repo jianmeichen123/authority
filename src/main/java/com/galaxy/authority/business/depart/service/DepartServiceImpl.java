@@ -26,11 +26,6 @@ public class DepartServiceImpl implements IDepartService{
 	private IUserDao uDao;
 
 	@Override
-	public DepartBean getDepartmentById(long id) {
-		return dao.getDepartById(id);
-	}
-
-	@Override
 	public List<Map<String,Object>> getDepartTreeList(Map<String,Object> paramMap) {
 		return dao.getDepartTreeList(paramMap);
 	}

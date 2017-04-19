@@ -13,7 +13,7 @@
 	</delete>
 
 	<!-- 保存关联 -->
-	<insert id="saveRelDepUser" parameterType="RelDepUser" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	<insert id="saveRelDepUser" parameterType="com.galaxy.authority.bean.depart.RelDepUser" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
 		INSERT INTO `rel_dep_user` (`dep_id`, `user_id`, `is_del`, `is_outtage`,`company_id`) 
 		VALUES (#{depId}, #{userId}, #{isDel}, #{isOuttage},#{companyId});
 		<selectKey keyProperty="id" resultType="long" order="AFTER">  
@@ -21,7 +21,7 @@
         </selectKey>  
 	</insert>
 
-	<resultMap type="RelDepUser" id="relDepUserMap">
+	<resultMap type="com.galaxy.authority.bean.depart.RelDepUser" id="relDepUserMap">
 		<id column="id" property="id"/>
 		<result column="depId" property="depId"/>
 		<result column="userId" property="userId"/>

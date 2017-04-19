@@ -13,7 +13,7 @@
 	</delete>
 
 	<!-- 保存关联 -->
-	<insert id="saveRelPosUser" parameterType="RelPosUser" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	<insert id="saveRelPosUser" parameterType="com.galaxy.authority.bean.position.RelPosUser" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
 		INSERT INTO `rel_pos_user` (
 			`pos_id`, 
 			`user_id`, 

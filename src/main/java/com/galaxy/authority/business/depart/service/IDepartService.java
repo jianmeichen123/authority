@@ -7,7 +7,6 @@ import com.galaxy.authority.bean.Page;
 import com.galaxy.authority.bean.depart.DepartBean;
 
 public interface IDepartService {
-	DepartBean getDepartmentById(long id);
 	List<Map<String,Object>> getDepartTreeList(Map<String,Object> paramMap);
 	boolean saveDepart(DepartBean departBean);
 	List<Map<String,Object>> getDepartList(Map<String,Object> param);

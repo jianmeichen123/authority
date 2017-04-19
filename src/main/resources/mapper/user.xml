@@ -25,7 +25,7 @@
 	</update>
 	
 	<!-- 编辑 -->
-	<update id="editUser" parameterType="UserBean">
+	<update id="editUser" parameterType="com.galaxy.authority.bean.user.UserBean">
 		update user u set 
 		u.login_name=#{loginName},
 		u.user_name=#{userName},
@@ -107,7 +107,7 @@
 	</update>
 
 	<!-- 保存用户 -->
-	<insert id="saveUser" parameterType="UserBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	<insert id="saveUser" parameterType="com.galaxy.authority.bean.user.UserBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
 		INSERT INTO `user` (
 			`login_name`, 
 			`user_name`, 

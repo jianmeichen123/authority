@@ -121,14 +121,6 @@ public class DepartBean {
 		this.isOuttage = isOuttage;
 	}
 
-	public int getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(int companyId) {
-		this.companyId = companyId;
-	}
-
 	public String getDepManager() {
 		return depManager;
 	}
@@ -136,5 +128,14 @@ public class DepartBean {
 	public void setDepManager(String depManager) {
 		this.depManager = depManager;
 	}
+
+	public int getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
+	
 	
 }

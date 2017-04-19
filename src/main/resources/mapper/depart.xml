@@ -5,10 +5,6 @@
   
 <mapper namespace="com.galaxy.authority.dao.depart.IDepartDao">
 	
-	<select id="getDepartById" parameterType="long" resultType="DepartBean" resultMap="departBeanMap">
-		select * from department where id=#{id};
-	</select>
-	
 	<!-- 查询部门树型列表 ztree-->
 	<select id="getDepartTreeList" parameterType="hashmap" resultType="hashmap">
 		select id,d.dep_name name,d.parent_id parentId
@@ -30,7 +26,7 @@
 	</select>
 	
 	<!-- 保存部门 -->
-	<insert id="saveDepart" parameterType="DepartBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	<insert id="saveDepart" parameterType="com.galaxy.authority.bean.depart.DepartBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
 		insert into `department` (
 			`dep_code`, 
 			`dep_name`, 
@@ -66,7 +62,7 @@
 	</insert>
 	
 	<!-- 更新部门 -->
-	<update id="updateDepart" parameterType="DepartBean">
+	<update id="updateDepart" parameterType="com.galaxy.authority.bean.depart.DepartBean">
 		update department d set 
 			d.dep_name=#{depName},
 		    d.parent_id=#{parentId},
@@ -153,7 +149,7 @@
 		insert into test_user(name,email) values(#{name},#{email});
 	</insert> -->
 	
-	<resultMap type="DepartBean" id="departBeanMap">
+	<resultMap type="com.galaxy.authority.bean.depart.DepartBean" id="departBeanMap">
 		<id column="id" property="id"/>
 		<result column="dep_name" property="depName"/>
 		<result column="parent_id" property="parentId"/>
@@ -165,6 +161,7 @@
 		<result column="update_id" property="updateId"/>
 		<result column="is_del" property="isDel"/>
 		<result column="is_outtage" property="isOuttage"/>
+		<result column="dep_manager" property="depManager"/>
 		<result column="company_id" property="companyId"/>
 	</resultMap>
 	
