@@ -1,6 +1,6 @@
 
 server: 
-  context-path: /authority
+  context-path: /authority_service
   port: 8888
   
 spring: 
