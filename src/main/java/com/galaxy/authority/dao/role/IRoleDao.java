@@ -6,6 +6,7 @@ import java.util.Map;
 import com.galaxy.authority.bean.role.RoleBean;
 
 public interface IRoleDao {
+	
 	//获取角色列表
 	public List<Map<String, Object>> getRoleList(Map<String, Object> paramMap);
 	//获取角色列表总记录数
@@ -22,5 +23,11 @@ public interface IRoleDao {
 	public List<Map<String, Object>> getUserListByDeptId(Map<String, Object> paramMap);
 	//通过部门id获取部门下所有账号
 	public List<Map<String, Object>> getUserNameByDeptId(Map<String, Object> deptParamMap);
-
+	//通过角色id获取绑定账号信息list
+	public List<Map<String, Object>> getBindUserInfoListById(Map<String, Object> paramMap);
+	//获取角色绑定的关联账号
+	public List<Map<String, Object>> getUserListByRoleId(Map<String, Object> userParamMap);
+	//检测角色是否有绑定账号
+	public int checkBindUser(Map<String, Object> paramMap);
+	
 }
