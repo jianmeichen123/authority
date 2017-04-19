@@ -80,5 +80,23 @@ public interface IRoleService {
 	 * @param relbean
 	 */
 	boolean updateRelRoleUser(RelRoleUser relbean);
+	/**
+	 * 获取资源树list
+	 * @param paramMap
+	 * @return
+	 */
+	List<Map<String, Object>> getResourceTreeList(Map<String, Object> paramMap);
+	/**
+	 * 获取资源树的当前节点以及子节点信息list
+	 * @param paramMap
+	 * @return
+	 */
+	List<Map<String, Object>> getResourceList(Map<String, Object> paramMap);
+	/**
+	 * 获取数据范围
+	 * @param paramMap
+	 * @return
+	 */
+	List<Map<String, Object>> getDataScope(Map<String, Object> paramMap);
 
 }

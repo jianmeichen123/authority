@@ -110,7 +110,7 @@
 	</insert>
 	
 	<!-- 更新职位 -->
-	<update id="updatePos" parameterType="PositionBean">
+	<update id="updatePos" parameterType="com.galaxy.authority.bean.position.PositionBean">
 		update position p set p.pos_name=#{posName} 
 		where p.id=#{id}
 		and p.company_id=#{companyId};

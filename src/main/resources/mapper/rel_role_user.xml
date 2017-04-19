@@ -23,16 +23,16 @@
 	</insert>  
 
 	<!-- 更新用户角色关联信息 -->
-	<update id="updateRelRoleUser" parameterType="RelPosUser">
+	<update id="updateRelRoleUser" parameterType="com.galaxy.authority.bean.position.RelPosUser">
 		update rel_role_user set update_time=#{updateTime} 
 	    where id = #{id};
 	</update>
 	<!-- 检测角色是否有绑定账号 -->
-	<select id="getRelRoleUser" resultType="RelRoleUser" parameterType="Map" resultMap="roleMap">
+	<select id="getRelRoleUser" resultType="com.galaxy.authority.bean.role.RelRoleUser" parameterType="Map" resultMap="roleMap">
 		select * from rel_role_user
 		where role_id=#{roleId} and user_id=#{userId} and company_id=#{companyId};
 	</select>
-	<resultMap type="RelRoleUser" id="roleMap">
+	<resultMap type="com.galaxy.authority.bean.role.RelRoleUser" id="roleMap">
 		<id column="id" property="id"/>
 		<result column="role_id" property="roleId"/>
 		<result column="user_id" property="userId"></result>

@@ -17,6 +17,7 @@ public class DepartBean {
 	private long updateId;
 	private int isDel;
 	private int isOuttage;
+	private String depManager;
 	private int companyId;
 	
 	public DepartBean(){
@@ -120,6 +121,14 @@ public class DepartBean {
 		this.isOuttage = isOuttage;
 	}
 
+	public String getDepManager() {
+		return depManager;
+	}
+
+	public void setDepManager(String depManager) {
+		this.depManager = depManager;
+	}
+
 	public int getCompanyId() {
 		return companyId;
 	}
@@ -127,4 +136,6 @@ public class DepartBean {
 	public void setCompanyId(int companyId) {
 		this.companyId = companyId;
 	}
+	
+	
 }

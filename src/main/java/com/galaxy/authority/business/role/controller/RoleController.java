@@ -29,6 +29,7 @@ public class RoleController {
 
 	@Autowired
 	private IRoleService service;
+	
 	/**
 	 * 获取角色显示列表
 	 * @param paramString
@@ -269,6 +270,113 @@ public class RoleController {
 		
 		if(listBean!=null&&listBean.size()>0){
 			result.setSuccess(service.saveRelRoleUser(listBean));
+		}
+		return result;
+	}
+	
+	/**
+	 * 显示资源树
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("getResourceTree")
+	@ResponseBody
+	public Object getResourceTree(@RequestBody String paramString){
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		//父节点：0
+		paramMap.put("parentId", 0);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		
+		if(CUtils.get().stringIsNotEmpty(paramString)){
+			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
+			if(paramJson!=null && paramJson.has("parentId")){
+				paramMap.put("parentId", paramJson.getLong("parentId"));
+			}
+		}
+		List<Map<String,Object>> list = service.getResourceTreeList(paramMap);
+		createResourceChild(list,"ztree");
+		return list;
+	}
+	/**
+	 * 生成树型列表
+	 * @param depList
+	 */
+	private void createResourceChild(List<Map<String,Object>> list,String state){
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		for(int i=0;i<list.size();i++){
+			if(list.get(i)!=null){
+				paramMap.put("parentId", list.get(i).get("id"));
+				paramMap.put("companyId", StaticConst.COMPANY_ID);
+				List<Map<String,Object>> dataList = null;
+				if("ztree".equals(state)){
+					dataList = service.getResourceTreeList(paramMap);
+				}
+				
+				if(dataList!=null && !dataList.isEmpty()){
+					createResourceChild(dataList,state);
+					list.get(i).put("children", dataList);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 获取资源树的当前节点以及子节点信息list
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("getResourceList")
+	@ResponseBody
+	public Object getResourceList(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+		
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		//父节点：0
+		paramMap.put("parentId", 0);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		
+		if(CUtils.get().stringIsNotEmpty(paramString)){
+			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
+			if(paramJson!=null && paramJson.has("parentId")){
+				paramMap.put("parentId", paramJson.getLong("parentId"));
+			}
+		}
+		try {
+			List<Map<String,Object>> dataList = service.getResourceList(paramMap);
+			
+			if(dataList!=null){
+				result.setSuccess(true);
+				result.setValue(dataList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 获取数据范围
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("getDataScope")
+	@ResponseBody
+	public Object getDataScope(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+		
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		try {
+			List<Map<String,Object>> dataList = service.getDataScope(paramMap);
+			
+			if(dataList!=null){
+				result.setSuccess(true);
+				result.setValue(dataList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return result;
 	}

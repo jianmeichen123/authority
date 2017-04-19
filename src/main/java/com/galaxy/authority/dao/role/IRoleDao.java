@@ -29,5 +29,11 @@ public interface IRoleDao {
 	public List<Map<String, Object>> getUserListByRoleId(Map<String, Object> userParamMap);
 	//检测角色是否有绑定账号
 	public int checkBindUser(Map<String, Object> paramMap);
+	//获取资源树list
+	public List<Map<String, Object>> getResourceTreeList(Map<String, Object> paramMap);
+	//获取资源当前节点以及子节点信息list
+	public List<Map<String, Object>> getResourceList(Map<String, Object> paramMap);
+	//获取数据范围
+	public List<Map<String, Object>> getDataScope(Map<String, Object> paramMap);
 	
 }

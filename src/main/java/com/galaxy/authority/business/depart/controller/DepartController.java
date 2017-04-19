@@ -26,6 +26,11 @@ public class DepartController {
 	private IDepartService service;
 	private Map<String,Object> paramMap = new HashMap<String,Object>();
 	
+	/**
+	 * 部门列表
+	 * @param paramString
+	 * @return
+	 */
 	@RequestMapping("getDeaprtList")
 	@ResponseBody
 	public Object showDepartList(@RequestBody String paramString){

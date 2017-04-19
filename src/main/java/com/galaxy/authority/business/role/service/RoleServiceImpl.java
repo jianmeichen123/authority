@@ -97,6 +97,7 @@ public class RoleServiceImpl implements IRoleService{
 	public List<Map<String, Object>> getUserListByDeptId(Map<String, Object> paramMap) {
 		List<Map<String,Object>> deptlist =new ArrayList<Map<String,Object>>();
 		List<Map<String,Object>> allUserlist =new ArrayList<Map<String,Object>>();
+		
 		List<Map<String,Object>> dataList = dao.getUserListByDeptId(paramMap);
 		if(dataList!=null){
 			deptlist.addAll(dataList);
@@ -119,8 +120,9 @@ public class RoleServiceImpl implements IRoleService{
 		System.out.println(allUserlist);
 		return allUserlist;
 	}
+	
 	//递归获取部门以及子部门的用户
-	 public void digui(List<Map<String,Object>> dataList, List<Map<String, Object>> deptlist) { 
+	public void digui(List<Map<String,Object>> dataList, List<Map<String, Object>> deptlist) { 
 	    if (dataList!=null&&dataList.size()>0) { 
 	    	for (Map<String, Object> map : dataList) {
 	    		Map<String,Object> paramMap = new HashMap<String,Object>();
@@ -196,6 +198,59 @@ public class RoleServiceImpl implements IRoleService{
 	public boolean updateRelRoleUser(RelRoleUser relbean) {
 		int count = rdao.updateRelRoleUser(relbean);
 		return count>0;
+	}
+	/**
+	 * 获取资源树list
+	 */
+	@Override
+	public List<Map<String, Object>> getResourceTreeList(Map<String, Object> paramMap) {
+		return dao.getResourceTreeList(paramMap);
+	}
+	/**
+	 * 获取资源树的当前节点以及子节点信息list
+	 */
+	@Override
+	public List<Map<String, Object>> getResourceList(Map<String, Object> paramMap) {
+
+		List<Map<String,Object>> list =new ArrayList<Map<String,Object>>();
+		
+		//当前节点
+		List<Map<String,Object>> plist =new ArrayList<Map<String,Object>>();
+		
+		plist = dao.getResourceList(paramMap);
+		if(list!=null){
+			list.addAll(plist);
+			//childNodesList(plist,list);
+		}
+		return list;
+	}
+	
+	//递归获取部门以及子部门的用户
+	public void childNodesList(List<Map<String,Object>> plist, List<Map<String, Object>> list) { 
+	    if (plist!=null&&plist.size()>0) { 
+	    	for (Map<String, Object> map : plist) {
+	    		Map<String,Object> paramMap = new HashMap<String,Object>();
+	    		//父节点默认：0
+	    		paramMap.put("parentId", 0);
+	    		paramMap.put("companyId", StaticConst.COMPANY_ID);
+	    		if(map!=null){
+	    			paramMap.put("parentId", map.get("id"));
+	    		}
+				List<Map<String,Object>> cList =dao.getResourceList(paramMap);
+				if (cList.size()>0) { 
+					list.addAll(cList);
+					childNodesList(cList,list);
+			    }
+			}
+	    }
+	}
+	/**
+	 * 获取数据范围
+	 */
+	@Override
+	public List<Map<String, Object>> getDataScope(Map<String, Object> paramMap) {
+		
+		return dao.getDataScope(paramMap);
 	}
 
 }
