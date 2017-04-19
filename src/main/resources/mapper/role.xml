@@ -116,4 +116,24 @@
 			and u.company_id=#{companyId};
 	</select>
 	
+	<!-- 查询资源树型列表 -->
+	<select id="getResourceTreeList" parameterType="hashmap" resultType="hashmap">
+		select id,resource_name name,parent_id parentId
+		from resource r
+		where parent_id=#{parentId} and is_del=0 and is_outtage=0 and company_id=#{companyId} order by resource_order;
+	</select>
+	<!-- 获取资源当前节点以及子节点信息list -->
+	<select id="getResourceList" parameterType="hashmap" resultType="hashmap">
+		select r.id,r.resource_name name,r.parent_id parentId, t.resource_name resourceName,r.resource_desc resourceDESC 
+		from resource r
+		left join 
+    		(SELECT * FROM resource WHERE id=#{parentId}) t
+		on r.id = t.id
+		where r.parent_id=#{parentId} OR r.id=#{parentId}
+		and r.is_del=0 and r.is_outtage=0 and r.company_id=#{companyId} order by r.parent_id asc;
+	</select>
+	<!-- 获取数据范围 -->
+	<select id="getDataScope" parameterType="hashmap" resultType="hashmap">
+		SELECT id,sp_name spName FROM data_scope WHERE company_id=#{companyId};
+	</select>
 </mapper>
