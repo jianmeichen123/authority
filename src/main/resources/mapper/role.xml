@@ -6,11 +6,9 @@
 <mapper namespace="com.galaxy.authority.dao.role.IRoleDao">
 	<!-- 列表查询字段 -->
 	<sql id="getRoleListHeader">
-		select 
-			r.id,
+		select r.id,
 		    r.role_name roleName,
-		    r.role_demo roleDemo,
-		    r.is_del isDel
+		    r.role_demo roleDemo
 		from role r
 	</sql>
 	<!-- 列表查询条件 -->
@@ -28,6 +26,14 @@
 			limit #{startNo},#{pageSize};
 	</select>
 	
+	<!-- 获取角色关联的账号列表 -->
+	<select id="getUserListByRoleId" parameterType="hashmap" resultType="hashmap">
+		select u.login_name loginName from `user` u
+		left join rel_role_user ru on u.id = ru.user_id
+		WHERE ru.role_id=#{id};
+	</select>
+	
+	
 	<!-- 获取角色列表总记录数 -->
 	<select id="getRoleListCount" resultType="Integer" parameterType="Map">
 		select count(1) from role r 
@@ -35,7 +41,7 @@
 	</select>
 	
 	<!-- 保存角色 -->
-	<insert id="saveRole" parameterType="com.galaxy.authority.bean.role.RoleBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+	<insert id="saveRole" parameterType="RoleBean" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
 		INSERT INTO `power`.`role` (
 			`role_code`, 
 			`role_name`, 
@@ -65,7 +71,7 @@
 	</insert>
 	
 	<!-- 更新角色信息 -->
-	<update id="updateRole" parameterType="com.galaxy.authority.bean.role.RoleBean">
+	<update id="updateRole" parameterType="RoleBean">
 		update role set role_name=#{roleName},role_demo=#{roleDemo}, create_time=#{createTime},update_time=#{updateTime} 
 	    where id = #{id};
 	</update>
@@ -87,4 +93,27 @@
 	<select id="getUserNameByDeptId" parameterType="hashmap" resultType="hashmap">
 		SELECT u.id,u.user_name FROM rel_dep_user du LEFT JOIN `user` u on u.id=du.user_id WHERE du.dep_id=#{id};
 	</select>
+	
+	<!--通过角色id获取绑定账号信息list-->
+	<select id="getBindUserInfoListById" parameterType="hashmap" resultType="hashmap">
+		select ru.role_id roleId,ru.user_id userId,u.login_name loginName,u.user_name userName,p.pos_name posName from `user` u
+		left join rel_role_user ru on u.id = ru.user_id
+		left join rel_pos_user pu on u.id = pu.user_id
+		left join position p on pu.pos_id = p.id 
+		WHERE ru.role_id=#{id} limit #{startNo},#{pageSize};
+	</select>
+	
+	<!-- 检测角色是否有绑定账号 -->
+	<select id="checkBindUser" resultType="Integer" parameterType="Map">
+		select count(1)
+			from user u,role r,rel_role_user ru
+			where u.company_id=r.company_id
+			and u.company_id=ru.company_id
+			and u.id=ru.user_id
+			and r.id=ru.role_id
+			and u.is_del=0
+			and r.id=#{roleId}
+			and u.company_id=#{companyId};
+	</select>
+	
 </mapper>
