@@ -100,6 +100,13 @@ public class UserServiceImpl implements IUserService{
 		}
 		return page;
 	}
+	
+	@Override
+	public List<Map<String,Object>> findUserByName(Map<String, Object> paramMap) {
+		List<Map<String,Object>> dataList = dao.findUserByName(paramMap);
+		System.out.println(dataList.size());
+		return dataList;
+	}
 
 	@Override
 	public boolean outtageUser(Map<String, Object> paramMap) {

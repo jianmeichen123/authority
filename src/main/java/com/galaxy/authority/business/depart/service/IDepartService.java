@@ -15,4 +15,5 @@ public interface IDepartService {
 	boolean getDepUserCount(Map<String,Object> map);
 	boolean delDepartment(Map<String,Object> map);
 	Page<Map<String,Object>> getDepartPersonList(Map<String,Object> paramMap);
+	List<Map<String,Object>> getLeafDepartList(Map<String,Object> paramMap);
 }

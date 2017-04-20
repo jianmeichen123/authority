@@ -2,6 +2,7 @@ package com.galaxy.authority.business.user.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,5 +118,40 @@ public class UserController {
 		result.setSuccess(ifSuccess);
 		return result;
 	}
+	
+	/*---------------------对外服务接口----------------------*/
+	@RequestMapping("findUserByName")
+	@ResponseBody
+	public Object findUserByName(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+			
+		Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		
+		if(paramMap.containsKey("userName")){
+			String userName = CUtils.get().object2String(paramMap.get("userName"));
+			paramMap.put("userKey", "刘玮玮");
+		}
+		
+		
+		List<Map<String,Object>> dataList = service.findUserByName(paramMap);
+		System.out.println(CUtils.get().map2String(paramMap));
+		if(CUtils.get().listIsNotEmpty(dataList)){
+			result.setSuccess(true);
+			result.setValue(dataList);
+		}
+		
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

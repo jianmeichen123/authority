@@ -116,6 +116,13 @@ public class DepartServiceImpl implements IDepartService{
 		}
 		return page;
 	}
+
+	@Override
+	public List<Map<String, Object>> getLeafDepartList(Map<String, Object> paramMap) {
+		return dao.getLeafDepartList(paramMap);
+	}
+	
+	
 	
 	
 }

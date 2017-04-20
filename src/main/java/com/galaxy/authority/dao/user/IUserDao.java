@@ -17,4 +17,6 @@ public interface IUserDao {
 	
 	int resetPassword(Map<String,Object> paramMap);
 	
+	List<Map<String,Object>> findUserByName(Map<String,Object> paramMap);
+	
 }

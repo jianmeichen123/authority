@@ -4,6 +4,19 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
   
 <mapper namespace="com.galaxy.authority.dao.depart.IDepartDao">
+
+	<!-- 查询所有叶子节点 -->
+	<select id="getLeafDepartList" parameterType="hashmap" resultType="hashmap">
+		select 
+			d2.id id,
+			d2.dep_name depName 
+		from department d2 
+		where not exists(select d2.id from department d1 where d2.id=d1.parent_id)
+		and d2.is_del=0
+		and d2.is_outtage=0
+		and d2.is_show=0
+		and d2.company_id=#{companyId};
+	</select>
 	
 	<!-- 查询部门树型列表 ztree-->
 	<select id="getDepartTreeList" parameterType="hashmap" resultType="hashmap">

@@ -5,6 +5,19 @@
   
 <mapper namespace="com.galaxy.authority.dao.user.IUserDao">
 	
+	<!-- 根据姓名模糊查询所有用户 -->
+	<select id="findUserByName" parameterType="hashmap" resultType="hashmap">
+		select 
+			u.id id,
+			u.user_name userName
+		from user u
+		where u.user_name=#{userKey}
+		and u.is_del=0
+		and u.is_outtage=0
+		and u.is_show=0
+		and u.company_id=#{companyId};
+	</select>
+	
 	<!-- 重置密码 -->
 	<update id="resetPassword" parameterType="hashMap">
 		update user u set 

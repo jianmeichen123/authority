@@ -164,8 +164,22 @@ public class DepartController {
 		return result;
 	}
 	
-	
-	
+	/*-----------------对外服务接口----------------------*/
+	@RequestMapping("getLeafDepartList")
+	@ResponseBody
+	public Object getLeafDepartList(){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		
+		List<Map<String,Object>> dataList = service.getLeafDepartList(paramMap);
+		if(CUtils.get().listIsNotEmpty(dataList)){
+			result.setSuccess(true);
+			result.setValue(dataList);
+		}
+		return result;
+	}
 	
 	
 	/*----------------------------------------*/
