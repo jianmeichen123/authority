@@ -339,6 +339,24 @@ public class CUtils {
 		}
 		return map;
 	}
+	
+	/**
+	 * 将字符串转为list
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> List<T> json2list(Object obj){
+		List<T> list = null;
+		if(obj!=null){
+			ObjectMapper mapper = new ObjectMapper();
+			try{
+				list = mapper.readValue(this.object2String(obj), List.class);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
 
 	
 	/**

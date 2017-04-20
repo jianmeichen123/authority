@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.galaxy.authority.bean.Page;
 import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.business.user.service.IUserService;
@@ -120,6 +121,11 @@ public class UserController {
 	}
 	
 	/*---------------------对外服务接口----------------------*/
+	/**
+	 * 根据传入的关键字模糊查询用户并返回列表
+	 * @param paramString
+	 * @return
+	 */
 	@RequestMapping("findUserByName")
 	@ResponseBody
 	public Object findUserByName(@RequestBody String paramString){
@@ -131,23 +137,94 @@ public class UserController {
 		
 		if(paramMap.containsKey("userName")){
 			String userName = CUtils.get().object2String(paramMap.get("userName"));
-			paramMap.put("userKey", "刘玮玮");
+			paramMap.put("userKey", "%"+userName+"%");
 		}
 		
-		
 		List<Map<String,Object>> dataList = service.findUserByName(paramMap);
-		System.out.println(CUtils.get().map2String(paramMap));
 		if(CUtils.get().listIsNotEmpty(dataList)){
 			result.setSuccess(true);
 			result.setValue(dataList);
 		}
-		
 		return result;
 	}
 	
+	/**
+	 * 传入用户ID返回用户信息
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("getUserById")
+	@ResponseBody
+	public Object getUserById(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+			
+		Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		
+		Map<String,Object> userMap = service.getUserById(paramMap);
+		if(CUtils.get().mapIsNotEmpty(userMap)){
+			result.setSuccess(true);
+			result.setValue(userMap);
+		}
+		return result;
+	}
 	
+	/**
+	 * 根据传入的部门ID返回对应的所有用户
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("getUsersByDepId")
+	@ResponseBody
+	public Object getUsersByDepId(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+			
+		Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		
+		List<Map<String,Object>> dataList = service.getUsersByDepId(paramMap);
+		if(CUtils.get().listIsNotEmpty(dataList)){
+			result.setSuccess(true);
+			result.setValue(dataList);
+		}
+		return result;
+	}
 	
-	
+	/**
+	 * 根据传入的用户的ID集合返回对应的所有用户
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("getUserByIds")
+	@ResponseBody
+	public Object getUserByIds(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+			
+		Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		
+		if(paramMap.containsKey("userIds")){
+			String temp = CUtils.get().object2String(paramMap.get("userIds"));
+			ObjectMapper mapper = new ObjectMapper();
+			try{
+				@SuppressWarnings("unchecked")
+				List<Long> idsList = mapper.readValue(temp, List.class);
+				paramMap.put("userIdList", idsList);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		List<Map<String,Object>> dataList = service.getUserByIds(paramMap);
+		if(CUtils.get().listIsNotEmpty(dataList)){
+			result.setSuccess(true);
+			result.setValue(dataList);
+		}
+		return result;
+	}
 	
 	
 	

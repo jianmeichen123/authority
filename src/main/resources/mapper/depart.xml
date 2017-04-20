@@ -8,7 +8,7 @@
 	<!-- 查询所有叶子节点 -->
 	<select id="getLeafDepartList" parameterType="hashmap" resultType="hashmap">
 		select 
-			d2.id id,
+			d2.id depId,
 			d2.dep_name depName 
 		from department d2 
 		where not exists(select d2.id from department d1 where d2.id=d1.parent_id)

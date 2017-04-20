@@ -6,16 +6,58 @@
 <mapper namespace="com.galaxy.authority.dao.user.IUserDao">
 	
 	<!-- 根据姓名模糊查询所有用户 -->
-	<select id="findUserByName" parameterType="hashmap" resultType="hashmap">
+	<select id="findUserByNameTdj" parameterType="hashmap" resultType="hashmap">
 		select 
-			u.id id,
+			u.id userId,
 			u.user_name userName
-		from user u
-		where u.user_name=#{userKey}
+		from user u 
+		where u.user_name like #{userKey}
 		and u.is_del=0
 		and u.is_outtage=0
 		and u.is_show=0
+		and u.company_id=#{companyId}
+	</select>
+	
+	<!-- 根据用户ID返回用户详情 -->
+	<select id="getUserById" parameterType="hashmap" resultType="hashmap">
+		select 
+			u.id userId,
+		    u.user_name userName
+		from user u 
+		where u.id=#{userId}
 		and u.company_id=#{companyId};
+	</select>
+	
+	<!-- 根据给定的部门ID取得对应的所有用户 -->
+	<select id="getUsersByDepId" parameterType="hashmap" resultType="hashmap">
+		select 
+			u.id userId,
+		    u.user_name userName
+		from user u
+		left join rel_dep_user rdu on u.id=rdu.user_id
+		left join department d on d.id=rdu.dep_id
+		where u.company_id=d.company_id
+		and u.company_id=#{companyId}
+		and d.id=#{depId}
+		and u.is_del=0
+		and u.is_outtage=0
+		and u.is_show=0;
+	</select>
+	
+	<!-- 根据用户ID的集合取得对应的用户 -->
+	<select id="getUserByIds" parameterType="hashmap" resultType="hashmap">
+		select 
+			u.id userId,
+		    u.user_name userName
+		from user u 
+		where u.is_del=0
+		and u.is_outtage=0
+		and u.is_show=0
+		and u.company_id=${companyId}
+		and u.id in
+		<foreach item="item" index="index" collection="userIdList" open="(" separator="," close=")">  
+			  #{item}  
+		</foreach>
 	</select>
 	
 	<!-- 重置密码 -->

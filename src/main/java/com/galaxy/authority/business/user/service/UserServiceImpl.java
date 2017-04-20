@@ -102,9 +102,25 @@ public class UserServiceImpl implements IUserService{
 	}
 	
 	@Override
-	public List<Map<String,Object>> findUserByName(Map<String, Object> paramMap) {
-		List<Map<String,Object>> dataList = dao.findUserByName(paramMap);
+	public List<Map<String, Object>> getUserByIds(Map<String, Object> paramMap) {
+		List<Map<String,Object>> dataList = dao.getUserByIds(paramMap);
 		System.out.println(dataList.size());
+		return dataList;
+	}
+
+	@Override
+	public List<Map<String, Object>> getUsersByDepId(Map<String, Object> paramMap) {
+		return dao.getUsersByDepId(paramMap);
+	}
+
+	@Override
+	public Map<String, Object> getUserById(Map<String, Object> paramMap) {
+		return dao.getUserById(paramMap);
+	}
+
+	@Override
+	public List<Map<String,Object>> findUserByName(Map<String, Object> paramMap) {
+		List<Map<String,Object>> dataList = dao.findUserByNameTdj(paramMap);
 		return dataList;
 	}
 

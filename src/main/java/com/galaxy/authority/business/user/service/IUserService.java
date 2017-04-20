@@ -14,5 +14,9 @@ public interface IUserService {
 	boolean deleteUser(Map<String,Object> paramMap);
 	boolean editUser(UserBean bean);
 	boolean resetPassword(Map<String,Object> paramMap);
+	
 	List<Map<String,Object>> findUserByName(Map<String,Object> paramMap);
+	Map<String,Object> getUserById(Map<String,Object> paramMap);
+	List<Map<String,Object>> getUsersByDepId(Map<String,Object> paramMap);
+	List<Map<String,Object>> getUserByIds(Map<String,Object> paramMap);
 }
