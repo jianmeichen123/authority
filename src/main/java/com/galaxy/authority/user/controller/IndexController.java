@@ -18,16 +18,6 @@ public class IndexController {
 		userBean.setName("tdj");
 		userBean.setEmail("tdjamtam@qq.com");
 		
-		//service.saveUser(userBean);
-		
-//		Map<String,Object> map = new HashMap<String,Object>();
-//		map.put("tdj", "tdjgamtma");
-//		System.out.println(CUtils.get().map2JSONObject(map).toString());
-		
-		
-		
-		
-
 		
 		return userBean;
 	}

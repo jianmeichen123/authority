@@ -104,7 +104,6 @@ public class UserServiceImpl implements IUserService{
 	@Override
 	public List<Map<String, Object>> getUserByIds(Map<String, Object> paramMap) {
 		List<Map<String,Object>> dataList = dao.getUserByIds(paramMap);
-		System.out.println(dataList.size());
 		return dataList;
 	}
 

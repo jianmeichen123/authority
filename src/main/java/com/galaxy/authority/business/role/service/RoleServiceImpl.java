@@ -48,7 +48,6 @@ public class RoleServiceImpl implements IRoleService{
     				lname+=usermap.get("loginName").toString()+',';
     			}
     			String names = lname.substring(0,lname.length()-1);
-    			System.out.println("已关联账号："+userList);
     			map.put("loginName", names);
     		}
 		}
@@ -103,7 +102,6 @@ public class RoleServiceImpl implements IRoleService{
 			deptlist.addAll(dataList);
 			digui(dataList,deptlist);
 		}
-		System.out.println(deptlist);
 		for (Map<String, Object> map : dataList) {
 			Map<String,Object> deptParamMap = new HashMap<String,Object>();
     		
@@ -117,7 +115,6 @@ public class RoleServiceImpl implements IRoleService{
     			allUserlist.addAll(userList);
     		}
 		}
-		System.out.println(allUserlist);
 		return allUserlist;
 	}
 	

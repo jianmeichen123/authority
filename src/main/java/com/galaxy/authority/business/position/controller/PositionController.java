@@ -123,7 +123,6 @@ public class PositionController {
 		Map<String,Object> paramMap = CUtils.get().jsonString2map(mapString);
 		paramMap.put("companyId", StaticConst.COMPANY_ID);
 		if(CUtils.get().mapIsNotEmpty(paramMap)){
-			System.out.println(CUtils.get().map2String(paramMap));
 			String state = CUtils.get().object2String(paramMap.get("state"));
 			if("outtage".equals(state)){
 				if(service.outtagePos(paramMap)){
