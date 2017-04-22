@@ -5,7 +5,7 @@ server:
   
 spring: 
   profiles: 
-    active: dev
+    active: "@activatedProperties@"
     
 mybatis: 
   typeAliasesPackage: com.galaxy.authority.bean
