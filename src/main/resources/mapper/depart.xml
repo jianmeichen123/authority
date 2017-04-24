@@ -24,18 +24,23 @@
 		from department d 
 			where 
 			d.parent_id=#{parentId}
-			and
-		d.is_del=0 and is_outtage=0 and is_show=0 and company_id=#{companyId} order by index_no;
+			and d.is_del=0 
+			and is_outtage=0 
+			and is_show=0 
+			and company_id=#{companyId} 
+			order by index_no;
 	</select>
 	
 	<!-- 查询部门树型列表 easyui combotree-->
 	<select id="getDepartForComboxTree" parameterType="hashmap" resultType="hashmap">
 		select id,d.dep_name text
 		from department d 
-			where 
-			d.parent_id=#{parentId}
-			and
-		d.is_del=0 and is_outtage=0 and is_show=0 and company_id=#{companyId} order by index_no;
+			where d.parent_id=#{parentId}
+			and d.is_del=0 
+			and is_outtage=0 
+			and is_show=0 
+			and company_id=#{companyId} 
+			order by index_no;
 	</select>
 	
 	<!-- 保存部门 -->

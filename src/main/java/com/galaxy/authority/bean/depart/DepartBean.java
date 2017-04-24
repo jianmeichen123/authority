@@ -23,6 +23,9 @@ public class DepartBean {
 	public DepartBean(){
 		this.crementTime = DateUtil.getMillis(new Date());
 		this.updateTime = DateUtil.getMillis(new Date());
+		this.isShow = 0;
+		this.isDel = 0;
+		this.isOuttage = 0;
 	}
 
 	public long getId() {

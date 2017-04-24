@@ -22,7 +22,6 @@ import com.galaxy.authority.common.StaticConst;
 @Controller
 @RequestMapping("/depart")
 public class DepartController {
-	private Logger log = LoggerFactory.getLogger(DepartController.class);
 	
 	@Autowired
 	private IDepartService service;
