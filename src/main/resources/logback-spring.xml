@@ -6,7 +6,7 @@
     <property name="ONLINE_FILE_PATH" value="/Users/liyanqiao/stars/logs"></property>
   
     <!-- 开发环境 -->  
-    <springProfile name="dev">  
+    <springProfile name="online">  
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">  
             <encoder>  
                 <pattern>${PATTERN}</pattern>  
@@ -18,7 +18,7 @@
     </springProfile>  
   
     <!-- 线上环境 -->  
-    <springProfile name="online">
+    <springProfile name="dev">
         <appender name="ONLINE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
 			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
 				<fileNamePattern>${ONLINE_FILE_PATH}/logFile.%d{yyyy-MM-dd}.log</fileNamePattern> 
