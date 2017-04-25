@@ -187,8 +187,8 @@ public class UserController {
 		result.setSuccess(false);
 			
 		Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
-		long depId = CUtils.get().object2Long(paramMap.get("depId"),-999L);
-		if(depId!=-999L){
+		String depId = CUtils.get().object2String(paramMap.get("depId"));
+		if(CUtils.get().stringIsNotEmpty(depId)){
 			if(StaticConst.userMap.containsKey(depId)){
 				result.setSuccess(true);
 				result.setValue(StaticConst.userMap.get(depId));
