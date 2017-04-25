@@ -21,4 +21,5 @@ public interface IUserDao {
 	Map<String,Object> getUserById(Map<String,Object> paramMap);
 	List<Map<String,Object>> getUsersByDepId(Map<String,Object> paramMap);
 	List<Map<String,Object>> getUserByIds(Map<String,Object> paramMap);
+	List<Map<String,Object>> getUsersByKey(Map<String,Object> paramMap);
 }

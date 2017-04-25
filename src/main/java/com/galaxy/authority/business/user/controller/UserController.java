@@ -194,15 +194,6 @@ public class UserController {
 				result.setValue(StaticConst.userMap.get(depId));
 			}
 		}
-//		
-//		
-//		
-//		
-//		List<Map<String,Object>> dataList = service.getUsersByDepId(paramMap);
-//		if(CUtils.get().listIsNotEmpty(dataList)){
-//			result.setSuccess(true);
-//			result.setValue(dataList);
-//		}
 		return result;
 	}
 	
@@ -240,7 +231,32 @@ public class UserController {
 		return result;
 	}
 	
-	
+	/**
+	 * 传入用户ID返回用户信息
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("getUsersByKey")
+	@ResponseBody
+	public Object getUsersByKey(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+			
+		Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		
+		if(paramMap.containsKey("userKey")){
+			String userName = CUtils.get().object2String(paramMap.get("userKey"));
+			paramMap.put("userKey", "%"+userName+"%");
+		}
+		
+		List<Map<String,Object>> userList = service.getUsersByKey(paramMap);
+		if(CUtils.get().listIsNotEmpty(userList)){
+			result.setSuccess(true);
+			result.setValue(userList);
+		}
+		return result;
+	}
 	
 	
 	

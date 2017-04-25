@@ -4,6 +4,25 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
   
 <mapper namespace="com.galaxy.authority.dao.user.IUserDao">
+
+	<!-- 根据姓名模糊查询所有用户并返回所在的部门信息 -->
+	<select id="getUsersByKey" parameterType="hashmap" resultType="hashmap">
+		select 
+			u.id userId,
+			u.user_name userName,
+		    d.id depId,
+		    d.dep_name depName
+		from user u 
+		left join rel_dep_user rdu on u.id=rdu.user_id
+		left join department d on d.id=rdu.dep_id
+		where u.user_name like #{userKey}
+		and u.company_id=rdu.company_id
+		and u.company_id=d.company_id
+		and u.is_del=0
+		and u.is_outtage=0
+		and u.is_show=0
+		and u.company_id=#{companyId};
+	</select>
 	
 	<!-- 根据姓名模糊查询所有用户 -->
 	<select id="findUserByNameTdj" parameterType="hashmap" resultType="hashmap">

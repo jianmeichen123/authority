@@ -122,6 +122,11 @@ public class UserServiceImpl implements IUserService{
 		List<Map<String,Object>> dataList = dao.findUserByNameTdj(paramMap);
 		return dataList;
 	}
+	
+	@Override
+	public List<Map<String, Object>> getUsersByKey(Map<String, Object> paramMap) {
+		return dao.getUsersByKey(paramMap);
+	}
 
 	@Override
 	public boolean outtageUser(Map<String, Object> paramMap) {
@@ -142,5 +147,7 @@ public class UserServiceImpl implements IUserService{
 	public boolean resetPassword(Map<String, Object> paramMap) {
 		return dao.resetPassword(paramMap)>0;
 	}
+	
+	
 
 }
