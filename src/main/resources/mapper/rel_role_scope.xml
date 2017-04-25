@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="com.galaxy.authority.dao.role.IRelRoleScopeDao">
+	<!-- 列表查询共同条件 -->
+	<sql id="comWhere" >
+		where is_del=0 and is_outtage=0
+		<if test="companyId != null ">and company_id=#{companyId}</if>
+	</sql>
+	
+	<!-- 批量保存角色资源和数据范围关联信息-->
+	<insert id="saveRelRoleScope" useGeneratedKeys="true" parameterType="java.util.List">  
+	    <selectKey resultType="long" keyProperty="id" order="AFTER">  
+	        SELECT  
+	        LAST_INSERT_ID()  
+	    </selectKey>  
+	    	insert into rel_role_scope (role_res_id,sp_id,is_del,is_outtage,create_time,create_id,update_time,update_id,company_id)   
+	    	values  
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.roleResId},#{item.spId},#{item.isDel},#{item.isOuttage},#{item.createTime},#{item.createId},#{item.updateTime},#{item.updateId},#{item.companyId})  
+	    </foreach>  
+	</insert> 
+	
+	<!-- 删除角色资源与数据范围关联表信息，通过角色资源id-->
+	<delete id="delRelRoleScope" parameterType="Map">
+		DELETE FROM `power`.`rel_role_scope` 
+		<include refid="comWhere"/> and role_res_id=#{roleResId};
+	</delete>
+	
+	<!-- 获取角色资源与范围关联主键id -->
+	<select id="getRelRoleScopeId" parameterType="hashmap" resultType="String">
+		SELECT id FROM rel_role_scope 
+		<include refid="comWhere"/>
+		and role_res_id=#{roleResId};
+	</select>
+	
+</mapper>

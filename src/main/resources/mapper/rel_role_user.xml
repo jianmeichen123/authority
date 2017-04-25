@@ -5,10 +5,18 @@
   
 <mapper namespace="com.galaxy.authority.dao.role.IRelRoleUserDao">
 
+	<!-- 列表查询共同条件 -->
+	<sql id="comWhere" >
+		where is_del=0 and is_outtage=0
+		<if test="companyId != null ">and company_id=#{companyId}</if>
+	</sql>
+	
 	<!-- 获取用户角色关联记录数 -->
 	<select id="getRelRoleUserListCount" resultType="Integer" parameterType="Map">
-		SELECT count(1) FROM rel_role_user r WHERE r.role_id=#{id};
+		SELECT count(1) FROM rel_role_user 
+		<include refid="comWhere"/> and role_id=#{id};
 	</select>
+	
 	<!-- 批量保存用户角色关联信息 -->
 	<insert id="saveRelRoleUserBatch" useGeneratedKeys="true" parameterType="java.util.List">  
 	    <selectKey resultType="long" keyProperty="id" order="AFTER">  
@@ -20,17 +28,18 @@
 	    <foreach collection="list" item="item" index="index" separator="," >  
 	        (#{item.roleId},#{item.userId},#{item.isDel},#{item.isOuttage},#{item.createTime},#{item.createId},#{item.updateTime},#{item.updateId},#{item.companyId})  
 	    </foreach>  
-	</insert>  
+	</insert>
 
 	<!-- 更新用户角色关联信息 -->
 	<update id="updateRelRoleUser" parameterType="com.galaxy.authority.bean.position.RelPosUser">
 		update rel_role_user set update_time=#{updateTime} 
-	    where id = #{id};
+	    <include refid="comWhere"/> and id = #{id};
 	</update>
+	
 	<!-- 检测角色是否有绑定账号 -->
 	<select id="getRelRoleUser" resultType="com.galaxy.authority.bean.role.RelRoleUser" parameterType="Map" resultMap="roleMap">
 		select * from rel_role_user
-		where role_id=#{roleId} and user_id=#{userId} and company_id=#{companyId};
+		<include refid="comWhere"/> and role_id=#{roleId} and user_id=#{userId};
 	</select>
 	<resultMap type="com.galaxy.authority.bean.role.RelRoleUser" id="roleMap">
 		<id column="id" property="id"/>
@@ -44,10 +53,12 @@
 		<result column="update_id" property="updateId"/>
 		<result column="company_id" property="companyId"/>
 	</resultMap>
+	
 	<!-- 用户与角色解除绑定 -->
 	<delete id="delRelRoleUer" parameterType="Map">
-		DELETE FROM `power`.`rel_role_user` WHERE 
-		<if test="userId != null ">user_id=#{userId} and</if>
-		<if test="roleId != null ">role_id=#{roleId};</if>
+		DELETE FROM `power`.`rel_role_user` 
+		<include refid="comWhere"/> 
+		<if test="userId != null "> and user_id=#{userId}</if>
+		<if test="roleId != null "> and role_id=#{roleId};</if>
 	</delete>
 </mapper>

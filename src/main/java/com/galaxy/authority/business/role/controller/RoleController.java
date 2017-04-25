@@ -31,7 +31,7 @@ public class RoleController {
 	private IRoleService service;
 	
 	/**
-	 * 获取角色显示列表
+	 * 获取角色列表
 	 * @param paramString
 	 * @return
 	 */
@@ -44,7 +44,6 @@ public class RoleController {
 		int pageSize = CUtils.get().object2Integer(map.get("pageSize"));
 		int startNo = (pageNo-1)*pageSize;
 		map.put("startNo", startNo<0?0:startNo);
-		
 		map.put("companyId", StaticConst.COMPANY_ID);
 		Page<UserBean> page = service.getRoleList(map);
 		
@@ -72,8 +71,10 @@ public class RoleController {
 			bean.setCompanyId(StaticConst.COMPANY_ID);
 			if(CUtils.get().stringIsNotEmpty(bean.getId())&&bean.getId()!=0){
 				bean.setUpdateTime(DateUtil.getMillis(new Date()));
+				//更新
 				result.setSuccess(service.updateRole(bean));
 			}else{
+				//保存
 				result.setSuccess(service.saveRole(bean));
 			}
 		}
@@ -93,7 +94,6 @@ public class RoleController {
 		
 		try {
 			int res = service.delRoleById(map);
-			
 			if(res==1){
 				result.setSuccess(true);
 			}
@@ -248,7 +248,6 @@ public class RoleController {
 		
 		String str[] = userIdStr.split(",");
 		for(int i=0;i<str.length;i++){
-			
 			Map<String,Object> paramMap = new HashMap<String,Object>();
 			paramMap.put("roleId", roleId);
 			paramMap.put("userId", str[i]);
@@ -267,7 +266,6 @@ public class RoleController {
 				}
 			}
 		}
-		
 		if(listBean!=null&&listBean.size()>0){
 			result.setSuccess(service.saveRelRoleUser(listBean));
 		}
@@ -297,6 +295,7 @@ public class RoleController {
 		createResourceChild(list,"ztree");
 		return list;
 	}
+	
 	/**
 	 * 生成树型列表
 	 * @param depList
@@ -311,7 +310,6 @@ public class RoleController {
 				if("ztree".equals(state)){
 					dataList = service.getResourceTreeList(paramMap);
 				}
-				
 				if(dataList!=null && !dataList.isEmpty()){
 					createResourceChild(dataList,state);
 					list.get(i).put("children", dataList);
@@ -335,16 +333,16 @@ public class RoleController {
 		//父节点：0
 		paramMap.put("parentId", 0);
 		paramMap.put("companyId", StaticConst.COMPANY_ID);
-		
+		//解析请求信息
 		if(CUtils.get().stringIsNotEmpty(paramString)){
 			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
-			if(paramJson!=null && paramJson.has("parentId")){
+			if(paramJson!=null && paramJson.has("parentId")&& paramJson.has("roleId")){
 				paramMap.put("parentId", paramJson.getLong("parentId"));
+				paramMap.put("roleId", paramJson.getLong("roleId"));
 			}
 		}
 		try {
-			List<Map<String,Object>> dataList = service.getResourceList(paramMap);
-			
+			List<Map<String,Object>> dataList = service.getResList(paramMap);
 			if(dataList!=null){
 				result.setSuccess(true);
 				result.setValue(dataList);
@@ -365,12 +363,107 @@ public class RoleController {
 	public Object getDataScope(@RequestBody String paramString){
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
-		
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("companyId", StaticConst.COMPANY_ID);
 		try {
+			//获取数据范围信息
 			List<Map<String,Object>> dataList = service.getDataScope(paramMap);
+			if(dataList!=null){
+				result.setSuccess(true);
+				result.setValue(dataList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 保存权限设置
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("saveResource")
+	@ResponseBody
+	public Object saveResource(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("parentId", 0);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		//解析请求数据
+		if(CUtils.get().stringIsNotEmpty(paramString)){
+			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
+			if(paramJson!=null && paramJson.has("strCheck")&&paramJson.has("roleId")&&paramJson.has("resourceId")){
+				paramMap.put("strCheck", paramJson.getString("strCheck"));
+				paramMap.put("roleId", paramJson.getLong("roleId"));
+				paramMap.put("parentId", paramJson.getLong("resourceId"));
+			}
+		}
+		try {
+			result.setSuccess(service.saveResource(paramMap));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 获取当前部门以及子部门id和name
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("getDeptIdName")
+	@ResponseBody
+	public Object getDeptIdName(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("parentId", -1L);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		if(CUtils.get().stringIsNotEmpty(paramString)){
+			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
+			if(paramJson!=null && paramJson.has("parentId")){
+				paramMap.put("parentId", paramJson.getLong("parentId"));
+			}
+		}
+		try {
+			Map<String, Object> map11  = new HashMap<String, Object>();
+			List<Map<String,Object>> dataList = service.getDeptIdName(paramMap);
+			for (Map<String, Object> map : dataList) {
+				map11.put(map.get("id").toString(), map.get("name"));
+			}
 			
+			if(dataList!=null){
+				result.setSuccess(true);
+				result.setValue(map11);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 获取对应的用户name或部门name
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("showUernameOrDeptName")
+	@ResponseBody
+	public Object showUernameOrDeptName(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		if(CUtils.get().stringIsNotEmpty(paramString)){
+			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
+			if(paramJson!=null && paramJson.has("type") && paramJson.has("typeStr")){
+				paramMap.put("type", paramJson.getLong("type"));
+				paramMap.put("typeStr", paramJson.getString("typeStr"));
+			}
+		}
+		try {
+			List<Map<String,Object>> dataList = service.showUernameOrDeptName(paramMap);
 			if(dataList!=null){
 				result.setSuccess(true);
 				result.setValue(dataList);

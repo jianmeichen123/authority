@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.galaxy.authority.bean.Page;
+import com.galaxy.authority.bean.role.RelRoleResource;
+import com.galaxy.authority.bean.role.RelRoleScope;
 import com.galaxy.authority.bean.role.RelRoleUser;
+import com.galaxy.authority.bean.role.RelSpUsers;
 import com.galaxy.authority.bean.role.RoleBean;
 import com.galaxy.authority.bean.user.UserBean;
 
@@ -98,5 +101,78 @@ public interface IRoleService {
 	 * @return
 	 */
 	List<Map<String, Object>> getDataScope(Map<String, Object> paramMap);
+	/**
+	 * 保存角色资源关联信息
+	 * @param listBean
+	 * @return
+	 */
+	boolean saveRelRoleResource(List<RelRoleResource> listBean);
+	/**
+	 * 获取角色资源关联id
+	 * @param roleId
+	 * @param resId
+	 * @return
+	 */
+	String getRelRoleResId(Map<String, Object> paramMap);
+	/**
+	 * 保存角色资源关联数据范围
+	 * @param spListBean
+	 * @return
+	 */
+	Boolean saveRelRoleScope(List<RelRoleScope> spListBean);
+	/**
+	 * 删除角色资源与数据范围关联表信息
+	 * @param scopemap
+	 */
+	int delRelRoleScope(Map<String, Object> scopemap);
+	/**
+	 * 删除角色资源关联信息
+	 * @param scopemap
+	 * @return
+	 */
+	int delRelRoleResource(Map<String, Object> scopemap);
+	/**
+	 * 获取当前部门以及子部门id和name
+	 * @param paramMap
+	 * @return
+	 */
+	List<Map<String, Object>> getDeptIdName(Map<String, Object> paramMap);
+	/**
+	 * 获取角色资源与范围关联id
+	 * @param paramMap
+	 * @return
+	 */
+	String getRelRoleScopeId(Map<String, Object> paramMap);
+	/**
+	 * 保存角色资源与数据范围，用户的关联信息
+	 * @param suListBean
+	 * @return
+	 */
+	Boolean saveRelSpUsers(List<RelSpUsers> suListBean);
+	/**
+	 * 删除角色资源与数据范围，用户关联信息
+	 * @param sm
+	 */
+	int delRelSpUsers(Map<String, Object> sm);
+	/**
+	 * 通过资源id获取关联表信息（用户回显）
+	 */
+	List<Map<String, Object>> isDisplayByResId(Map<String, Object> mp);
+	/**
+	 * 获取对应的用户name或部门name
+	 * @param paramMap
+	 * @return
+	 */
+	List<Map<String, Object>> showUernameOrDeptName(Map<String, Object> paramMap);
+	/**
+	 * 获取资源列表
+	 */
+	List<Map<String, Object>> getResList(Map<String, Object> paramMap);
+	/**
+	 * 保存权限设置
+	 * @param paramMap
+	 * @return
+	 */
+	boolean saveResource(Map<String, Object> paramMap);
 
 }

@@ -26,14 +26,6 @@
 			limit #{startNo},#{pageSize};
 	</select>
 	
-	<!-- 获取角色关联的账号列表 -->
-	<select id="getUserListByRoleId" parameterType="hashmap" resultType="hashmap">
-		select u.login_name loginName from `user` u
-		left join rel_role_user ru on u.id = ru.user_id
-		WHERE ru.role_id=#{id};
-	</select>
-	
-	
 	<!-- 获取角色列表总记录数 -->
 	<select id="getRoleListCount" resultType="Integer" parameterType="Map">
 		select count(1) from role r 
@@ -76,31 +68,51 @@
 	    where id = #{id};
 	</update>
 	
-	<!-- 删除角色 -->
-	<delete id="delRoleById" parameterType="Map">
-		DELETE FROM `power`.`role` WHERE
+	<!-- 删除角色 (修改is_del=1)-->
+	<update id="delRoleById" parameterType="Map">
+		update `power`.`role` set is_del=1 where
 		<if test="id != null ">id=#{id}</if>
-	</delete>
+	</update>
 	
-	<!--通过部门id获取部门人数list-->
-	<select id="getUserListByDeptId" parameterType="hashmap" resultType="hashmap">
-		select id,d.dep_name name,d.parent_id parentId
-		from department d 
-		where d.parent_id=#{parentId} and d.is_del=0 and is_outtage=0 and is_show=0 and company_id=#{companyId} order by index_no;
+	<!-- 获取角色关联的账号列表 -->
+	<select id="getUserListByRoleId" parameterType="hashmap" resultType="hashmap">
+		select u.login_name loginName from `user` u
+		left join rel_role_user ru on u.id = ru.user_id
+		WHERE ru.role_id=#{id} and ru.is_del=0 and ru.is_outtage=0 and ru.company_id=#{companyId};
 	</select>
 	
-	<!--通过部门id获取部门人数list-->
+	<!--通过部门id获取子部门list-->
+	<select id="getChildNodesByDeptId" parameterType="hashmap" resultType="hashmap">
+		select id,d.dep_name name,d.parent_id parentId
+		from department d 
+		where d.parent_id=#{parentId} and d.is_del=0 and is_outtage=0 and is_show=0 and company_id=#{companyId} 
+		order by index_no;
+	</select>
+	<!--当前部门id信息-->
+	<select id="getcurrNodeByDeptId" parameterType="hashmap" resultType="hashmap">
+		select id,d.dep_name name,d.parent_id parentId
+		from department d 
+		where d.id=#{parentId} and d.is_del=0 and is_outtage=0 and is_show=0 and company_id=#{companyId} 
+		order by index_no;
+	</select>
+	
+	
+	<!--通过部门id获取部门人username-->
 	<select id="getUserNameByDeptId" parameterType="hashmap" resultType="hashmap">
-		SELECT u.id,u.user_name FROM rel_dep_user du LEFT JOIN `user` u on u.id=du.user_id WHERE du.dep_id=#{id};
+		SELECT u.id,u.user_name FROM rel_dep_user du 
+		LEFT JOIN `user` u on u.id=du.user_id 
+		WHERE du.dep_id=#{id} and du.is_del=0 and du.is_outtage=0 and du.company_id=#{companyId};
 	</select>
 	
 	<!--通过角色id获取绑定账号信息list-->
 	<select id="getBindUserInfoListById" parameterType="hashmap" resultType="hashmap">
-		select ru.role_id roleId,ru.user_id userId,u.login_name loginName,u.user_name userName,p.pos_name posName from `user` u
+		select ru.role_id roleId,ru.user_id userId,u.login_name loginName,u.user_name userName,p.pos_name posName 
+		from `user` u
 		left join rel_role_user ru on u.id = ru.user_id
 		left join rel_pos_user pu on u.id = pu.user_id
 		left join position p on pu.pos_id = p.id 
-		WHERE ru.role_id=#{id} limit #{startNo},#{pageSize};
+		where ru.is_del=0 and ru.is_outtage=0 and ru.role_id=#{id} and ru.company_id=#{companyId} 
+		limit #{startNo},#{pageSize};
 	</select>
 	
 	<!-- 检测角色是否有绑定账号 -->
@@ -111,17 +123,20 @@
 			and u.company_id=ru.company_id
 			and u.id=ru.user_id
 			and r.id=ru.role_id
-			and u.is_del=0
+			and r.is_del=0
+			and r.is_outtage=0
 			and r.id=#{roleId}
-			and u.company_id=#{companyId};
+			and r.company_id=#{companyId};
 	</select>
 	
 	<!-- 查询资源树型列表 -->
 	<select id="getResourceTreeList" parameterType="hashmap" resultType="hashmap">
 		select id,resource_name name,parent_id parentId
-		from resource r
-		where parent_id=#{parentId} and is_del=0 and is_outtage=0 and company_id=#{companyId} order by resource_order;
+		from resource 
+		where parent_id=#{parentId} and is_del=0 and is_outtage=0 and company_id=#{companyId} 
+		order by resource_order;
 	</select>
+	
 	<!-- 获取资源当前节点以及子节点信息list -->
 	<select id="getResourceList" parameterType="hashmap" resultType="hashmap">
 		select r.id,r.resource_name name,r.parent_id parentId, t.resource_name resourceName,r.resource_desc resourceDESC 
@@ -130,10 +145,37 @@
     		(SELECT * FROM resource WHERE id=#{parentId}) t
 		on r.id = t.id
 		where r.parent_id=#{parentId} OR r.id=#{parentId}
-		and r.is_del=0 and r.is_outtage=0 and r.company_id=#{companyId} order by r.parent_id asc;
+		and r.is_del=0 and r.is_outtage=0 and r.company_id=#{companyId} 
+		order by r.parent_id asc;
 	</select>
+	
 	<!-- 获取数据范围 -->
 	<select id="getDataScope" parameterType="hashmap" resultType="hashmap">
-		SELECT id,sp_name spName FROM data_scope WHERE company_id=#{companyId};
+		SELECT id,sp_name spName 
+		FROM data_scope 
+		WHERE is_del=0 and is_outtage=0 and company_id=#{companyId};
 	</select>
+	
+	<!-- 通过资源id获取关联表信息（用于回显） -->
+	<select id="isDisplayByResId" parameterType="hashmap" resultType="hashmap">
+		SELECT  r.id rId,s.id sId,s.sp_id spId,su.is_dep isDep,su.other_id otherId
+		FROM rel_role_resource r
+		LEFT JOIN rel_role_scope s ON r.id=s.role_res_id 
+		LEFT JOIN rel_sp_users su ON s.id=su.rel_role_scope_id
+		WHERE r.res_id=#{resId} and r.role_id=#{roleId} and r.is_del=0 and r.is_outtage=0 and r.company_id=#{companyId};
+	</select>
+	
+	<!-- 获取部门名称 （用于回显）-->
+	<select id="getDeptName" parameterType="hashmap" resultType="hashmap">
+		SELECT id,dep_name name 
+		FROM department 
+		WHERE id=#{deptId} and is_del=0 and is_outtage=0 and company_id=#{companyId};
+	</select>
+	<!-- 获取用户名称 （用于回显）-->
+	<select id="getUserName" parameterType="hashmap" resultType="hashmap">
+		SELECT id,user_name name 
+		FROM user 
+		WHERE id=#{userId} and is_del=0 and is_outtage=0 and company_id=#{companyId};
+	</select>
+	
 </mapper>

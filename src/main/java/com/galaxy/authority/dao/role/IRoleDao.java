@@ -20,7 +20,7 @@ public interface IRoleDao {
 	//更新角色
 	public boolean updateRole(RoleBean bean);
 	//通过部门id获取部门人数list
-	public List<Map<String, Object>> getUserListByDeptId(Map<String, Object> paramMap);
+	public List<Map<String, Object>> getChildNodesByDeptId(Map<String, Object> paramMap);
 	//通过部门id获取部门下所有账号
 	public List<Map<String, Object>> getUserNameByDeptId(Map<String, Object> deptParamMap);
 	//通过角色id获取绑定账号信息list
@@ -35,5 +35,13 @@ public interface IRoleDao {
 	public List<Map<String, Object>> getResourceList(Map<String, Object> paramMap);
 	//获取数据范围
 	public List<Map<String, Object>> getDataScope(Map<String, Object> paramMap);
+	//获取当前节点
+	public List<Map<String, Object>> getcurrNodeByDeptId(Map<String, Object> paramMap);
+	//通过资源id获取关联表信息（用户回显）
+	public List<Map<String, Object>> isDisplayByResId(Map<String, Object> mp);
+	//获取部门名称
+	public List<Map<String, Object>> getDeptName(Map<String, Object> paramMap);
+	//获取用户名称
+	public List<Map<String, Object>> getUserName(Map<String, Object> paramMap);
 	
 }
