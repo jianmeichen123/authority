@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.galaxy.authority.InitService;
 import com.galaxy.authority.bean.Page;
 import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.business.user.service.IUserService;
@@ -68,6 +69,8 @@ public class UserController {
 		}else{
 			result.setSuccess(service.saveUser(map));
 		}
+		
+		InitService.get().initdepartUser(StaticConst.COMPANY_ID);
 		return result;
 	}
 	
@@ -82,6 +85,7 @@ public class UserController {
 		map.put("companyId", StaticConst.COMPANY_ID);
 		boolean ifSuccess = service.outtageUser(map);
 		result.setSuccess(ifSuccess);
+		InitService.get().initdepartUser(StaticConst.COMPANY_ID);
 		return result;
 	}
 	
@@ -96,6 +100,7 @@ public class UserController {
 		map.put("companyId", StaticConst.COMPANY_ID);
 		boolean ifSuccess = service.deleteUser(map);
 		result.setSuccess(ifSuccess);
+		InitService.get().initdepartUser(StaticConst.COMPANY_ID);
 		return result;
 	}
 	
@@ -182,13 +187,22 @@ public class UserController {
 		result.setSuccess(false);
 			
 		Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
-		paramMap.put("companyId", StaticConst.COMPANY_ID);
-		
-		List<Map<String,Object>> dataList = service.getUsersByDepId(paramMap);
-		if(CUtils.get().listIsNotEmpty(dataList)){
-			result.setSuccess(true);
-			result.setValue(dataList);
+		long depId = CUtils.get().object2Long(paramMap.get("depId"),-999L);
+		if(depId!=-999L){
+			if(StaticConst.userMap.containsKey(depId)){
+				result.setSuccess(true);
+				result.setValue(StaticConst.userMap.get(depId));
+			}
 		}
+//		
+//		
+//		
+//		
+//		List<Map<String,Object>> dataList = service.getUsersByDepId(paramMap);
+//		if(CUtils.get().listIsNotEmpty(dataList)){
+//			result.setSuccess(true);
+//			result.setValue(dataList);
+//		}
 		return result;
 	}
 	

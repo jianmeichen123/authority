@@ -4,14 +4,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.galaxy.authority.InitService;
 import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.bean.depart.DepartBean;
 import com.galaxy.authority.business.depart.service.IDepartService;
@@ -130,6 +131,7 @@ public class DepartController {
 					result.setSuccess(true);
 				}
 			}
+			InitService.get().initDepartList(StaticConst.COMPANY_ID);
 		}
 		return result;
 	}
@@ -161,6 +163,8 @@ public class DepartController {
 			paramMap.put("companyId", StaticConst.COMPANY_ID);
 			paramMap.put("updateTime", DateUtil.getMillis(new Date()));
 			result.setSuccess(service.delDepartment(paramMap));
+			
+			InitService.get().initDepartList(StaticConst.COMPANY_ID);
 		}
 		return result;
 	}
@@ -171,14 +175,20 @@ public class DepartController {
 	public Object getLeafDepartList(){
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
-		Map<String,Object> paramMap = new HashMap<String,Object>();
-		paramMap.put("companyId", StaticConst.COMPANY_ID);
 		
-		List<Map<String,Object>> dataList = service.getLeafDepartList(paramMap);
-		if(CUtils.get().listIsNotEmpty(dataList)){
+		if(CUtils.get().listIsNotEmpty(StaticConst.depList)){
 			result.setSuccess(true);
-			result.setValue(dataList);
+			result.setValue(StaticConst.depList);
 		}
+		
+//		Map<String,Object> paramMap = new HashMap<String,Object>();
+//		paramMap.put("companyId", StaticConst.COMPANY_ID);
+//		
+//		List<Map<String,Object>> dataList = service.getLeafDepartList(paramMap);
+//		if(CUtils.get().listIsNotEmpty(dataList)){
+//			result.setSuccess(true);
+//			result.setValue(dataList);
+//		}
 		return result;
 	}
 	
