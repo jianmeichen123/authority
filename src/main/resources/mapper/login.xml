@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="com.galaxy.authority.dao.login.ILoginDao">
+
+	<!-- 列表查询共同条件 -->
+	<sql id="comWhere" >
+		where is_del=0 and is_outtage=0
+		<if test="companyId != null ">and company_id=#{companyId}</if>
+	</sql>
+	
+	<!--获取用户信息-->
+	<select id="getUserLoginInfo" resultType="Integer" parameterType="Map">
+		SELECT count(1) FROM user 
+		<include refid="comWhere"/> and user_name=#{userName} and `password` =#{passWord};
+	</select>
+
+</mapper>
