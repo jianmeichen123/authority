@@ -101,7 +101,7 @@
 	<select id="getUserNameByDeptId" parameterType="hashmap" resultType="hashmap">
 		SELECT u.id,u.user_name FROM rel_dep_user du 
 		LEFT JOIN `user` u on u.id=du.user_id 
-		WHERE du.dep_id=#{id} and du.is_del=0 and du.is_outtage=0 and du.company_id=#{companyId};
+		WHERE du.dep_id=#{id} and u.is_del=0 and u.is_outtage=0 and u.company_id=#{companyId};
 	</select>
 	
 	<!--通过角色id获取绑定账号信息list-->
