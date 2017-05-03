@@ -157,12 +157,12 @@
 		<artifactId>shiro-core</artifactId>
 		<version>1.2.4</version>
 	</dependency>
-	<!-- junit -->
+	<!-- junit 
 	<dependency>
 		<groupId>junit</groupId>
 		<artifactId>junit</artifactId>
 		<scope>test</scope>
-	</dependency>
+	</dependency>-->
 	<!-- java邮件 -->
 	<dependency>
 		<groupId>com.sun.mail</groupId>
