@@ -2,6 +2,7 @@ package com.galaxy.authority.setting;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.galaxy.authority.InitService;
 import com.galaxy.authority.bean.ResultBean;
@@ -12,6 +13,7 @@ import com.galaxy.authority.common.StaticConst;
 public class SettingController {
 	
 	@RequestMapping("cleancache")
+	@ResponseBody
 	public Object cleanCache(){
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(true);
