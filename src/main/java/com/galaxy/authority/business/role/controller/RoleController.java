@@ -114,7 +114,7 @@ public class RoleController {
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
 		Map<String,Object> paramMap = new HashMap<String,Object>();
-		paramMap.put("parentId", -1L);
+		paramMap.put("parentId", 0);
 		paramMap.put("companyId", StaticConst.COMPANY_ID);
 		if(CUtils.get().stringIsNotEmpty(paramString)){
 			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
@@ -419,7 +419,7 @@ public class RoleController {
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
 		Map<String,Object> paramMap = new HashMap<String,Object>();
-		paramMap.put("parentId", -1L);
+		paramMap.put("parentId", 0);
 		paramMap.put("companyId", StaticConst.COMPANY_ID);
 		if(CUtils.get().stringIsNotEmpty(paramString)){
 			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);

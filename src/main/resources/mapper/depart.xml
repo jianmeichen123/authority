@@ -154,7 +154,7 @@
 			from department d1 
 			left join rel_dep_user rdu on d1.id=rdu.dep_id
 			left join user u on u.id=rdu.user_id
-			where u.is_del=0
+			where u.is_del=0 and u.is_show=0 and u.is_outtage=0
 			and d1.company_id=u.company_id
 			and u.company_id=#{companyId}
 			group by d1.id) a4 on a1.id=a4.id

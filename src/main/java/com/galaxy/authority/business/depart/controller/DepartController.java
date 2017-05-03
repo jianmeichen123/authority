@@ -41,7 +41,7 @@ public class DepartController {
 	
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("companyId", StaticConst.COMPANY_ID);
-		paramMap.put("parentId", -1L);
+		paramMap.put("parentId", 0);
 		if(CUtils.get().stringIsNotEmpty(paramString)){
 			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
 			if(paramJson!=null && paramJson.has("parentId")){
@@ -66,7 +66,7 @@ public class DepartController {
 	@RequestMapping("getDepartTree")
 	@ResponseBody
 	public Object showDepartTree(@RequestBody String paramString){
-		paramMap.put("parentId", -1);
+		paramMap.put("parentId", 0);
 		paramMap.put("companyId", StaticConst.COMPANY_ID);
 		
 		if(CUtils.get().stringIsNotEmpty(paramString)){
@@ -88,7 +88,7 @@ public class DepartController {
 	@RequestMapping("getDepartComboxTree")
 	@ResponseBody
 	public Object showDepartComboxTree(@RequestBody String paramString){
-		paramMap.put("parentId", -1);
+		paramMap.put("parentId", 0);
 		paramMap.put("companyId", StaticConst.COMPANY_ID);
 		
 		if(CUtils.get().stringIsNotEmpty(paramString)){

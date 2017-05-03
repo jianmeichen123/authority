@@ -11,17 +11,17 @@ public class DepartBean {
 	private long parentId;
 	private int indexNo;
 	private int isShow;
-	private long crementTime;
+	private long createTime;
 	private long createId;
 	private long updateTime;
 	private long updateId;
 	private int isDel;
 	private int isOuttage;
-	private String depManager;
+	private long depManager;
 	private int companyId;
 	
 	public DepartBean(){
-		this.crementTime = DateUtil.getMillis(new Date());
+		this.createTime = DateUtil.getMillis(new Date());
 		this.updateTime = DateUtil.getMillis(new Date());
 		this.isShow = 0;
 		this.isDel = 0;
@@ -76,13 +76,6 @@ public class DepartBean {
 		this.isShow = isShow;
 	}
 
-	public long getCrementTime() {
-		return crementTime;
-	}
-
-	public void setCrementTime(long crementTime) {
-		this.crementTime = crementTime;
-	}
 
 	public long getCreateId() {
 		return createId;
@@ -124,20 +117,28 @@ public class DepartBean {
 		this.isOuttage = isOuttage;
 	}
 
-	public String getDepManager() {
-		return depManager;
-	}
-
-	public void setDepManager(String depManager) {
-		this.depManager = depManager;
-	}
-
 	public int getCompanyId() {
 		return companyId;
 	}
 
 	public void setCompanyId(int companyId) {
 		this.companyId = companyId;
+	}
+
+	public long getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
+	}
+
+	public long getDepManager() {
+		return depManager;
+	}
+
+	public void setDepManager(long depManager) {
+		this.depManager = depManager;
 	}
 	
 	

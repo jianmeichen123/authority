@@ -18,7 +18,6 @@ import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.business.user.service.IUserService;
 import com.galaxy.authority.common.CUtils;
 import com.galaxy.authority.common.DateUtil;
-import com.galaxy.authority.common.Md5Utils;
 import com.galaxy.authority.common.StaticConst;
 
 @Controller
@@ -114,9 +113,9 @@ public class UserController {
 		Map<String,Object> map = CUtils.get().jsonString2map(userString);
 		
 		if(CUtils.get().mapIsNotEmpty(map)){
-			String password = CUtils.get().object2String(map.get("password"));
-			String originPassword = Md5Utils.md5Crypt(password);
-			map.put("originPassword", originPassword);
+			//String password = CUtils.get().object2String(map.get("password"));
+			//String originPassword = Md5Utils.md5Crypt(password);
+			map.put("userId", CUtils.get().object2String(map.get("userId")));
 		}
 		
 		map.put("companyId", StaticConst.COMPANY_ID);

@@ -76,7 +76,7 @@
 	
 	<!-- 获取角色关联的账号列表 -->
 	<select id="getUserListByRoleId" parameterType="hashmap" resultType="hashmap">
-		select u.login_name loginName from `user` u
+		select u.user_name userName from `user` u
 		left join rel_role_user ru on u.id = ru.user_id
 		WHERE ru.role_id=#{id} and ru.is_del=0 and ru.is_outtage=0 and ru.company_id=#{companyId};
 	</select>
@@ -146,7 +146,7 @@
 		on r.id = t.id
 		where r.parent_id=#{parentId} OR r.id=#{parentId}
 		and r.is_del=0 and r.is_outtage=0 and r.company_id=#{companyId} 
-		order by r.parent_id asc;
+		order by r.resource_order asc;
 	</select>
 	
 	<!-- 获取数据范围 -->

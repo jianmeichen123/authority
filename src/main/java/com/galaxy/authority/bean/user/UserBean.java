@@ -24,6 +24,7 @@ public class UserBean {
 	private long updateTime;
 	private long updateId;
 	private long companyId;
+	private String address;
 	
 	public UserBean(){
 		this.loginName = " ";
@@ -158,5 +159,13 @@ public class UserBean {
 	}
 	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,8 +62,12 @@ public class PositionController {
 		
 		Map<String,Object> map = CUtils.get().jsonString2map(beanString);
 		PositionBean bean = new PositionBean();
-		bean.setPosName(CUtils.get().object2String(map.get("posName")));
-		
+		if(map.get("posName")!=null){
+			bean.setPosName(CUtils.get().object2String(map.get("posName")));
+		}
+		if(map.get("id")!=null){
+			bean.setId(CUtils.get().object2Long(map.get("id")));
+		}
 		if(bean!=null){
 			bean.setCompanyId(StaticConst.COMPANY_ID);
 			if(bean.getId()!=0){
@@ -77,12 +82,18 @@ public class PositionController {
 	
 	@RequestMapping("getPositionComboxList")
 	@ResponseBody
-	public Object getPositionComboxList(){
+	public Object getPositionComboxList(@RequestBody String paramString){
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
 		
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		if(CUtils.get().stringIsNotEmpty(paramString)){
+			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
+			if(paramJson!=null && paramJson.has("isOuttage")){
+				paramMap.put("isOuttage", paramJson.getLong("isOuttage"));
+			}
+		}
 		List<Map<String,Object>> dataList = service.getPositionComboxList(paramMap);
 		if(CUtils.get().listIsNotEmpty(dataList)){
 			result.setSuccess(true);

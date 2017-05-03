@@ -61,10 +61,10 @@ public class RoleServiceImpl implements IRoleService{
     		if(userList!=null&&userList.size()>0){
     			String lname="";
     			for (Map<String, Object> usermap : userList) {
-    				lname+=usermap.get("loginName").toString()+',';
+    				lname+=usermap.get("userName").toString()+',';
     			}
     			String names = lname.substring(0,lname.length()-1);
-    			map.put("loginName", names);
+    			map.put("userName", names);
     		}
 		}
 		int count = dao.getRoleListCount(paramMap);
@@ -124,7 +124,7 @@ public class RoleServiceImpl implements IRoleService{
 		for (Map<String, Object> map : deptlist) {
 			Map<String,Object> deptParamMap = new HashMap<String,Object>();
     		
-			deptParamMap.put("parentId", -1L);
+			deptParamMap.put("parentId", 0);
 			deptParamMap.put("companyId", StaticConst.COMPANY_ID);
     		if(map!=null){
     			deptParamMap.put("id", map.get("id"));
@@ -143,7 +143,7 @@ public class RoleServiceImpl implements IRoleService{
 	    	for (Map<String, Object> map : dataList) {
 	    		Map<String,Object> paramMap = new HashMap<String,Object>();
 	    		
-	    		paramMap.put("parentId", -1L);
+	    		paramMap.put("parentId", 0);
 	    		paramMap.put("companyId", StaticConst.COMPANY_ID);
 	    		if(map!=null){
 	    			paramMap.put("parentId", map.get("id"));

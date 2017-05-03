@@ -14,7 +14,7 @@
 	<!--获取用户信息-->
 	<select id="getUserLoginInfo" resultType="Integer" parameterType="Map">
 		SELECT count(1) FROM user 
-		<include refid="comWhere"/> and user_name=#{userName} and `password` =#{passWord};
+		<include refid="comWhere"/> and login_name=#{userName} and `password` =#{passWord};
 	</select>
 
 </mapper>

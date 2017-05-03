@@ -41,7 +41,8 @@
 	<select id="getUserById" parameterType="hashmap" resultType="hashmap">
 		select 
 			u.id userId,
-		    u.user_name userName
+		    u.user_name userName,
+		    u.origin_password oriPass
 		from user u 
 		where u.id=#{userId}
 		and u.company_id=#{companyId};
@@ -67,12 +68,12 @@
 	<select id="getUserByIds" parameterType="hashmap" resultType="hashmap">
 		select 
 			u.id userId,
-		    u.user_name userName,
-		    u.is_del isDel,
-    		u.is_show isShow,
-			u.is_outtage isOuttage
+		    u.user_name userName
 		from user u 
-		where u.company_id=${companyId}
+		where u.is_del=0
+		and u.is_outtage=0
+		and u.is_show=0
+		and u.company_id=${companyId}
 		and u.id in
 		<foreach item="item" index="index" collection="userIdList" open="(" separator="," close=")">  
 			  #{item}  
@@ -82,8 +83,7 @@
 	<!-- 重置密码 -->
 	<update id="resetPassword" parameterType="hashMap">
 		update user u set 
-			u.password=#{password},
-			u.origin_password=#{originPassword}
+			u.password=#{password}
 		where u.id=#{userId}
 		and u.company_id=#{companyId};
 	</update>
@@ -133,7 +133,7 @@
 			u.id userId,
 		    u.login_name loginName,
 		    u.user_name userName,
-		    u.telphone telphone,
+		    u.telphone telPhone,
 			u.mobile_phone mobilePhone,
 			u.email1 email1,
 		    u.sex sex,
@@ -142,6 +142,8 @@
 		    u.create_time createTime,
 		    u.update_id updateId,
 		    u.update_time updateTime,
+		    u.employ_no employNo,
+		    u.address address,
 			d.id depId,
 		    d.dep_name depName,
 		    p.id posId,
@@ -158,14 +160,14 @@
 		where u.company_id=d.company_id and
 		    u.company_id=rdu.company_id and 
 		    u.company_id=rpu.company_id and
-		    u.is_show=0 
+		    u.is_del=0
 		<if test="loginName != null ">and u.login_name like #{loginName}</if>
 		<if test="userName != null ">and u.user_name like #{userName}</if>
 		<if test="email1 != null ">and u.email1 like #{email1}</if>
 		<if test="positionId != null ">and p.id=#{positionId}</if>
 		<if test="state != null ">and u.is_outtage=#{state}</if>
 		<if test="departmentId != null ">and d.id=#{departmentId}</if>
-		
+		<if test="isShow != null ">and u.is_show=#{isShow}</if>
 	</sql>
 	
 	<!-- 编辑用户 -->
@@ -175,7 +177,11 @@
 		    u.user_name=#{userName},
 		    u.mobile_phone=#{mobilePhone},
 		    u.email1=#{email1},
-		    u.update_time=#{updateTime}
+		    u.update_time=#{updateTime},
+		    u.sex=#{sex},
+		    u.employ_no=#{employNo},
+		    u.telphone=#{telPhone},
+		    u.address=#{address}
 		where u.id=${userId}
 		and u.company_id=${companyId};
 	</update>
@@ -198,6 +204,7 @@
 			`create_time`,
 			`update_id`,
 			`update_time`,
+			`address`,
 			`company_id` 
 		)VALUES(
 			#{loginName}, 
@@ -215,6 +222,7 @@
 			#{createTime}, 
 			#{updateId}, 
 			#{updateTime},
+			#{address},
 			#{companyId}
 		);
 		<selectKey keyProperty="id" resultType="long" order="AFTER">  

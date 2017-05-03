@@ -10,6 +10,7 @@ import com.galaxy.authority.bean.depart.RelDepUser;
 import com.galaxy.authority.bean.position.RelPosUser;
 import com.galaxy.authority.bean.user.UserBean;
 import com.galaxy.authority.common.CUtils;
+import com.galaxy.authority.common.PWDUtils;
 import com.galaxy.authority.common.StaticConst;
 import com.galaxy.authority.dao.position.IRelPosUserDao;
 import com.galaxy.authority.dao.user.IRelDepUserDao;
@@ -28,11 +29,19 @@ public class UserServiceImpl implements IUserService{
 	public boolean saveUser(Map<String, Object> map) {
 		boolean flag = false;
 		UserBean userBean = new UserBean();
+		//生成原密码
+		String oriPwd = PWDUtils.genRandomNum(6);
+		userBean.setOriginPassword(oriPwd);
+		userBean.setPassword(PWDUtils.genernateNewPassword(oriPwd));
 		userBean.setLoginName(CUtils.get().object2String(map.get("loginName")));
 		userBean.setUserName(CUtils.get().object2String(map.get("userName")));
 		userBean.setMobilePhone(CUtils.get().object2String(map.get("mobilePhone")));
 		userBean.setEmail1(CUtils.get().object2String(map.get("email1")));
 		userBean.setCompanyId(StaticConst.COMPANY_ID);
+		userBean.setSex(CUtils.get().object2Integer(map.get("sex")));
+		userBean.setEmployNo(CUtils.get().object2String(map.get("employNo")));
+		userBean.setTelphone(CUtils.get().object2String(map.get("telPhone")));
+		userBean.setAddress(CUtils.get().object2String(map.get("address")));
 		int count = dao.saveUser(userBean);
 		
 		if(count>0){
@@ -145,6 +154,12 @@ public class UserServiceImpl implements IUserService{
 
 	@Override
 	public boolean resetPassword(Map<String, Object> paramMap) {
+		//获取用户信息by用户id
+		Map<String, Object> user=dao.getUserById(paramMap);
+		if(!"".equals(user.get("oriPass")) && user.get("oriPass")!=null){
+			paramMap.put("password", PWDUtils.genernateNewPassword(user.get("oriPass").toString()));
+		}
+		
 		return dao.resetPassword(paramMap)>0;
 	}
 	
