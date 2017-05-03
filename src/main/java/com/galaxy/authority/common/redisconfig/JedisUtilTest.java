@@ -1,13 +1,5 @@
 package com.galaxy.authority.common.redisconfig;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-
-
 public class JedisUtilTest {
 	
 	/*@Autowired
@@ -48,7 +40,7 @@ public class JedisUtilTest {
 	    
     
 	//测试redis是否连接上
-    JedisPool pool;
+    /*JedisPool pool;
     Jedis jedis;
     @Before
     public void setUp() {
@@ -62,6 +54,6 @@ public class JedisUtilTest {
     @Test
     public void testGet(){
         System.out.println(jedis.get("name"));
-    }
+    }*/
     
 }
