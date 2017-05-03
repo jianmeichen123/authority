@@ -67,12 +67,12 @@
 	<select id="getUserByIds" parameterType="hashmap" resultType="hashmap">
 		select 
 			u.id userId,
-		    u.user_name userName
+		    u.user_name userName,
+		    u.is_del isDel,
+    		u.is_show isShow,
+			u.is_outtage isOuttage
 		from user u 
-		where u.is_del=0
-		and u.is_outtage=0
-		and u.is_show=0
-		and u.company_id=${companyId}
+		where u.company_id=${companyId}
 		and u.id in
 		<foreach item="item" index="index" collection="userIdList" open="(" separator="," close=")">  
 			  #{item}  
