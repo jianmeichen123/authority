@@ -33,8 +33,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.galaxy.authority.common.StaticConst;
-
 
 /**
  * 简单邮件（不带附件的邮件）发送器
@@ -468,7 +466,7 @@ public class SimpleMailSender {
 		}
 		return false;
 	}
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		String toMail = "2831913360@qq.com";// 收件人邮件地址
 		String content = "<html>" + "<head></head>" + "<body>" + "<div align=center>"
 				+ "	<a href=http://localhost:8000/controller/vcs/login/toLogin target=_blank>" +
@@ -493,5 +491,5 @@ public class SimpleMailSender {
 		content = PlaceholderConfigurer.formatText(str, "test","test","123","www.baidu.com","www.baidu.com");
 		sendMultiMail(toMail, subject, content);
 		System.out.println("send");
-	}
+	}*/
 }
