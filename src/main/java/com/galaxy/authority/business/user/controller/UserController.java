@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,12 @@ import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.business.user.service.IUserService;
 import com.galaxy.authority.common.CUtils;
 import com.galaxy.authority.common.DateUtil;
+import com.galaxy.authority.common.PWDUtils;
+import com.galaxy.authority.common.PropertiesUtils;
 import com.galaxy.authority.common.StaticConst;
+import com.galaxy.authority.common.mail.MailTemplateUtils;
+import com.galaxy.authority.common.mail.PlaceholderConfigurer;
+import com.galaxy.authority.common.mail.SimpleMailSender;
 
 @Controller
 @RequestMapping("/user")
@@ -59,17 +65,45 @@ public class UserController {
 	@ResponseBody
 	public Object saveUser(@RequestBody String userString){
 		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+		int retValue = 0;
+		//生成原密码
+		String oriPwd = PWDUtils.genRandomNum(6);
+				
 		Map<String,Object> map = CUtils.get().jsonString2map(userString);
 		String userId = CUtils.get().object2String(map.get("userId"));
 		map.put("companyId", StaticConst.COMPANY_ID);
+		map.put("oriPwd", oriPwd);
 		if(CUtils.get().stringIsNotEmpty(userId)){
 			map.put("updateTime", DateUtil.getMillis(new Date()));
 			result.setSuccess(service.updateUser(map));
 		}else{
-			result.setSuccess(service.saveUser(map));
+			if(service.saveUser(map)){
+				retValue=1;
+			}
 		}
 		
 		InitService.get().initdepartUser(StaticConst.COMPANY_ID);
+		
+		if (retValue >0) {
+			//登陆地址
+			Properties property = PropertiesUtils.getProperties(StaticConst.MAIL_CONFIG_FILE);
+			String loginUrl = property.getProperty(StaticConst.LOGIN_URL);
+			//邮件主题
+			String subject = "新用户注册通知";
+			//收件人地址
+			String toMail = map.get("email1").toString();
+			//使用模板发送邮件
+			String str = MailTemplateUtils.getContentByTemplate(StaticConst.MAIL_REGIST_CONTENT);
+			//内容
+			String content = PlaceholderConfigurer.formatText(str,map.get("userName").toString(),
+					map.get("loginName").toString(),map.get("oriPwd").toString(),loginUrl,loginUrl);
+			//发送邮件
+			SimpleMailSender.sendHtmlMail(toMail, subject, content);
+			
+			result.setSuccess(true);
+		}
+				
 		return result;
 	}
 	
@@ -109,19 +143,13 @@ public class UserController {
 	@RequestMapping("resetPassword")
 	@ResponseBody
 	public Object resetPassword(@RequestBody String userString){
-		ResultBean result = ResultBean.instance();
 		Map<String,Object> map = CUtils.get().jsonString2map(userString);
 		
 		if(CUtils.get().mapIsNotEmpty(map)){
-			//String password = CUtils.get().object2String(map.get("password"));
-			//String originPassword = Md5Utils.md5Crypt(password);
 			map.put("userId", CUtils.get().object2String(map.get("userId")));
 		}
-		
 		map.put("companyId", StaticConst.COMPANY_ID);
-		boolean ifSuccess = service.resetPassword(map);
-		result.setSuccess(ifSuccess);
-		return result;
+		return service.resetPassword(map);
 	}
 	
 	/*---------------------对外服务接口----------------------*/

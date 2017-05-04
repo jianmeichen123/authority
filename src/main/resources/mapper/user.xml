@@ -41,8 +41,10 @@
 	<select id="getUserById" parameterType="hashmap" resultType="hashmap">
 		select 
 			u.id userId,
+			u.login_name loginName,
 		    u.user_name userName,
-		    u.origin_password oriPass
+		    u.origin_password oriPass,
+		    u.email1 mail1
 		from user u 
 		where u.id=#{userId}
 		and u.company_id=#{companyId};

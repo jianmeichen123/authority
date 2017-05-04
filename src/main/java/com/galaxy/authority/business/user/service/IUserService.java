@@ -3,6 +3,7 @@ package com.galaxy.authority.business.user.service;
 import java.util.List;
 import java.util.Map;
 import com.galaxy.authority.bean.Page;
+import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.bean.user.UserBean;
 
 public interface IUserService {
@@ -13,7 +14,7 @@ public interface IUserService {
 	boolean outtageUser(Map<String,Object> paramMap);
 	boolean deleteUser(Map<String,Object> paramMap);
 	boolean editUser(UserBean bean);
-	boolean resetPassword(Map<String,Object> paramMap);
+	ResultBean resetPassword(Map<String,Object> paramMap);
 	
 	List<Map<String,Object>> findUserByName(Map<String,Object> paramMap);
 	Map<String,Object> getUserById(Map<String,Object> paramMap);
