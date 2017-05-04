@@ -256,6 +256,12 @@ public class UserController {
 		}
 		return result;
 	}
+	@RequestMapping("getUserResource")
+	@ResponseBody
+	public List<Map<String,Object>> getUserResource(@RequestBody Map<String, Object> params)
+	{
+		return service.getUserResources(params);
+	}
 	
 	
 	

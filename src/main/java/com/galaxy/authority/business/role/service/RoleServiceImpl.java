@@ -572,5 +572,9 @@ public class RoleServiceImpl implements IRoleService{
 		}
 		return true;
 	}
+	@Override
+	public List<Long> selectRoleIdByUserId(Map<String, Object> paramMap) {
+		return dao.selectRoleIdByUserId(paramMap);
+	}
 	
 }

@@ -174,5 +174,7 @@ public interface IRoleService {
 	 * @return
 	 */
 	boolean saveResource(Map<String, Object> paramMap);
+	
+	List<Long> selectRoleIdByUserId(Map<String, Object> paramMap);
 
 }

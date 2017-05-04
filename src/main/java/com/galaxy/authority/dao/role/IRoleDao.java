@@ -43,5 +43,6 @@ public interface IRoleDao {
 	public List<Map<String, Object>> getDeptName(Map<String, Object> paramMap);
 	//获取用户名称
 	public List<Map<String, Object>> getUserName(Map<String, Object> paramMap);
-	
+	//获取用户的角色ID
+	List<Long> selectRoleIdByUserId(Map<String, Object> paramMap);
 }

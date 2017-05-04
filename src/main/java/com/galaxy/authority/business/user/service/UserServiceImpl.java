@@ -163,6 +163,9 @@ public class UserServiceImpl implements IUserService{
 		return dao.resetPassword(paramMap)>0;
 	}
 	
-	
+	public List<Map<String,Object>> getUserResources(Map<String,Object> paramMap)
+	{
+		return dao.getUserResources(paramMap);
+	}
 
 }

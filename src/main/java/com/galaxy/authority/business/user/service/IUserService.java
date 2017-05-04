@@ -20,4 +20,5 @@ public interface IUserService {
 	List<Map<String,Object>> getUsersByDepId(Map<String,Object> paramMap);
 	List<Map<String,Object>> getUserByIds(Map<String,Object> paramMap);
 	List<Map<String,Object>> getUsersByKey(Map<String,Object> paramMap);
+	List<Map<String,Object>> getUserResources(Map<String,Object> paramMap);
 }
