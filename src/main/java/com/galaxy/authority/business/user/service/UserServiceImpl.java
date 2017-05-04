@@ -2,16 +2,23 @@ package com.galaxy.authority.business.user.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.galaxy.authority.bean.Page;
+import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.bean.depart.RelDepUser;
 import com.galaxy.authority.bean.position.RelPosUser;
 import com.galaxy.authority.bean.user.UserBean;
 import com.galaxy.authority.common.CUtils;
 import com.galaxy.authority.common.PWDUtils;
+import com.galaxy.authority.common.PropertiesUtils;
 import com.galaxy.authority.common.StaticConst;
+import com.galaxy.authority.common.mail.MailTemplateUtils;
+import com.galaxy.authority.common.mail.PlaceholderConfigurer;
+import com.galaxy.authority.common.mail.SimpleMailSender;
 import com.galaxy.authority.dao.position.IRelPosUserDao;
 import com.galaxy.authority.dao.user.IRelDepUserDao;
 import com.galaxy.authority.dao.user.IUserDao;
@@ -29,8 +36,7 @@ public class UserServiceImpl implements IUserService{
 	public boolean saveUser(Map<String, Object> map) {
 		boolean flag = false;
 		UserBean userBean = new UserBean();
-		//生成原密码
-		String oriPwd = PWDUtils.genRandomNum(6);
+		String oriPwd = CUtils.get().object2String(map.get("oriPwd"));
 		userBean.setOriginPassword(oriPwd);
 		userBean.setPassword(PWDUtils.genernateNewPassword(oriPwd));
 		userBean.setLoginName(CUtils.get().object2String(map.get("loginName")));
@@ -153,14 +159,39 @@ public class UserServiceImpl implements IUserService{
 	}
 
 	@Override
-	public boolean resetPassword(Map<String, Object> paramMap) {
+	public ResultBean resetPassword(Map<String, Object> paramMap) {
+		ResultBean result = ResultBean.instance();
+		int retValue = 0;
+		
 		//获取用户信息by用户id
 		Map<String, Object> user=dao.getUserById(paramMap);
 		if(!"".equals(user.get("oriPass")) && user.get("oriPass")!=null){
 			paramMap.put("password", PWDUtils.genernateNewPassword(user.get("oriPass").toString()));
 		}
+		//重置密码业务处理
+		retValue = dao.resetPassword(paramMap);
 		
-		return dao.resetPassword(paramMap)>0;
+		//登陆地址
+		Properties property = PropertiesUtils.getProperties(StaticConst.MAIL_CONFIG_FILE);
+		String loginUrl = property.getProperty(StaticConst.LOGIN_URL);
+		//邮件主题
+		String subject = "重置密码通知";
+		//收件人地址
+		String toMail = user.get("mail1").toString();
+		//使用模板发送邮件
+		String str = MailTemplateUtils.getContentByTemplate(StaticConst.MAIL_RESTPWD_CONTENT);
+		//内容
+		String content = PlaceholderConfigurer.formatText(str, user.get("userName").toString(),
+				user.get("loginName").toString(),user.get("oriPass").toString(),loginUrl,loginUrl);
+		
+		if (retValue < 1) {
+			result.setSuccess(false);
+		}else{
+			//发送邮件
+			SimpleMailSender.sendHtmlMail(toMail, subject, content);
+			result.setSuccess(true);
+		}
+		return result;
 	}
 	
 	public List<Map<String,Object>> getUserResources(Map<String,Object> paramMap)
