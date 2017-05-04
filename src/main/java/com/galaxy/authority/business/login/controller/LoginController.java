@@ -51,8 +51,10 @@ public class LoginController {
 			result.setSuccess(false);
 			result.setMessage("用户名或密码不能为空！");
 		}else{
-			if(service.userLogin(paramMap)){
+			Map<String,Object> userInfo = service.userLogin(paramMap);
+			if(userInfo != null && userInfo.size() >0){
 				result.setSuccess(true);
+				result.setValue(userInfo);
 				result.setMessage("登录成功！");
 			}else{
 				result.setSuccess(false);

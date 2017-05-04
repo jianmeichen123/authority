@@ -17,10 +17,9 @@ public class LoginServiceImpl implements ILoginService{
 	 * 用户登录
 	 */
 	@Override
-	public boolean userLogin(Map<String, Object> paramMap) {
+	public Map<String,Object> userLogin(Map<String, Object> paramMap) {
 		//dao
-		int count =dao.getUserLoginInfo(paramMap);
-		return count>0;
+		return dao.getUserLoginInfo(paramMap);
 	}
 
 

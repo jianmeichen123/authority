@@ -12,8 +12,12 @@
 	</sql>
 	
 	<!--获取用户信息-->
-	<select id="getUserLoginInfo" resultType="Integer" parameterType="Map">
-		SELECT count(1) FROM user 
+	<select id="getUserLoginInfo" resultType="java.util.HashMap" parameterType="Map">
+		SELECT 
+		id,
+		login_name email,
+		user_name realName
+		FROM user 
 		<include refid="comWhere"/> and login_name=#{userName} and `password` =#{passWord};
 	</select>
 

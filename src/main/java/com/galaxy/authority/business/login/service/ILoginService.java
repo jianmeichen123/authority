@@ -9,6 +9,6 @@ public interface ILoginService {
 	 * @param paramMap
 	 * @return
 	 */
-	boolean userLogin(Map<String, Object> paramMap);
+	Map<String,Object> userLogin(Map<String, Object> paramMap);
 
 }

@@ -5,7 +5,7 @@ import java.util.Map;
 public interface ILoginDao {
 	
 	//获取登录信息
-	int getUserLoginInfo(Map<String, Object> paramMap);
+	Map<String,Object> getUserLoginInfo(Map<String, Object> paramMap);
 
 
 }
