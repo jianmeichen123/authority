@@ -183,6 +183,17 @@
 		<result column="company_id" property="companyId"/>
 	</resultMap>
 	
+	<select id="getChildrenIds" parameterType="hashmap" resultType="Integer">
+		select id
+		from department
+		where is_show=0 and is_outtage=0 and is_del=0 
+		<if test="pids != null">
+			<foreach collection="pids" item="item" open=" and parent_id in (" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</select>
+	
 	
 	
 	

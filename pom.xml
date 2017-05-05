@@ -79,6 +79,16 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <exclusions>
+        	<exclusion>
+        		<groupId>org.skyscreamer</groupId>
+        		<artifactId>jsonassert</artifactId>
+        	</exclusion>
+        </exclusions>
+    </dependency>
     
 	<dependency>
         <groupId>org.springframework.boot</groupId>
@@ -156,12 +166,6 @@
 		<groupId>org.apache.shiro</groupId>
 		<artifactId>shiro-core</artifactId>
 		<version>1.2.4</version>
-	</dependency>
-	<!-- junit -->
-	<dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-		<scope>test</scope>
 	</dependency>
 	<!-- java邮件 -->
 	<dependency>

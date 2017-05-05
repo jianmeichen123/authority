@@ -1,10 +1,15 @@
 package com.galaxy.authority.business.user.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import com.galaxy.authority.bean.Page;
@@ -12,6 +17,7 @@ import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.bean.depart.RelDepUser;
 import com.galaxy.authority.bean.position.RelPosUser;
 import com.galaxy.authority.bean.user.UserBean;
+import com.galaxy.authority.business.user.component.ScopeHandler;
 import com.galaxy.authority.common.CUtils;
 import com.galaxy.authority.common.PWDUtils;
 import com.galaxy.authority.common.PropertiesUtils;
@@ -31,6 +37,8 @@ public class UserServiceImpl implements IUserService{
 	private IRelDepUserDao rDao;
 	@Autowired
 	private IRelPosUserDao pDao;
+	@Autowired
+	ApplicationContext context;
 
 	@Override
 	public boolean saveUser(Map<String, Object> map) {
@@ -197,6 +205,43 @@ public class UserServiceImpl implements IUserService{
 	public List<Map<String,Object>> getUserResources(Map<String,Object> paramMap)
 	{
 		return dao.getUserResources(paramMap);
+	}
+	
+	private List<ScopeHandler> handlers;
+	public List<Map<String,Object>> getUserScope(Map<String,Object> paramMap)
+	{
+		List<Map<String,Object>> list = dao.getUserScope(paramMap);
+		if(list != null && list.size() >0)
+		{
+			for(Map<String,Object> item : list)
+			{
+				if(handlers != null)
+				{
+					for(ScopeHandler handler : handlers)
+					{
+						if(handler.support(item))
+						{
+							List<Integer> userIds = handler.handle(item);
+							item.put("userIds", userIds);
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		return list;
+	}
+	
+	@PostConstruct
+	public void afterPropertiesSet() throws Exception 
+	{
+		Map<String, ScopeHandler> map = BeanFactoryUtils.beansOfTypeIncludingAncestors(context, ScopeHandler.class, true, false);
+		 if(map != null)
+		 {
+			 handlers = new ArrayList<ScopeHandler>(map.values());
+		 }
+		
 	}
 
 }

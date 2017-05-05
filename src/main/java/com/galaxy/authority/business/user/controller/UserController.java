@@ -290,6 +290,12 @@ public class UserController {
 	{
 		return service.getUserResources(params);
 	}
+	@RequestMapping("getUserScope")
+	@ResponseBody
+	public List<Map<String,Object>> getUserScope(@RequestBody Map<String, Object> params)
+	{
+		return service.getUserScope(params);
+	}
 	
 	
 	

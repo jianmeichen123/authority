@@ -15,4 +15,5 @@ public interface IDepartDao {
 	int delDepartment(Map<String,Object> map);
 	int getChildDepCount(Map<String,Object> map);
 	List<Map<String,Object>> getLeafDepartList(Map<String,Object> paramMap);
+	List<Integer> getChildrenIds(Map<String,Object> paramMap);
 }
