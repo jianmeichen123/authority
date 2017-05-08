@@ -174,7 +174,17 @@ public interface IRoleService {
 	 * @return
 	 */
 	boolean saveResource(Map<String, Object> paramMap);
-	
+	/**
+	 * 获取用户的角色ID
+	 * @param paramMap
+	 * @return
+	 */
 	List<Long> selectRoleIdByUserId(Map<String, Object> paramMap);
+	/**
+	 * 是否存在改角色名称
+	 * @param roleName
+	 * @return
+	 */
+	int isExitRole(String roleName);
 
 }

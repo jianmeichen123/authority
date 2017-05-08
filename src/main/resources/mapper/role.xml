@@ -186,4 +186,9 @@
 		WHERE ru.user_id=#{userId} and r.is_del=0 and r.is_outtage=0 and r.company_id=#{companyId}
 	</select>
 	
+	<!-- 角色是否存在 -->
+	<select id="isExitRole" resultType="Integer" parameterType="String">
+		SELECT COUNT(1) from role WHERE role_name=#{roleName};
+	</select>
+	
 </mapper>

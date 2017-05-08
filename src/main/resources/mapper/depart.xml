@@ -144,7 +144,7 @@
 				count(id) childDepCount, 
 				parent_id 
 		    from  department 
-		    where company_id=#{companyId}
+		    where company_id=#{companyId} and is_del=0
 		    group by parent_id) a3 on a3.parent_id = a1.id
 		left join (
 			select 

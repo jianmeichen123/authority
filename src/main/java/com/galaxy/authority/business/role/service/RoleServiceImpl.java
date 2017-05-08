@@ -572,9 +572,20 @@ public class RoleServiceImpl implements IRoleService{
 		}
 		return true;
 	}
+	/**
+	 * 获取用户的角色ID
+	 */
 	@Override
 	public List<Long> selectRoleIdByUserId(Map<String, Object> paramMap) {
 		return dao.selectRoleIdByUserId(paramMap);
+	}
+	/**
+	 * 是否存在改角色名称
+	 */
+	@Override
+	public int isExitRole(String roleName) {
+		int count = dao.isExitRole(roleName);
+		return count;
 	}
 	
 }

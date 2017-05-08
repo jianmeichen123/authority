@@ -76,7 +76,13 @@ public class RoleController {
 				result.setSuccess(service.updateRole(bean));
 			}else{
 				//保存
-				result.setSuccess(service.saveRole(bean));
+				int count = service.isExitRole(bean.getRoleName());
+				if(count<1){
+					result.setSuccess(service.saveRole(bean));
+				}else{
+					result.setSuccess(false);
+					result.setMessage("角色已经存在");
+				}
 			}
 		}
 		return result;
@@ -474,6 +480,12 @@ public class RoleController {
 		}
 		return result;
 	}
+	/**
+	 * 获取用户的角色ID
+	 * @param userId
+	 * @param companyId
+	 * @return
+	 */
 	@RequestMapping("selectRoleIdByUserId")
 	@ResponseBody
 	public List<Long> selectRoleIdByUserId(@RequestParam Long userId, @RequestParam String companyId)

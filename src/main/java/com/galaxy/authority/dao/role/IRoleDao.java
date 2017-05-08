@@ -45,4 +45,6 @@ public interface IRoleDao {
 	public List<Map<String, Object>> getUserName(Map<String, Object> paramMap);
 	//获取用户的角色ID
 	List<Long> selectRoleIdByUserId(Map<String, Object> paramMap);
+	//是否存在角色名称
+	public int isExitRole(String roleName);
 }

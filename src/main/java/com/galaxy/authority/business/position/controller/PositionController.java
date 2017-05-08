@@ -42,7 +42,7 @@ public class PositionController {
 				paramMap.put("companyId", StaticConst.COMPANY_ID);
 				
 				Page<PositionBean> page = service.getPositionList(paramMap);
-				if(page.getResultCount()>0){
+				if(page!=null && page.getMapList()!=null){
 					Map<String,Object> map = new HashMap<String,Object>();
 					map.put("total", page.getResultCount());
 					map.put("rows", page.getMapList());
