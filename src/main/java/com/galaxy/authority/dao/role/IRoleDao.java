@@ -47,4 +47,6 @@ public interface IRoleDao {
 	List<Long> selectRoleIdByUserId(Map<String, Object> paramMap);
 	//是否存在角色名称
 	public int isExitRole(String roleName);
+	//获取角色关联账号信息
+	public List<Map<String, Object>> showUerName(Map<String, Object> paramMap);
 }

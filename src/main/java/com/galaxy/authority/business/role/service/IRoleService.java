@@ -186,5 +186,11 @@ public interface IRoleService {
 	 * @return
 	 */
 	int isExitRole(String roleName);
+	/**
+	 * 获取角色关联账号信息
+	 * @param paramMap
+	 * @return
+	 */
+	List<Map<String, Object>> showUerName(Map<String, Object> paramMap);
 
 }

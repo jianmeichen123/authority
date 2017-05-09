@@ -188,7 +188,13 @@
 	
 	<!-- 角色是否存在 -->
 	<select id="isExitRole" resultType="Integer" parameterType="String">
-		SELECT COUNT(1) from role WHERE role_name=#{roleName};
+		SELECT COUNT(1) from role WHERE role_name=#{roleName} and is_del=0;
 	</select>
 	
+	<!-- 获取角色关联账号信息（用于回显）-->
+	<select id="showUerName" parameterType="hashmap" resultType="hashmap">
+		SELECT r.user_id id,u.user_name name FROM rel_role_user r
+		LEFT JOIN user u ON r.user_id=u.id WHERE r.role_id=#{roleId}
+ 		and r.is_del=0 and r.is_outtage=0 and r.company_id=#{companyId};
+	</select>
 </mapper>
