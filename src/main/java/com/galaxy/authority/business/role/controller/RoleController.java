@@ -495,4 +495,34 @@ public class RoleController {
 		query.put("companyId",companyId);
 		return service.selectRoleIdByUserId(query);
 	}
+	
+	/**
+	 * 获取角色关联账号信息
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("showUerName")
+	@ResponseBody
+	public Object showUerName(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("companyId",StaticConst.COMPANY_ID);
+		if(CUtils.get().stringIsNotEmpty(paramString)){
+			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
+			if(paramJson!=null && paramJson.has("roleId")){
+				paramMap.put("roleId", paramJson.getLong("roleId"));
+			}
+		}
+		try {
+			List<Map<String,Object>> dataList = service.showUerName(paramMap);
+			if(dataList!=null){
+				result.setSuccess(true);
+				result.setValue(dataList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

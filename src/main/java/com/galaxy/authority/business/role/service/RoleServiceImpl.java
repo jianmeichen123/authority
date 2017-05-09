@@ -587,5 +587,13 @@ public class RoleServiceImpl implements IRoleService{
 		int count = dao.isExitRole(roleName);
 		return count;
 	}
+	/**
+	 * 获取角色关联账号信息
+	 */
+	@Override
+	public List<Map<String, Object>> showUerName(Map<String, Object> paramMap) {
+		List<Map<String,Object>> userList = dao.showUerName(paramMap);
+		return userList;
+	}
 	
 }
