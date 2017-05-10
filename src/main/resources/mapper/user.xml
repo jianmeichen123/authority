@@ -257,6 +257,7 @@
 		INNER JOIN role ON role.id = role_rec.role_id AND role.is_del=0 AND role.is_outtage=0
 		INNER JOIN rel_role_user role_user ON role_user.role_id = role.id AND role_user.is_del=0 AND role_user.is_outtage=0
 		WHERE role_user.user_id=#{userId} and rec.is_del=0 and rec.is_outtage=0 and rec.company_id=#{companyId}
+		<if test="productType != null"> and rec.product_type = #{productType}</if>
 		<if test="parentId != null"> and rec.parent_id = #{parentId}</if>
 		<if test="resourceType != null"> and rec.resource_type = #{resourceType}</if>
 	</select>
@@ -279,6 +280,7 @@
 		LEFT JOIN rel_sp_users su ON su.rel_role_scope_id = rs.id
 		WHERE rec.resource_code IS NOT NULL
 		and u.id=#{userId} and rec.is_del=0 and rec.is_outtage=0 
+		<if test="productType != null"> and rec.product_type = #{productType}</if>
 		<if test="companyId != null"> and rec.company_id = #{companyId}</if>
 	</select>
 	<!-- 用户所在部门所有用户的ID -->

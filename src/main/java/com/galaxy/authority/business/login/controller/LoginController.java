@@ -32,6 +32,7 @@ public class LoginController {
 		result.setSuccess(false);
 		String username="";
 		String password="";
+		String productType="0";
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("companyId", StaticConst.COMPANY_ID);
 		
@@ -44,6 +45,11 @@ public class LoginController {
 				
 				paramMap.put("userName", username);
 				paramMap.put("passWord", password);
+			}
+			if(paramJson!=null && paramJson.has("productType"))
+			{
+				productType = paramJson.getString("productType");
+				paramMap.put("productType", productType);
 			}
 		}
 		//判断用户名和里面里面是否为空
