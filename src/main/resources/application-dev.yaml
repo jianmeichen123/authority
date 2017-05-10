@@ -16,7 +16,7 @@ datasource:
   validationQuery: SELECT 'ZTM' FROM DUAL  
   testWhileIdle: true  
   testOnBorrow: false  
-  testOnReturn: false    
+  testOnReturn: false  
 
 
 
