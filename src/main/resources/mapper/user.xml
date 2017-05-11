@@ -251,7 +251,8 @@
 		rec.resource_url resourceUrl,
 		rec.resource_type resourceType,
 		rec.resource_order resourceOrder,
-		rec.resource_type resourceType
+		rec.resource_type resourceType,
+		rec.style
 		FROM resource rec
 		INNER JOIN rel_role_resource role_rec ON role_rec.res_id = rec.id AND role_rec.is_del=0 AND role_rec.is_outtage=0
 		INNER JOIN role ON role.id = role_rec.role_id AND role.is_del=0 AND role.is_outtage=0
