@@ -183,6 +183,9 @@ public class DepartController {
 		
 //		Map<String,Object> paramMap = new HashMap<String,Object>();
 //		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		
+//		http://10.8.232.78:8888/authority_service/role/getRoleList
+//		http://10.8.232.78:8888/authority_service/depart/getLeafDepartList
 //		
 //		List<Map<String,Object>> dataList = service.getLeafDepartList(paramMap);
 //		if(CUtils.get().listIsNotEmpty(dataList)){
