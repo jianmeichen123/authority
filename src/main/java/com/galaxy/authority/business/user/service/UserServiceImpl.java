@@ -1,6 +1,7 @@
 package com.galaxy.authority.business.user.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -242,6 +243,53 @@ public class UserServiceImpl implements IUserService{
 			 handlers = new ArrayList<ScopeHandler>(map.values());
 		 }
 		
+	}
+
+	/**
+	 * 获取共享用户list
+	 */
+	@Override
+	public List<Map<String, Object>> getShareUserList(Map<String, Object> map) {
+		String userIds="";
+		List<Long> list = new ArrayList<Long>();
+		
+		List<Map<String,Object>> scope =this.getUserScope(map);
+		//获取数据范围下的所有相关用户id并做处理
+		if(!scope.isEmpty()&&scope.size()>0){
+			for(Map<String,Object> info:scope){
+				userIds = info.get("userIds").toString();
+				userIds = userIds.replace(" ", "");
+				if(userIds.startsWith("[")){
+					userIds = userIds.substring(1);
+				}
+				if(userIds.endsWith("]")){
+					userIds = userIds.substring(0,userIds.length()-1);
+				}
+			}
+		}
+		//分割放在list
+		if(!userIds.isEmpty()){
+			String[] userId=userIds.split(",");
+			if(userId!=null && userId.length>0){
+				for(int i=0;i<userId.length;i++){
+					if(!map.get("userId").equals(userId[i])){
+						list.add(Long.valueOf(userId[i]));
+					}
+				}
+			}
+		}
+		List<Map<String,Object>> dataList = new ArrayList<Map<String,Object>>();
+		Map<String, Object> userMap =new HashMap<String, Object>();
+		userMap.put("toUid", map.get("userId"));
+		userMap.put("toUname", "我的拜访");
+		dataList.add(userMap);
+		if(!list.isEmpty()){
+			map.put("userIdList", list);
+			List<Map<String,Object>>  res = dao.getUserNameList(map);
+			dataList.addAll(res);
+		}
+		
+		return dataList;
 	}
 
 }

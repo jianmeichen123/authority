@@ -298,6 +298,24 @@ public class UserController {
 	}
 	
 	
+	/**
+	 * 获取共享列表
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("getShareUserList")
+	@ResponseBody
+	public Object getShareUserList(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		Map<String,Object> map = CUtils.get().jsonString2map(paramString);
+		
+		List<Map<String,Object>> info =service.getShareUserList(map);
+		if(!info.isEmpty() && info.size()>0){
+			result.setSuccess(true);
+			result.setValue(info);
+		}
+		return result;
+	}
 	
 
 }

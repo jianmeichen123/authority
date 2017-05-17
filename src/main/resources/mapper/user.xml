@@ -297,5 +297,14 @@
 	</select>
 
 
+	<!-- 获取userid对应的用户名称-->
+	<select id="getUserNameList" parameterType="hashmap" resultType="hashmap">
+		select u.id toUid,u.user_name toUname
+		from user u 
+		where u.id in
+		<foreach item="item" index="index" collection="userIdList" open="(" separator="," close=")">  
+			  #{item}  
+		</foreach>
+	</select>
 
 </mapper>

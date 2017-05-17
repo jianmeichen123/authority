@@ -25,4 +25,6 @@ public interface IUserDao {
 	List<Map<String,Object>> getUserResources(Map<String,Object> paramMap);
 	List<Map<String,Object>> getUserScope(Map<String,Object> paramMap);
 	List<Integer> geDepUserIds(Integer userId);
+	//通过userid获取用户名称
+	List<Map<String, Object>> getUserNameList(Map<String, Object> map);
 }
