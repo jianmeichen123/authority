@@ -307,6 +307,7 @@ public class UserController {
 	@ResponseBody
 	public Object getShareUserList(@RequestBody String paramString){
 		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
 		Map<String,Object> map = CUtils.get().jsonString2map(paramString);
 		
 		List<Map<String,Object>> info =service.getShareUserList(map);
@@ -326,6 +327,7 @@ public class UserController {
 	@ResponseBody
 	public Object getCreadIdInfo(@RequestBody String paramString){
 		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
 		Map<String,Object> map = CUtils.get().jsonString2map(paramString);
 		map.put("companyId", StaticConst.COMPANY_ID);
 		List<Map<String,Object>> info =service.getCreadIdInfo(map);
