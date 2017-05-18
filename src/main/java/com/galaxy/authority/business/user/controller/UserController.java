@@ -317,5 +317,24 @@ public class UserController {
 		return result;
 	}
 	
+	/**
+	 * 根据用户id获取用户名和所在部门
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("getCreadIdInfo")
+	@ResponseBody
+	public Object getCreadIdInfo(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		Map<String,Object> map = CUtils.get().jsonString2map(paramString);
+		map.put("companyId", StaticConst.COMPANY_ID);
+		List<Map<String,Object>> info =service.getCreadIdInfo(map);
+		if(!info.isEmpty() && info.size()>0){
+			result.setSuccess(true);
+			result.setValue(info);
+		}
+		return result;
+	}
+	
 
 }

@@ -122,13 +122,20 @@ public class DepartController {
 					result.setValue("update");
 				}
 			}else{
-				if(service.saveDepart(bean)){
-					Map<String,Object> map = new HashMap<String,Object>();
-					map.put("id", bean.getId());
-					map.put("name", bean.getDepName());
-					map.put("parentId", bean.getParentId());
-					result.setValue(map);
-					result.setSuccess(true);
+				//保存
+				int count = service.isExitDepartment(bean.getDepName());
+				if(count<1){
+					if(service.saveDepart(bean)){
+						Map<String,Object> map = new HashMap<String,Object>();
+						map.put("id", bean.getId());
+						map.put("name", bean.getDepName());
+						map.put("parentId", bean.getParentId());
+						result.setValue(map);
+						result.setSuccess(true);
+					}
+				}else{
+					result.setSuccess(false);
+					result.setMessage("部门已经存在");
 				}
 			}
 			InitService.get().initDepartList(StaticConst.COMPANY_ID);

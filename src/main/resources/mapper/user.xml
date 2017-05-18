@@ -306,5 +306,14 @@
 			  #{item}  
 		</foreach>
 	</select>
+	
+	<!-- 根据用户id获取用户名和所在部门-->
+	<select id="getCreadIdInfo" parameterType="hashmap" resultType="hashmap">
+		SELECT u.user_name userName,d.dep_name deptName
+		FROM user u
+		LEFT JOIN rel_dep_user rdu on u.id=rdu.user_id
+		LEFT JOIN department d ON d.id= rdu.dep_id
+		WHERE u.id=#{createdId} and u.is_del=0 and u.is_outtage=0 and u.is_show=0 and u.company_id=#{companyId};
+	</select>
 
 </mapper>

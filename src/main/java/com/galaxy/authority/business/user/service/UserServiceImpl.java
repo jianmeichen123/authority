@@ -292,4 +292,14 @@ public class UserServiceImpl implements IUserService{
 		return dataList;
 	}
 
+	/**
+	 * 根据用户id获取用户名和所在部门
+	 */
+	@Override
+	public List<Map<String, Object>> getCreadIdInfo(Map<String, Object> map) {
+		
+		List<Map<String,Object>>  res = dao.getCreadIdInfo(map);
+		return res;
+	}
+
 }

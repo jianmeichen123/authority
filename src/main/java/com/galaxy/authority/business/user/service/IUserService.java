@@ -25,4 +25,6 @@ public interface IUserService {
 	public List<Map<String,Object>> getUserScope(Map<String,Object> paramMap);
 	//获取共享用户list
 	List<Map<String, Object>> getShareUserList(Map<String, Object> map);
+	//根据用户id获取用户名和所在部门
+	List<Map<String, Object>> getCreadIdInfo(Map<String, Object> map);
 }

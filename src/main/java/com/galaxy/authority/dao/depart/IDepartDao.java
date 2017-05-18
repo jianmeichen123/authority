@@ -16,4 +16,6 @@ public interface IDepartDao {
 	int getChildDepCount(Map<String,Object> map);
 	List<Map<String,Object>> getLeafDepartList(Map<String,Object> paramMap);
 	List<Integer> getChildrenIds(Map<String,Object> paramMap);
+	//判断部门名称是否存在
+	int isExitDepartment(String depName);
 }

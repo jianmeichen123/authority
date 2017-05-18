@@ -121,6 +121,15 @@ public class DepartServiceImpl implements IDepartService{
 	public List<Map<String, Object>> getLeafDepartList(Map<String, Object> paramMap) {
 		return dao.getLeafDepartList(paramMap);
 	}
+
+	/**
+	 * 判断部门名称是否存在
+	 */
+	@Override
+	public int isExitDepartment(String depName) {
+		int count = dao.isExitDepartment(depName);
+		return count;
+	}
 	
 	
 	

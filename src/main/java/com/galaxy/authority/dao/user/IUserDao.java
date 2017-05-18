@@ -27,4 +27,6 @@ public interface IUserDao {
 	List<Integer> geDepUserIds(Integer userId);
 	//通过userid获取用户名称
 	List<Map<String, Object>> getUserNameList(Map<String, Object> map);
+	//根据用户id获取用户名和所在部门
+	List<Map<String, Object>> getCreadIdInfo(Map<String, Object> map);
 }

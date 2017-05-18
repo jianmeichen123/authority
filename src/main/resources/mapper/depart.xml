@@ -194,6 +194,10 @@
 		</if>
 	</select>
 	
+	<!-- 部门是否存在 -->
+	<select id="isExitDepartment" resultType="Integer" parameterType="String">
+		SELECT COUNT(1) from department WHERE dep_name=#{depName} and is_del=0;
+	</select>
 	
 	
 	

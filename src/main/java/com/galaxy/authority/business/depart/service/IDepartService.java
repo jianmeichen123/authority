@@ -16,4 +16,6 @@ public interface IDepartService {
 	boolean delDepartment(Map<String,Object> map);
 	Page<Map<String,Object>> getDepartPersonList(Map<String,Object> paramMap);
 	List<Map<String,Object>> getLeafDepartList(Map<String,Object> paramMap);
+	//判断部门名称是否存在
+	int isExitDepartment(String depName);
 }
