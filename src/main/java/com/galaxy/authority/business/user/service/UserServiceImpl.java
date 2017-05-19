@@ -302,4 +302,13 @@ public class UserServiceImpl implements IUserService{
 		return res;
 	}
 
+	/**
+	 * 判断登录账号是否已经存在
+	 */
+	@Override
+	public int isExitUser(String loginName) {
+		int count = dao.isExitUser(loginName);
+		return count;
+	}
+
 }

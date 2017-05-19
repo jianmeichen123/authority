@@ -315,5 +315,10 @@
 		LEFT JOIN department d ON d.id= rdu.dep_id
 		WHERE u.id=#{createdId} and u.is_del=0 and u.is_outtage=0 and u.is_show=0 and u.company_id=#{companyId};
 	</select>
+	
+	<!-- 登录账号是否存在 -->
+	<select id="isExitUser" resultType="Integer" parameterType="String">
+		SELECT COUNT(1) from user WHERE login_name=#{loginName} and is_del=0;
+	</select>
 
 </mapper>

@@ -29,4 +29,6 @@ public interface IUserDao {
 	List<Map<String, Object>> getUserNameList(Map<String, Object> map);
 	//根据用户id获取用户名和所在部门
 	List<Map<String, Object>> getCreadIdInfo(Map<String, Object> map);
+	//判断登录账号是否存在
+	int isExitUser(String loginName);
 }

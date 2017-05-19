@@ -78,9 +78,18 @@ public class UserController {
 			map.put("updateTime", DateUtil.getMillis(new Date()));
 			result.setSuccess(service.updateUser(map));
 		}else{
-			if(service.saveUser(map)){
-				retValue=1;
+			//保存
+			String loginName = CUtils.get().object2String(map.get("loginName"));
+			int count = service.isExitUser(loginName);
+			if(count<1){
+				if(service.saveUser(map)){
+					retValue=1;
+				}
+			}else{
+				result.setSuccess(false);
+				result.setMessage("登录账号已经存在");
 			}
+			
 		}
 		
 		InitService.get().initdepartUser(StaticConst.COMPANY_ID);
