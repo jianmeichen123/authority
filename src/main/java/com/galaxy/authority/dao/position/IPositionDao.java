@@ -14,4 +14,6 @@ public interface IPositionDao {
 	int outtagePos(Map<String,Object> paramMap);
 	int delPos(Map<String,Object> paramMap);
 	int updatePos(PositionBean bean);
+	//判断职位是否存在
+	int isExitPosition(String posName);
 }

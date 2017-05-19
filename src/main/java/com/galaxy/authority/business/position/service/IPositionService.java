@@ -13,4 +13,6 @@ public interface IPositionService {
 	boolean outtagePos(Map<String,Object> paramMap);
 	boolean delPos(Map<String,Object> paramMap);
 	boolean updatePos(PositionBean bean);
+	//判断职位是否存在
+	int isExitPosition(String posName);
 }

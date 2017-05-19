@@ -56,6 +56,15 @@ public class PositionServiceImpl implements IPositionService{
 		int count = dao.updatePos(bean);
 		return count>0;
 	}
+
+	/**
+	 * 判断职位是否存在
+	 */
+	@Override
+	public int isExitPosition(String posName) {
+		int count = dao.isExitPosition(posName);
+		return count;
+	}
 	
 	
 	

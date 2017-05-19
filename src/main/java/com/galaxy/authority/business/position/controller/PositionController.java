@@ -74,7 +74,15 @@ public class PositionController {
 				bean.setUpdateTime(DateUtil.getMillis(new Date()));
 				result.setSuccess(service.updatePos(bean));
 			}else{
-				result.setSuccess(service.savePosition(bean));
+				//保存
+				int count = service.isExitPosition(bean.getPosName());
+				if(count<1){
+					result.setSuccess(service.savePosition(bean));
+				}else{
+					result.setSuccess(false);
+					result.setMessage("职位已经存在");
+				}
+				
 			}
 		}
 		return result;

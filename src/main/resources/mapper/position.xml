@@ -116,4 +116,9 @@
 		and p.company_id=#{companyId};
 	</update>
 	
+	<!-- 职位是否存在 -->
+	<select id="isExitPosition" resultType="Integer" parameterType="String">
+		SELECT COUNT(1) from position WHERE pos_name=#{posName} and is_del=0;
+	</select>
+	
 </mapper>
