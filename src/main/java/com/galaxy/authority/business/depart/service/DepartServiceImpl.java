@@ -60,7 +60,8 @@ public class DepartServiceImpl implements IDepartService{
 		long depId = CUtils.get().object2Long(map.get("depId"));
 		long companyId = CUtils.get().object2Long(map.get("companyId"));
 		boolean flag = false;
-		
+		boolean userflag = false;
+		boolean deptflag = false;
 		if(CUtils.get().stringIsNotEmpty(depId)){
 			List<Long> idList = new ArrayList<Long>();
 			createDepartChild(depId,idList);
@@ -72,12 +73,14 @@ public class DepartServiceImpl implements IDepartService{
 				paramMap.put("depIds", idList);
 				paramMap.put("companyId",companyId);
 				
-				flag = dao.getDepUserCount(paramMap)>0;
+				userflag = dao.getDepUserCount(paramMap)>0;
 			}
 			
 			//查询该部门下是否存在子部门
-			flag = dao.getChildDepCount(map)>0;
-			
+			deptflag = dao.getChildDepCount(map)>0;
+			if(userflag||deptflag){
+				flag=true;
+			}
 		}
 		return flag;
 	}
