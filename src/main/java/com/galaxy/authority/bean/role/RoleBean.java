@@ -17,6 +17,8 @@ public class RoleBean {
 	private long updateId;			//更新人
 	private long companyId;			//租户ID
 	
+	private String oldRoleName;		//修改之前角色名称
+	
 	public RoleBean(){
 		this.isDel = 0;
 		this.isOuttage = 0;
@@ -89,5 +91,13 @@ public class RoleBean {
 	}
 	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
+	}
+
+	public String getOldRoleName() {
+		return oldRoleName;
+	}
+
+	public void setOldRoleName(String oldRoleName) {
+		this.oldRoleName = oldRoleName;
 	}
 }

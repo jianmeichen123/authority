@@ -67,6 +67,8 @@ public class UserController {
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
 		int retValue = 0;
+		String loginName = "";
+		String oldLoginName = "";
 		//生成原密码
 		String oriPwd = PWDUtils.genRandomNum(6);
 				
@@ -74,13 +76,25 @@ public class UserController {
 		String userId = CUtils.get().object2String(map.get("userId"));
 		map.put("companyId", StaticConst.COMPANY_ID);
 		map.put("oriPwd", oriPwd);
+		
+		if(map.get("loginName")!=null){
+			loginName =CUtils.get().object2String(map.get("loginName"));
+		}
+		if(map.get("oldLoginName")!=null){
+			oldLoginName =CUtils.get().object2String(map.get("oldLoginName"));
+		}
+		int count = service.isExitUser(loginName);
+		
 		if(CUtils.get().stringIsNotEmpty(userId)){
-			map.put("updateTime", DateUtil.getMillis(new Date()));
-			result.setSuccess(service.updateUser(map));
+			if(count>0&&!loginName.equals(oldLoginName)){
+				result.setSuccess(false);
+				result.setMessage("登录账号已经存在");
+			}else{
+				map.put("updateTime", DateUtil.getMillis(new Date()));
+				result.setSuccess(service.updateUser(map));
+			}
 		}else{
 			//保存
-			String loginName = CUtils.get().object2String(map.get("loginName"));
-			int count = service.isExitUser(loginName);
 			if(count<1){
 				if(service.saveUser(map)){
 					retValue=1;

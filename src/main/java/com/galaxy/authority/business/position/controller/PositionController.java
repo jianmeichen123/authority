@@ -59,23 +59,32 @@ public class PositionController {
 	public Object savePosition(@RequestBody String beanString){
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
-		
+		String oldPosName = "";
 		Map<String,Object> map = CUtils.get().jsonString2map(beanString);
 		PositionBean bean = new PositionBean();
 		if(map.get("posName")!=null){
 			bean.setPosName(CUtils.get().object2String(map.get("posName")));
+		}
+		if(map.get("oldPosName")!=null){
+			oldPosName =CUtils.get().object2String(map.get("oldPosName"));
 		}
 		if(map.get("id")!=null){
 			bean.setId(CUtils.get().object2Long(map.get("id")));
 		}
 		if(bean!=null){
 			bean.setCompanyId(StaticConst.COMPANY_ID);
+			//重名判断
+			int count = service.isExitPosition(bean.getPosName());
 			if(bean.getId()!=0){
-				bean.setUpdateTime(DateUtil.getMillis(new Date()));
-				result.setSuccess(service.updatePos(bean));
+				if(count>0&&!bean.getPosName().equals(oldPosName)){
+					result.setSuccess(false);
+					result.setMessage("职位已经存在");
+				}else{
+					bean.setUpdateTime(DateUtil.getMillis(new Date()));
+					result.setSuccess(service.updatePos(bean));
+				}
 			}else{
 				//保存
-				int count = service.isExitPosition(bean.getPosName());
 				if(count<1){
 					result.setSuccess(service.savePosition(bean));
 				}else{

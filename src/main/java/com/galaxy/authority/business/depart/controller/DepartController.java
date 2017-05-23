@@ -115,15 +115,20 @@ public class DepartController {
 		
 		if(bean!=null){
 			bean.setCompanyId(StaticConst.COMPANY_ID);
-			
+			//重名判断
+			int count = service.isExitDepartment(bean.getDepName());
 			if(bean.getId()>0){
-				if(service.updateDepart(bean)){
-					result.setSuccess(true);
-					result.setValue("update");
+				if(count>0&&!bean.getDepName().equals(bean.getOldDepName())){
+					result.setSuccess(false);
+					result.setMessage("部门已经存在");
+				}else{
+					if(service.updateDepart(bean)){
+						result.setSuccess(true);
+						result.setValue("update");
+					}
 				}
 			}else{
 				//保存
-				int count = service.isExitDepartment(bean.getDepName());
 				if(count<1){
 					if(service.saveDepart(bean)){
 						Map<String,Object> map = new HashMap<String,Object>();

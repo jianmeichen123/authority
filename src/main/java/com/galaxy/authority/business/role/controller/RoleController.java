@@ -70,13 +70,19 @@ public class RoleController {
 		result.setSuccess(false);
 		if(bean!=null){
 			bean.setCompanyId(StaticConst.COMPANY_ID);
+			//重名判断
+			int count = service.isExitRole(bean.getRoleName());
 			if(CUtils.get().stringIsNotEmpty(bean.getId())&&bean.getId()!=0){
-				bean.setUpdateTime(DateUtil.getMillis(new Date()));
-				//更新
-				result.setSuccess(service.updateRole(bean));
+				if(count>0&&!bean.getRoleName().equals(bean.getOldRoleName())){
+					result.setSuccess(false);
+					result.setMessage("角色已经存在");
+				}else{
+					//更新
+					bean.setUpdateTime(DateUtil.getMillis(new Date()));
+					result.setSuccess(service.updateRole(bean));
+				}
 			}else{
 				//保存
-				int count = service.isExitRole(bean.getRoleName());
 				if(count<1){
 					result.setSuccess(service.saveRole(bean));
 				}else{

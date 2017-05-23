@@ -19,6 +19,7 @@ public class DepartBean {
 	private int isOuttage;
 	private long depManager;
 	private int companyId;
+	private String oldDepName = "";		//修改之前的部门名称
 	
 	public DepartBean(){
 		this.createTime = DateUtil.getMillis(new Date());
@@ -139,6 +140,14 @@ public class DepartBean {
 
 	public void setDepManager(long depManager) {
 		this.depManager = depManager;
+	}
+
+	public String getOldDepName() {
+		return oldDepName;
+	}
+
+	public void setOldDepName(String oldDepName) {
+		this.oldDepName = oldDepName;
 	}
 	
 	
