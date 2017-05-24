@@ -7,5 +7,7 @@ public interface ILoginDao {
 	//获取登录信息
 	Map<String,Object> getUserLoginInfo(Map<String, Object> paramMap);
 
-
+	//获取登录信息
+	Map<String,Object> getUserLoginInfoForApp(Map<String, Object> paramMap);
+	
 }

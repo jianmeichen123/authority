@@ -7,12 +7,23 @@
 
 	<!-- 列表查询共同条件 -->
 	<sql id="comWhere" >
-		where u.is_del=0 and u.is_outtage=0 and u.company_id=d.company_id and u.company_id=p.company_id
-		<if test="companyId != null ">and u.company_id=#{companyId}</if>
+		where is_del=0 and is_outtage=0
+		<if test="companyId != null ">and company_id=#{companyId}</if>
 	</sql>
 	
 	<!--获取用户信息-->
 	<select id="getUserLoginInfo" resultType="java.util.HashMap" parameterType="Map">
+		SELECT 
+		id,
+		login_name email,
+		user_name realName,
+		company_id companyId
+		FROM user 
+		<include refid="comWhere"/> and login_name=#{userName} and `password` =#{passWord};
+	</select>
+	
+	<!-- 用于APP登录 -->
+	<select id="getUserLoginInfoForApp" resultType="java.util.HashMap" parameterType="Map">
 		SELECT 
 			u.id,
 			u.login_name email,
@@ -21,13 +32,23 @@
 		    d.id departmentId,
 		    d.dep_name departmentName,
 		    u.login_name nickName,
-		    p.pos_name role
+		    r.role_code attachment
 		FROM user u
 		left join rel_dep_user rdu on u.id=rdu.user_id
 		left join department d on d.id=rdu.dep_id
 		left join rel_pos_user rpu on u.id=rpu.user_id
 		left join position p on p.id=rpu.pos_id
-		<include refid="comWhere"/> and u.login_name=#{userName} and u.password=#{passWord};
+		left join rel_role_user rru on rru.user_id=u.id
+		left join role r on r.id=rru.role_id 
+		where u.company_id=d.company_id
+		and u.company_id=p.company_id
+		and u.company_id=#{companyId}
+		and u.is_del=0
+		and u.is_outtage=0
+		and r.role_demo='新旧替换临时权限'
+		and login_name=#{userName} and `password` =#{passWord};
 	</select>
+	
+	
 
 </mapper>

@@ -71,5 +71,50 @@ public class LoginController {
 		return result;
 	}
 	
-	
+		//APP登录功能
+		@RequestMapping("/userLoginForApp")
+		@ResponseBody
+		public Object userLoginForApp(@RequestBody String paramString){
+			ResultBean result = ResultBean.instance();
+			result.setSuccess(false);
+			String username="";
+			String password="";
+			String productType="0";
+			Map<String,Object> paramMap = new HashMap<String,Object>();
+			paramMap.put("companyId", StaticConst.COMPANY_ID);
+			
+			if(CUtils.get().stringIsNotEmpty(paramString)){
+				JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
+				if(paramJson!=null && paramJson.has("userName")&&paramJson.has("passWord")){
+					//加密password
+					password = PWDUtils.genernateNewPassword(paramJson.getString("passWord")); 
+					username = paramJson.getString("userName");
+					
+					paramMap.put("userName", username);
+					paramMap.put("passWord", password);
+				}
+				if(paramJson!=null && paramJson.has("productType"))
+				{
+					productType = paramJson.getString("productType");
+					paramMap.put("productType", productType);
+				}
+			}
+			//判断用户名和里面里面是否为空
+			if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+				result.setSuccess(false);
+				result.setMessage("用户名或密码不能为空！");
+			}else{
+				Map<String,Object> userInfo = service.userLogin(paramMap);
+				if(userInfo != null && userInfo.size() >0){
+					result.setSuccess(true);
+					result.setValue(userInfo);
+					result.setMessage("登录成功！");
+				}else{
+					result.setSuccess(false);
+					result.setMessage("用户名或密码错误！");
+				}
+			}
+			
+			return result;
+		}
 }

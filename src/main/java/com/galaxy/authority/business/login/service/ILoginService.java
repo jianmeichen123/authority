@@ -10,5 +10,12 @@ public interface ILoginService {
 	 * @return
 	 */
 	Map<String,Object> userLogin(Map<String, Object> paramMap);
+	
+	/**
+	 * APP登录
+	 * @param paramMap
+	 * @return
+	 */
+	Map<String,Object> userLoginForApp(Map<String, Object> paramMap);
 
 }
