@@ -203,7 +203,18 @@
 		SELECT COUNT(1) from department WHERE dep_name=#{depName} and is_del=0;
 	</select>
 	
-	
+	<!-- 获得事业线 -->
+	<select id="getCareerLineList" parameterType="hashmap">
+		select 
+			d.id,
+		    d.dep_name depName
+		from department d
+		where d.is_careerline=1
+		and d.is_del=0
+		and d.is_outtage=0
+		and d.is_show=0
+		and d.company_id=1;
+	</select>
 	
 
 </mapper>
