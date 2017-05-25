@@ -59,6 +59,15 @@ public class DepartController {
 	}
 	
 	/**
+	 * 获得事业线
+	 */
+	@RequestMapping("getCareerLineList")
+	@ResponseBody
+	public Object getCareerLineList(){
+		return service.getCareerLineList();
+	}
+	
+	/**
 	 * 显示部门树型结构-ztree
 	 * @param paramString
 	 * @return

@@ -133,6 +133,12 @@ public class DepartServiceImpl implements IDepartService{
 		int count = dao.isExitDepartment(depName);
 		return count;
 	}
+
+	@Override
+	public List<Map<String, Object>> getCareerLineList() {
+		return dao.getCareerLineList();
+	}
+	
 	
 	
 	

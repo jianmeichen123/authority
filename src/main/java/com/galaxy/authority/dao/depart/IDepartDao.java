@@ -18,4 +18,5 @@ public interface IDepartDao {
 	List<Integer> getChildrenIds(Map<String,Object> paramMap);
 	//判断部门名称是否存在
 	int isExitDepartment(String depName);
+	List<Map<String,Object>> getCareerLineList();
 }
