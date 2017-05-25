@@ -204,7 +204,7 @@
 	</select>
 	
 	<!-- 获得事业线 -->
-	<select id="getCareerLineList" parameterType="hashmap">
+	<select id="getCareerLineList" resultType="hashmap">
 		select 
 			d.id,
 		    d.dep_name depName
