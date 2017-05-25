@@ -104,7 +104,7 @@ public class LoginController {
 				result.setSuccess(false);
 				result.setMessage("用户名或密码不能为空！");
 			}else{
-				Map<String,Object> userInfo = service.userLogin(paramMap);
+				Map<String,Object> userInfo = service.userLoginForApp(paramMap);
 				if(userInfo != null && userInfo.size() >0){
 					result.setSuccess(true);
 					result.setValue(userInfo);
