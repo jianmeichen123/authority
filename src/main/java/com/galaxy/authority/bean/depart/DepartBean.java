@@ -19,6 +19,7 @@ public class DepartBean {
 	private int isOuttage;
 	private long depManager;
 	private int companyId;
+	private int isCareerLine;			//是否投资事业线
 	private String oldDepName = "";		//修改之前的部门名称
 	
 	public DepartBean(){
@@ -148,6 +149,14 @@ public class DepartBean {
 
 	public void setOldDepName(String oldDepName) {
 		this.oldDepName = oldDepName;
+	}
+
+	public int getIsCareerLine() {
+		return isCareerLine;
+	}
+
+	public void setIsCareerLine(int isCareerLine) {
+		this.isCareerLine = isCareerLine;
 	}
 	
 	

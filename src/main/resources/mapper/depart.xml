@@ -58,6 +58,7 @@
 			`update_id`, 
 			`update_time`, 
 			`dep_manager`,
+			`is_careerline`,
 			`company_id`
 		)values(
 			#{depCode}, 
@@ -72,6 +73,7 @@
 			#{updateId}, 
 			#{updateTime}, 
 			#{depManager},
+			#{isCareerLine},
 			#{companyId}
 		);
 		<selectKey keyProperty="id" resultType="long" order="AFTER">  
@@ -85,7 +87,8 @@
 			d.dep_name=#{depName},
 		    d.parent_id=#{parentId},
 		    d.update_time=#{updateTime},
-		    d.dep_manager=#{depManager}
+		    d.dep_manager=#{depManager},
+		    d.is_careerline=#{isCareerLine}
 		where d.id=#{id}
 		and d.company_id=#{companyId};
 	</update>
@@ -131,6 +134,7 @@
 			a1.id,
 			a1.dep_name depName,
 			a1.dep_manager depManager,
+			a1.is_careerline isCareerLine,
             u2.user_name depManagerName,
 			ifnull(d.id,'') superId,
 			ifnull(d.dep_name,'') superName,
