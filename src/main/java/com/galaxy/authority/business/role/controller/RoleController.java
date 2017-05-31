@@ -531,4 +531,42 @@ public class RoleController {
 		}
 		return result;
 	}
+	
+	
+	/**
+	 * 已选用户判断是否已经绑定角色
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("isRelRoleUser")
+	@ResponseBody
+	public Object isRelRoleUser(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+		String userIdStr="";
+		List<Map<String,Object>> dataList=new ArrayList<Map<String,Object>>();
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("companyId",StaticConst.COMPANY_ID);
+		if(CUtils.get().stringIsNotEmpty(paramString)){
+			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
+			if(paramJson!=null && paramJson.has("userIdStr")){
+				userIdStr = paramJson.getString("userIdStr");
+			}
+		}
+		try {
+			String str[] = userIdStr.split(",");
+			for(int i=0;i<str.length;i++){
+				paramMap.put("userId", str[i]);
+				Map<String,Object> list = service.isRelRoleUser(paramMap);
+				dataList.add(list);
+			}
+			if(dataList!=null){
+				result.setSuccess(true);
+				result.setValue(dataList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

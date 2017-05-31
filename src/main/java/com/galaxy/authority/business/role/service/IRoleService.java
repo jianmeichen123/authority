@@ -192,5 +192,11 @@ public interface IRoleService {
 	 * @return
 	 */
 	List<Map<String, Object>> showUerName(Map<String, Object> paramMap);
+	/**
+	 * 已选用户判断是否已经绑定角色
+	 * @param paramMap
+	 * @return
+	 */
+	Map<String, Object> isRelRoleUser(Map<String, Object> paramMap);
 
 }

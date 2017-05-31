@@ -49,4 +49,6 @@ public interface IRoleDao {
 	public int isExitRole(String roleName);
 	//获取角色关联账号信息
 	public List<Map<String, Object>> showUerName(Map<String, Object> paramMap);
+	//已选用户判断是否已经绑定角色
+	public Map<String, Object> isRelRoleUser(Map<String, Object> paramMap);
 }

@@ -197,4 +197,16 @@
 		LEFT JOIN user u ON r.user_id=u.id WHERE r.role_id=#{roleId}
  		and r.is_del=0 and r.is_outtage=0 and r.company_id=#{companyId};
 	</select>
+	
+	<!-- 已选用户判断是否已经绑定角色-->
+	<select id="isRelRoleUser" parameterType="hashmap" resultType="hashmap">
+		SELECT u.id, u.user_name name,
+		case ru.flag
+		WHEN 0 THEN 0
+		else 1
+		end flag
+		FROM (SELECT COUNT(1) flag FROM rel_role_user WHERE user_id=#{userId}) ru,user u
+		WHERE u.id=#{userId} and u.is_del=0 and u.is_outtage=0 and u.company_id =#{companyId};
+	</select>
+	
 </mapper>

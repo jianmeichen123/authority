@@ -595,5 +595,13 @@ public class RoleServiceImpl implements IRoleService{
 		List<Map<String,Object>> userList = dao.showUerName(paramMap);
 		return userList;
 	}
+	/**
+	 * 已选用户判断是否已经绑定角色
+	 */
+	@Override
+	public Map<String, Object> isRelRoleUser(Map<String, Object> paramMap) {
+		Map<String, Object> userList = dao.isRelRoleUser(paramMap);
+		return userList;
+	}
 	
 }
