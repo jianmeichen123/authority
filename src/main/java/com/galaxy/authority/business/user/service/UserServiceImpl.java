@@ -257,13 +257,15 @@ public class UserServiceImpl implements IUserService{
 		//获取数据范围下的所有相关用户id并做处理
 		if(!scope.isEmpty()&&scope.size()>0){
 			for(Map<String,Object> info:scope){
-				userIds = info.get("userIds").toString();
-				userIds = userIds.replace(" ", "");
-				if(userIds.startsWith("[")){
-					userIds = userIds.substring(1);
-				}
-				if(userIds.endsWith("]")){
-					userIds = userIds.substring(0,userIds.length()-1);
+				if(info.get("resourceMark").toString().contains("callOn_shareUser")){
+					userIds = info.get("userIds").toString();
+					userIds = userIds.replace(" ", "");
+					if(userIds.startsWith("[")){
+						userIds = userIds.substring(1);
+					}
+					if(userIds.endsWith("]")){
+						userIds = userIds.substring(0,userIds.length()-1);
+					}
 				}
 			}
 		}
