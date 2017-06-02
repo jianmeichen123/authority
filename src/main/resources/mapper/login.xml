@@ -45,7 +45,7 @@
 		and u.company_id=#{companyId}
 		and u.is_del=0
 		and u.is_outtage=0
-		and r.role_demo='新旧替换临时权限'
+		<!-- and r.role_demo='新旧替换临时权限' -->
 		and login_name=#{userName} and `password` =#{passWord};
 	</select>
 	
