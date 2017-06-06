@@ -33,6 +33,7 @@
 		    d.dep_name departmentName,
 		    u.login_name nickName,
 		    r.role_code attachment
+		    r.role_name roleName
 		FROM user u
 		left join rel_dep_user rdu on u.id=rdu.user_id
 		left join department d on d.id=rdu.dep_id
@@ -44,8 +45,7 @@
 		and u.company_id=p.company_id
 		and u.company_id=#{companyId}
 		and u.is_del=0
-		and u.is_outtage=2
-		<!-- and r.role_demo='新旧替换临时权限' -->
+		and r.is_outtage=2
 		and login_name=#{userName} and `password` =#{passWord};
 	</select>
 	
