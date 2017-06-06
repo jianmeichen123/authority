@@ -17,6 +17,9 @@ import com.galaxy.authority.common.CUtils;
 import com.galaxy.authority.common.PWDUtils;
 import com.galaxy.authority.common.StaticConst;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+
 @Controller
 @RequestMapping("/login")
 public class LoginController {
@@ -27,6 +30,8 @@ public class LoginController {
 	//登录功能
 	@RequestMapping("/userLogin")
 	@ResponseBody
+	@ApiOperation(value="用户登录", notes="")
+	@ApiImplicitParam(name = "paramString", value = "用户信息{userName:xxx,passWord:xxx,companyId:companyId}", required = true)
 	public Object userLogin(@RequestBody String paramString){
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
