@@ -32,7 +32,7 @@
 		    d.id departmentId,
 		    d.dep_name departmentName,
 		    u.login_name nickName,
-		    r.role_code attachment
+		    r.role_code attachment,
 		    r.role_name roleName
 		FROM user u
 		left join rel_dep_user rdu on u.id=rdu.user_id
