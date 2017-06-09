@@ -31,4 +31,6 @@ public interface IUserDao {
 	List<Map<String, Object>> getCreadIdInfo(Map<String, Object> map);
 	//判断登录账号是否存在
 	int isExitUser(String loginName);
+	
+	void updatePwd(Map<String, Object> map);
 }

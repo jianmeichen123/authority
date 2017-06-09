@@ -29,4 +29,6 @@ public interface IUserService {
 	List<Map<String, Object>> getCreadIdInfo(Map<String, Object> map);
 	//判断登录账号是否存在
 	int isExitUser(String loginName);
+	
+	int updatePwd(Map<String, Object> map);
 }
