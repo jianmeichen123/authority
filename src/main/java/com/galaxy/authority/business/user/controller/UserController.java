@@ -215,7 +215,7 @@ public class UserController {
 	@RequestMapping(value="getUserById", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	@ApiOperation(value="根据ID获取用户", notes="参数:userId - 用户ID")
-	@ApiImplicitParam(name = "userString", value = "", required = true)
+	@ApiImplicitParam(name = "paramString", value = "", required = true)
 	public Object getUserById(@RequestBody String paramString){
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
