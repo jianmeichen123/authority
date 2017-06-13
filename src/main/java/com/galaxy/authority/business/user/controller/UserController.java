@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +26,9 @@ import com.galaxy.authority.common.StaticConst;
 import com.galaxy.authority.common.mail.MailTemplateUtils;
 import com.galaxy.authority.common.mail.PlaceholderConfigurer;
 import com.galaxy.authority.common.mail.SimpleMailSender;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 
 @Controller
 @RequestMapping("/user")
@@ -208,14 +212,15 @@ public class UserController {
 	 * @param paramString
 	 * @return
 	 */
-	@RequestMapping("getUserById")
+	@RequestMapping(value="getUserById", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
+	@ApiOperation(value="根据ID获取用户", notes="参数:userId - 用户ID")
+	@ApiImplicitParam(name = "paramString", value = "", required = true)
 	public Object getUserById(@RequestBody String paramString){
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
 			
 		Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
-		paramMap.put("companyId", StaticConst.COMPANY_ID);
 		
 		Map<String,Object> userMap = service.getUserById(paramMap);
 		if(CUtils.get().mapIsNotEmpty(userMap)){
@@ -359,6 +364,33 @@ public class UserController {
 			result.setValue(info);
 		}
 		return result;
+	}
+	
+	@RequestMapping(value="updatePwd",method=RequestMethod.POST)
+	@ResponseBody
+	@ApiOperation(value="修改密码", notes="参数:userId - 用户ID, password - 密码")
+	@ApiImplicitParam(name = "userString", value = "", required = true)
+	public ResultBean updatePwd(@RequestBody String userString){
+		ResultBean rtn = new ResultBean();
+		try
+		{
+			Map<String,Object> map = CUtils.get().jsonString2map(userString);
+			if(!map.containsKey("userId") || !map.containsKey("password"))
+			{
+				rtn.setSuccess(false);
+				rtn.setMessage("必要参数丢失！");
+				return rtn;
+			}
+			service.updatePwd(map);
+			rtn.setSuccess(true);
+		} catch (Exception e)
+		{
+			rtn.setSuccess(false);
+			rtn.setMessage("修改失败");
+			e.printStackTrace();
+		}
+		
+		return rtn;
 	}
 	
 

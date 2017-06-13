@@ -43,6 +43,7 @@
 			u.id userId,
 			u.login_name loginName,
 		    u.user_name userName,
+		    u.password,
 		    u.origin_password oriPass,
 		    u.email1 mail1,
 		    d.id depId,
@@ -320,5 +321,10 @@
 	<select id="isExitUser" resultType="Integer" parameterType="String">
 		SELECT COUNT(1) from user WHERE login_name=#{loginName} and is_del=0;
 	</select>
+	<update id="updatePwd" parameterType="hashmap">
+		update user u set 
+			u.password=#{password}
+		where u.id=#{userId}
+	</update>
 
 </mapper>

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.galaxy.authority.bean.Page;
 import com.galaxy.authority.bean.ResultBean;
@@ -312,5 +313,19 @@ public class UserServiceImpl implements IUserService{
 		int count = dao.isExitUser(loginName);
 		return count;
 	}
+	
+	@Transactional
+	public int updatePwd(Map<String,Object> query) {
+        if (query!=null && query.get("userId")!= null && query.get("password")!=null) {
+        	// 加密
+    		query.put("password",PWDUtils.genernateNewPassword(query.get("password").toString()));
+    		dao.updatePwd(query);
+    		return 1;
+        } else {
+        	return 0;
+        }
+		
+	}
+	
 
 }
