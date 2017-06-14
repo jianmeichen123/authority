@@ -8,10 +8,10 @@
     <!-- dev环境下的日志路 -->
     <property name="DEV_FILE_PATH" value="/data/apps/authority/logs/"></property>
   	<!-- qa环境下的日志路 -->
-    <property name="QA_FILE_PATH" value="/data/apps/authority_qa/log/"></property>
+    <property name="QA_FILE_PATH" value="/data/apps/authority_qa/logs/"></property>
     
   	<!-- rc环境下的日志路 -->
-    <property name="RC_FILE_PATH" value="/data/apps/authority_rc/log/"></property>
+    <property name="RC_FILE_PATH" value="/data/apps/authority_rc/logs/"></property>
   
   	<!-- rc环境 -->
     <springProfile name="rc">
@@ -47,14 +47,6 @@
     
     <!-- 开发环境 -->  
     <springProfile name="dev">  
-        <!-- <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">  
-            <encoder>  
-                <pattern>${PATTERN}</pattern>  
-            </encoder>  
-        </appender> 
-        <root level="info">  
-            <appender-ref ref="CONSOLE" />  
-        </root>   -->
         <appender name="DEV_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
 			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
 				<fileNamePattern>${DEV_FILE_PATH}/logFile.%d{yyyy-MM-dd}.log</fileNamePattern> 
