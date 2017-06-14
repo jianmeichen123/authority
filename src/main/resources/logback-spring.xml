@@ -5,6 +5,44 @@
     <!-- 线上环境日志文件路径 -->  
     <property name="ONLINE_FILE_PATH" value="/opt/project/authority/log/"></property>
   
+  	<!-- qa环境下的日志路 -->
+    <property name="QA_FILE_PATH" value="/data/apps/authority_qa/log"></property>
+    
+  	<!-- rc环境下的日志路 -->
+    <property name="RC_FILE_PATH" value="/data/apps/authority_rc/log"></property>
+  
+  	<!-- rc环境 -->
+    <springProfile name="rc">
+        <appender name="RC_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
+				<fileNamePattern>${RC_FILE_PATH}/logFile.%d{yyyy-MM-dd}.log</fileNamePattern> 
+				<maxHistory>30</maxHistory> 
+			</rollingPolicy> 
+			<encoder> 
+				<pattern>${PATTERN}</pattern> 
+			</encoder> 
+		</appender> 
+		<root level="INFO"> 
+			<appender-ref ref="RC_FILE" /> 
+		</root> 
+    </springProfile> 
+    
+  	<!-- qa环境 -->
+    <springProfile name="qa">
+        <appender name="QA_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
+				<fileNamePattern>${QA_FILE_PATH}/logFile.%d{yyyy-MM-dd}.log</fileNamePattern> 
+				<maxHistory>30</maxHistory> 
+			</rollingPolicy> 
+			<encoder> 
+				<pattern>${PATTERN}</pattern> 
+			</encoder> 
+		</appender> 
+		<root level="INFO"> 
+			<appender-ref ref="QA_FILE" /> 
+		</root> 
+    </springProfile> 
+    
     <!-- 开发环境 -->  
     <springProfile name="dev">  
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">  
