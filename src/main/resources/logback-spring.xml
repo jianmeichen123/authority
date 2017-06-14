@@ -33,7 +33,7 @@
     <springProfile name="qa">
         <appender name="QA_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
 			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
-				<fileNamePattern>${QA_FILE_PATH}/logFile.%d{yyyy-MM-dd}.log</fileNamePattern> 
+				<fileNamePattern>/data/apps/authority_qa/logs/logFile.log</fileNamePattern> 
 				<maxHistory>30</maxHistory> 
 			</rollingPolicy> 
 			<encoder> 
