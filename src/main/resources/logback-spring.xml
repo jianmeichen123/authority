@@ -6,10 +6,10 @@
     <property name="ONLINE_FILE_PATH" value="/opt/project/authority/log/"></property>
   
   	<!-- qa环境下的日志路 -->
-    <property name="QA_FILE_PATH" value="/data/apps/authority_qa/"></property>
+    <property name="QA_FILE_PATH" value="/data/apps/authority_qa/log/"></property>
     
   	<!-- rc环境下的日志路 -->
-    <property name="RC_FILE_PATH" value="/data/apps/authority_rc/"></property>
+    <property name="RC_FILE_PATH" value="/data/apps/authority_rc/log/"></property>
   
   	<!-- rc环境 -->
     <springProfile name="rc">
