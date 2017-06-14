@@ -215,6 +215,17 @@
 		and d.is_show=0
 		and d.company_id=1;
 	</select>
-	
+	<select id="selectUserDep" resultType="java.util.HashMap" parameterType="Map">
+		select d.id departmentId, d.dep_name departmentName
+		from department d
+		inner join rel_dep_user rdu on d.id=rdu.dep_id
+		where rdu.user_id = #{userId} 
+		and d.is_del=0
+		and d.is_outtage=0
+		and d.is_show=0
+		<if test="companyId != null">
+			and d.company_id=#{companyId}
+		</if>
+	</select>
 
 </mapper>

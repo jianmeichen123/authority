@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.galaxy.authority.business.user.service.IUserService;
+import com.galaxy.authority.dao.depart.IDepartDao;
 import com.galaxy.authority.dao.login.ILoginDao;
+import com.galaxy.authority.dao.role.IRoleDao;
 
 @Repository
 public class LoginServiceImpl implements ILoginService{
@@ -17,6 +19,10 @@ public class LoginServiceImpl implements ILoginService{
 	private ILoginDao dao;
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IRoleDao roleDao;
+	@Autowired
+	private IDepartDao deptDao;
 	
 	/**
 	 * 用户登录
@@ -30,6 +36,21 @@ public class LoginServiceImpl implements ILoginService{
 			query.put("userId", userInfo.get("id"));
 			query.put("companyId", userInfo.get("companyId"));
 			query.put("productType", paramMap.get("productType"));
+			List<String> roleCodes = roleDao.selectRoleCodeByUserId(query);
+			//设置角色信息
+			if(roleCodes != null && roleCodes.size() >0)
+			{
+				userInfo.put("roleId", roleCodes.iterator().next());
+			}
+			
+			//设置部门信息
+			List<Map<String,Object>> departs = deptDao.selectUserDep(query);
+			if(departs != null && departs.size() >0)
+			{
+				Map<String,Object> depart = departs.iterator().next();
+				userInfo.put("departmentId", depart.get("departmentId"));
+				userInfo.put("departmentName", depart.get("departmentName"));
+			}
 			//资源权限
 			List<Map<String, Object>> res = userService.getUserResources(query);
 			if(res != null)

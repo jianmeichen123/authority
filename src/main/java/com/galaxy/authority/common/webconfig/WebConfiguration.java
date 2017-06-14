@@ -38,7 +38,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 	 * 配置过滤器(Filter)
 	 * @return
 	 */
-	@Bean
 	public FilterRegistrationBean getDemoFilter(){
 		LoginFilter demoFilter=new LoginFilter();
 		FilterRegistrationBean registrationBean=new FilterRegistrationBean();

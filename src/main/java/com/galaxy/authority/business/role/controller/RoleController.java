@@ -26,6 +26,7 @@ import com.galaxy.authority.common.DateUtil;
 import com.galaxy.authority.common.StaticConst;
 
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
@@ -496,8 +497,13 @@ public class RoleController {
 	 * @param companyId
 	 * @return
 	 */
-	@RequestMapping(name="selectRoleIdByUserId",method=RequestMethod.GET)
+	@RequestMapping(value="selectRoleIdByUserId",method=RequestMethod.GET)
 	@ResponseBody
+	@ApiOperation(value="获取用户的角色ID", notes="参数:userId - 用户ID, companyId - 公司")
+	@ApiImplicitParams(value={
+			@ApiImplicitParam(name = "userId", value = "", required = true),
+			@ApiImplicitParam(name = "companyId", value = "", required = true)
+	})
 	public List<Long> selectRoleIdByUserId(@RequestParam Long userId, @RequestParam String companyId)
 	{
 		Map<String,Object> query = new HashMap<>();
