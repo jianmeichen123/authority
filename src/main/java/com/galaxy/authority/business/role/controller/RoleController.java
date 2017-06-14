@@ -496,7 +496,7 @@ public class RoleController {
 	 * @param companyId
 	 * @return
 	 */
-	@RequestMapping("selectRoleIdByUserId")
+	@RequestMapping(name="selectRoleIdByUserId",method=RequestMethod.GET)
 	@ResponseBody
 	public List<Long> selectRoleIdByUserId(@RequestParam Long userId, @RequestParam String companyId)
 	{
@@ -578,7 +578,7 @@ public class RoleController {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value="selectRoleCodeByUserId",method=RequestMethod.POST)
+	@RequestMapping(value="selectRoleCodeByUserId",method=RequestMethod.GET)
 	@ResponseBody
 	@ApiOperation(value="获取用户的角色code", notes="参数:userId - 用户ID")
 	@ApiImplicitParam(name = "userId", value = "", required = true)
