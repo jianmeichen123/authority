@@ -18,5 +18,17 @@ datasource:
   testOnBorrow: false  
   testOnReturn: false  
 
-
+# REDIS (RedisProperties)
+spring: 
+  redis: 
+    database: 0
+    host: 10.9.210.22
+    port: 16379
+    password: xhhl-redis
+  pool: 
+    max-active: 8
+    max-wait: -1
+    max-idle: 8
+    min-idle: 0
+    timeout: 0
 
