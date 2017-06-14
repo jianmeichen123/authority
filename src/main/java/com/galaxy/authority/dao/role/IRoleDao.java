@@ -51,4 +51,6 @@ public interface IRoleDao {
 	public List<Map<String, Object>> showUerName(Map<String, Object> paramMap);
 	//已选用户判断是否已经绑定角色
 	public Map<String, Object> isRelRoleUser(Map<String, Object> paramMap);
+	//获取用户的角色code
+	List<String> selectRoleCodeByUserId(Map<String, Object> paramMap);
 }

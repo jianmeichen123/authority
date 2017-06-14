@@ -209,4 +209,12 @@
 		WHERE u.id=#{userId} and u.is_del=0 and u.is_outtage=0 and u.company_id =#{companyId};
 	</select>
 	
+	<select id="selectRoleCodeByUserId" parameterType="hashmap" resultType="string">
+		SELECT 
+		DISTINCT r.role_code
+		FROM role r
+		inner join  rel_role_user ru on ru.role_id = r.id and ru.is_del=0 AND ru.is_outtage=0
+		WHERE ru.user_id=#{userId} and r.is_del=0 and r.is_outtage=0 and r.company_id=#{companyId}
+	</select>
+	
 </mapper>

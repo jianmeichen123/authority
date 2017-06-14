@@ -603,5 +603,11 @@ public class RoleServiceImpl implements IRoleService{
 		Map<String, Object> userList = dao.isRelRoleUser(paramMap);
 		return userList;
 	}
+	@Override
+	public List<String> selectRoleCodeByUserId(Map<String, Object> paramMap)
+	{
+		return dao.selectRoleCodeByUserId(paramMap);
+	}
+	
 	
 }
