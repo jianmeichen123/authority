@@ -98,4 +98,12 @@ public class LoginServiceImpl implements ILoginService{
 		return userInfo;
 	}
 
+	@Override
+	public Map<String, Object> loginSelf(Map<String, Object> paramMap) {
+		return dao.loginSelf(paramMap);
+	}
+
+
+	
+
 }

@@ -31,5 +31,8 @@ public class StaticConst {
 	//登录地址
 	public static String LOGIN_URL = "project.home.page.url";
 	
+	
+	public static final String CONST_SESSION_ID_KEY = "sessionId";			//用户
+	public static final String FILTER_WHITE_LOGIN = "login/loginself";		//用户登录白名单
 
 }

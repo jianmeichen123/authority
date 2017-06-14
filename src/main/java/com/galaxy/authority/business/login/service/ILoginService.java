@@ -17,5 +17,12 @@ public interface ILoginService {
 	 * @return
 	 */
 	Map<String,Object> userLoginForApp(Map<String, Object> paramMap);
+	
+	/**
+	 * 权限系统内部登录
+	 * @param paramMap
+	 * @return
+	 */
+	Map<String,Object> loginSelf(Map<String,Object> paramMap);
 
 }

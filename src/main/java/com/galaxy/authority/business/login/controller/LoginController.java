@@ -3,6 +3,8 @@ package com.galaxy.authority.business.login.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import com.galaxy.authority.business.login.service.ILoginService;
 import com.galaxy.authority.common.CUtils;
 import com.galaxy.authority.common.PWDUtils;
 import com.galaxy.authority.common.StaticConst;
+import com.galaxy.authority.common.redisconfig.IRedisCache;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +29,35 @@ public class LoginController {
 	
 	@Autowired
 	private ILoginService service;
+	
+	@Autowired
+	private IRedisCache<String, Object> cache;
+	
+	@RequestMapping("/loginself")
+	@ResponseBody
+	public Object loginSelf(HttpServletRequest request,@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		
+		Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
+		String passWord = CUtils.get().object2String(paramMap.get("passWord"));
+		String base64Password = PWDUtils.genernateNewPassword(passWord);
+		paramMap.put("base64Password", base64Password);
+		
+		String sessionId = request.getSession().getId();
+		
+		Map<String,Object> userMap = service.loginSelf(paramMap);
+		
+		if(userMap!=null && !userMap.isEmpty()){
+			result.setSuccess(true);
+			result.setValue(userMap);
+			cache.put(sessionId,sessionId);
+			userMap.put("sessionId", sessionId);
+		}
+		return result;
+	}
+	
+	
+	
 	
 	//登录功能
 	@RequestMapping("/userLogin")

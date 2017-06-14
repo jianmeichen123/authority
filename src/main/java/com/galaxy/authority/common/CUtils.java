@@ -2,15 +2,24 @@ package com.galaxy.authority.common;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.galaxy.authority.common.exception.UtilsException;
 
 public class CUtils {
+	private final Logger log = LoggerFactory.getLogger(CUtils.class);
 	private static CUtils utils = null;
 	
 	public static synchronized CUtils get(){
@@ -356,7 +365,21 @@ public class CUtils {
 		}
 		return list;
 	}
-
+	
+	public void outputJson(ServletResponse response,Object object){
+		try{
+			response.setContentType("text/html;charset=GBK");
+			response.reset();
+			PrintWriter out = response.getWriter();
+			out.print(object2JSONString(object));
+			out.flush();
+			out.close();
+			out = null;
+		}catch(Exception e){
+			log.error(CUtils.class.getName() + "_outputJson",e);
+			throw new UtilsException(e);
+		}
+	}
 
 	
 	/**

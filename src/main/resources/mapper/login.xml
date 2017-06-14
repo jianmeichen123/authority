@@ -47,6 +47,18 @@
 		and login_name=#{userName} and `password` =#{passWord};
 	</select>
 	
-	
+	<!-- 权限系统内部登录 -->
+	<select id="loginSelf" resultType="java.util.HashMap" parameterType="Map">
+		select 
+			u.id,
+			u.login_name loginName,
+			u.user_name userName
+		from user u
+		where u.is_admin=1
+		and u.is_del=0
+		and u.is_outtage=0
+		and u.login_name=#{userName} 
+		and u.password=#{base64Password};
+	</select>
 
 </mapper>
