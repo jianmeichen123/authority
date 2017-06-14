@@ -24,6 +24,9 @@ import com.galaxy.authority.common.CUtils;
 import com.galaxy.authority.common.DateUtil;
 import com.galaxy.authority.common.StaticConst;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+
 @Controller
 @RequestMapping("/role")
 public class RoleController {
@@ -568,5 +571,20 @@ public class RoleController {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	/**
+	 * 获取用户的角色code
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping("selectRoleCodeByUserId")
+	@ResponseBody
+	@ApiOperation(value="获取用户的角色code", notes="参数:userId - 用户ID")
+	@ApiImplicitParam(name = "userId", value = "", required = true)
+	public List<String> selectRoleCodeByUserId(@RequestParam Long userId)
+	{
+		Map<String,Object> query = new HashMap<>();
+		query.put("userId", userId);
+		return service.selectRoleCodeByUserId(query);
 	}
 }
