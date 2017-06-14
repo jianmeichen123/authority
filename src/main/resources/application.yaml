@@ -6,3 +6,7 @@ spring:
 mybatis: 
   typeAliasesPackage: com.galaxy.authority.bean
   mapperLocations: classpath:mapper/*.xml
+  
+web:
+  loginFilter:
+    excludes: /webjars,/swagger,/api-docs,/login/userLogin,/user/updatePwd,/user/getUserById,/user/getUserResource,/user/getUserScope,/role/selectRoleIdByUserId

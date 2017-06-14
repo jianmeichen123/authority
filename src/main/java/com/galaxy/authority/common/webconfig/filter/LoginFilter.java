@@ -16,6 +16,7 @@ import com.galaxy.authority.common.redisconfig.RedisCacheImpl;
 
 public class LoginFilter implements Filter{
 
+	private static String[] excludes;
 	@Override
 	public void destroy() {
 	}
@@ -26,6 +27,18 @@ public class LoginFilter implements Filter{
 		
 		@SuppressWarnings("unchecked")
 		RedisCacheImpl<String,Object> cache = (RedisCacheImpl<String,Object>)StaticConst.ctx.getBean("cache");
+		String uri = request.getRequestURI();
+		if(uri != null && excludes != null && excludes.length > 0)
+		{
+			for(String exclude : excludes)
+			{
+				if(uri.indexOf(exclude)>-1)
+				{
+					filterChain.doFilter(req, resp);
+					return;
+				}
+			}
+		}
 		
 		boolean flag = false;
 		String sessionId = request.getHeader(StaticConst.CONST_SESSION_ID_KEY);
@@ -54,7 +67,13 @@ public class LoginFilter implements Filter{
 	}
 
 	@Override
-	public void init(FilterConfig arg0) throws ServletException {
+	public void init(FilterConfig config) throws ServletException {
+		String excludeStr = config.getInitParameter("excludes");
+		if(excludeStr != null)
+		{
+			excludes = excludeStr.split(",");
+		}
+		
 	}
 
 
