@@ -66,6 +66,18 @@
 				<activatedProperties>dev</activatedProperties>
 			</properties>
 		</profile>
+		<profile>
+			<id>qa</id>
+			<properties>
+				<activatedProperties>qa</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>rc</id>
+			<properties>
+				<activatedProperties>rc</activatedProperties>
+			</properties>
+		</profile>
 
 		<profile>
 			<id>online</id>
