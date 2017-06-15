@@ -8,10 +8,10 @@
     <!-- dev环境下的日志路 -->
     <property name="DEV_FILE_PATH" value="/data/apps/authority/logs/"></property>
   	<!-- qa环境下的日志路 -->
-    <property name="QA_FILE_PATH" value="/data/apps/authority_qa/logs/"></property>
+    <property name="QA_FILE_PATH" value="/data/apps/authority_qa/logs"></property>
     
   	<!-- rc环境下的日志路 -->
-    <property name="RC_FILE_PATH" value="/data/apps/authority_rc/logs/"></property>
+    <property name="RC_FILE_PATH" value="/data/apps/authority_rc/logs"></property>
   
   	<!-- rc环境 -->
     <springProfile name="rc">
