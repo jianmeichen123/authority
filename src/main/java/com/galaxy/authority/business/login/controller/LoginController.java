@@ -33,7 +33,7 @@ public class LoginController {
 	@Autowired
 	private IRedisCache<String, Object> cache;
 	
-	@RequestMapping("/loginself")
+	@RequestMapping("loginself")
 	@ResponseBody
 	public Object loginSelf(HttpServletRequest request,@RequestBody String paramString){
 		ResultBean result = ResultBean.instance();
@@ -44,7 +44,6 @@ public class LoginController {
 		paramMap.put("base64Password", base64Password);
 		
 		String sessionId = request.getSession().getId();
-		
 		Map<String,Object> userMap = service.loginSelf(paramMap);
 		
 		if(userMap!=null && !userMap.isEmpty()){
@@ -52,6 +51,19 @@ public class LoginController {
 			result.setValue(userMap);
 			cache.put(sessionId,sessionId);
 			userMap.put("sessionId", sessionId);
+		}
+		return result;
+	}
+	
+	@RequestMapping("logoutSelf")
+	@ResponseBody
+	public Object logoutSelf(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
+		if(paramMap!=null && paramMap.containsKey("sessionId")){
+			String sessionId = CUtils.get().object2String(paramMap.get("sessionId"));
+			cache.remove(sessionId);
+			result.setSuccess(true);
 		}
 		return result;
 	}
