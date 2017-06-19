@@ -9,4 +9,4 @@ mybatis:
   
 web:
   loginFilter:
-    excludes: /webjars,/swagger,/api-docs,/login/userLogin,/user/updatePwd,/user/getUserById,/user/getUserResource,/user/getUserScope,/role/selectRoleIdByUserId,/role/selectRoleCodeByUserId
+    excludes: /webjars,/swagger,/api-docs,/login/userLogin,/user/updatePwd,/user/getUserById,/user/getUserResource,/user/getUserScope,/role/selectRoleIdByUserId,/role/selectRoleCodeByUserId,/depart/getLeafDepartList,/user/getUsersByKey,/user/getUserByIds,/user/findUserByName
