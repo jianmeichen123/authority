@@ -126,7 +126,7 @@
 	<select id="getUserList" parameterType="hashmap" resultType="hashmap">
 		<include refid="getUserListHeader"></include>
 		<include refid="getUserListWhere"/>
-			order by u.create_time desc
+			order by u.id asc
 			limit #{startNo},#{pageSize};
 	</select>
 	

@@ -8,6 +8,7 @@
 	<sql id="getRoleListHeader">
 		select r.id,
 		    r.role_name roleName,
+		    r.role_code roleCode,
 		    r.role_demo roleDemo
 		from role r
 	</sql>
@@ -64,7 +65,7 @@
 	
 	<!-- 更新角色信息 -->
 	<update id="updateRole" parameterType="com.galaxy.authority.bean.role.RoleBean">
-		update role set role_name=#{roleName},role_demo=#{roleDemo}, create_time=#{createTime},update_time=#{updateTime} 
+		update role set role_name=#{roleName},role_code=#{roleCode},role_demo=#{roleDemo}, create_time=#{createTime},update_time=#{updateTime} 
 	    where id = #{id};
 	</update>
 	
