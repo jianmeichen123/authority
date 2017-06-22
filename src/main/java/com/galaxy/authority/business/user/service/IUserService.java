@@ -31,4 +31,6 @@ public interface IUserService {
 	int isExitUser(String loginName);
 	
 	int updatePwd(Map<String, Object> map);
+	
+	public List<Map<String,Object>> getResources(Map<String,Object> params);
 }

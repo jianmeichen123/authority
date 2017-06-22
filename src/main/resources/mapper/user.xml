@@ -326,5 +326,20 @@
 			u.password=#{password}
 		where u.id=#{userId}
 	</update>
+	
+	<select id="getResources" parameterType="hashmap" resultType="hashmap">
+		SELECT DISTINCT
+		id,
+		resource_code resourceMark,
+		resource_name resourceName,
+		resource_url resourceUrl,
+		resource_type resourceType,
+		resource_order resourceOrder,
+		resource_type resourceType,
+		style
+		FROM resource 
+		where is_del = '0'
+		<if test="resourceType != null"> and resource_type = #{resourceType}</if>
+	</select>
 
 </mapper>

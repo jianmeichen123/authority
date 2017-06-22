@@ -33,4 +33,6 @@ public interface IUserDao {
 	int isExitUser(String loginName);
 	
 	void updatePwd(Map<String, Object> map);
+	
+	List<Map<String,Object>> getResources(Map<String,Object> paramMap);
 }

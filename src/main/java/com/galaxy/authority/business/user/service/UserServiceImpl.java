@@ -326,6 +326,12 @@ public class UserServiceImpl implements IUserService{
         }
 		
 	}
+
+	@Override
+	public List<Map<String, Object>> getResources(Map<String, Object> params)
+	{
+		return dao.getResources(params);
+	}
 	
 
 }
