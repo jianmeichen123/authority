@@ -259,13 +259,17 @@ public class UserServiceImpl implements IUserService{
 		if(!scope.isEmpty()&&scope.size()>0){
 			for(Map<String,Object> info:scope){
 				if(info.get("resourceMark").toString().contains("callOn_shareUser")){
-					userIds = info.get("userIds").toString();
-					userIds = userIds.replace(" ", "");
-					if(userIds.startsWith("[")){
-						userIds = userIds.substring(1);
-					}
-					if(userIds.endsWith("]")){
-						userIds = userIds.substring(0,userIds.length()-1);
+					if(Integer.valueOf(info.get("spId").toString())==2){
+						list = dao.getUserIdList();
+					}else{
+						userIds = info.get("userIds").toString();
+						userIds = userIds.replace(" ", "");
+						if(userIds.startsWith("[")){
+							userIds = userIds.substring(1);
+						}
+						if(userIds.endsWith("]")){
+							userIds = userIds.substring(0,userIds.length()-1);
+						}
 					}
 				}
 			}

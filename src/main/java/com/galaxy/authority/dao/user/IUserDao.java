@@ -35,4 +35,5 @@ public interface IUserDao {
 	void updatePwd(Map<String, Object> map);
 	
 	List<Map<String,Object>> getResources(Map<String,Object> paramMap);
+	List<Long> getUserIdList();
 }

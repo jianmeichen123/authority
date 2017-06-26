@@ -341,5 +341,10 @@
 		where is_del = '0'
 		<if test="resourceType != null"> and resource_type = #{resourceType}</if>
 	</select>
+	
+	<!-- 获取所有用户id -->
+	<select id="getUserIdList"  resultType="Integer">
+		SELECT id FROM user WHERE is_del=0 and is_outtage=0 and is_show=0 and company_id=1;
+	</select>
 
 </mapper>
