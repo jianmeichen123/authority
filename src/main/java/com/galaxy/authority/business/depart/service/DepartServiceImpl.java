@@ -138,6 +138,12 @@ public class DepartServiceImpl implements IDepartService{
 	public List<Map<String, Object>> getCareerLineList() {
 		return dao.getCareerLineList();
 	}
+
+	@Override
+	public List<Map<String, Object>> getDeptIdByDeptName(Map<String, Object> map) {
+		List<Map<String,Object>>  res = dao.getDeptIdByDeptName(map);
+		return res;
+	}
 	
 	
 	

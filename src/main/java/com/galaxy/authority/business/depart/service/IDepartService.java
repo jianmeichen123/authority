@@ -19,4 +19,5 @@ public interface IDepartService {
 	//判断部门名称是否存在
 	int isExitDepartment(String depName);
 	List<Map<String,Object>> getCareerLineList();
+	List<Map<String, Object>> getDeptIdByDeptName(Map<String, Object> map);
 }

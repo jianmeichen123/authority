@@ -20,4 +20,5 @@ public interface IDepartDao {
 	int isExitDepartment(String depName);
 	List<Map<String,Object>> getCareerLineList();
 	List<Map<String,Object>> selectUserDep(Map<String,Object> paramMap);
+	List<Map<String, Object>> getDeptIdByDeptName(Map<String, Object> map);
 }
