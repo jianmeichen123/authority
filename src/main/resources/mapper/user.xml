@@ -272,7 +272,7 @@
 		s.sp_name,
 		su.other_id otherId,
 		su.is_dep isDep
-		FROM USER u
+		FROM user u
 		INNER JOIN rel_role_user ru ON ru.user_id = u.id
 		INNER JOIN role r ON r.id = ru.role_id and r.is_del=0 and r.is_outtage=0 
 		INNER JOIN rel_role_resource rr ON rr.role_id = r.id
