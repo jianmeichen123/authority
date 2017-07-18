@@ -33,4 +33,6 @@ public interface IUserService {
 	int updatePwd(Map<String, Object> map);
 	
 	public List<Map<String,Object>> getResources(Map<String,Object> params);
+	//app 修改密码
+	ResultBean resetPasswordForApp(Map<String, Object> map);
 }

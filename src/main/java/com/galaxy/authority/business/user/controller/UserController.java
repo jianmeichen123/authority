@@ -179,6 +179,22 @@ public class UserController {
 		return service.resetPassword(map);
 	}
 	
+	/**
+	 * 重置密码
+	 */
+	@RequestMapping("resetPasswordForApp")
+	@ResponseBody
+	public Object resetPasswordForApp(@RequestBody String userString){
+		Map<String,Object> map = CUtils.get().jsonString2map(userString);
+		
+		if(CUtils.get().mapIsNotEmpty(map)){
+			map.put("id", CUtils.get().object2String(map.get("id")));
+			map.put("password", CUtils.get().object2String(map.get("password")));
+		}
+		map.put("companyId", StaticConst.COMPANY_ID);
+		return service.resetPasswordForApp(map);
+	}
+	
 	/*---------------------对外服务接口----------------------*/
 	/**
 	 * 根据传入的关键字模糊查询用户并返回列表

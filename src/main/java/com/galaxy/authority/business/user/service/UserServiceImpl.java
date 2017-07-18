@@ -336,6 +336,40 @@ public class UserServiceImpl implements IUserService{
 	{
 		return dao.getResources(params);
 	}
+
+	//修改密码
+	@Override
+	public ResultBean resetPasswordForApp(Map<String, Object> paramMap) {
+		ResultBean result = ResultBean.instance();
+		int retValue = 0;
+		
+		//获取用户信息by用户id
+		Map<String, Object> user=dao.getUserById(paramMap);
+		//修改密码业务处理
+		retValue = dao.resetPassword(paramMap);
+		
+		//登陆地址
+		Properties property = PropertiesUtils.getProperties(StaticConst.MAIL_CONFIG_FILE);
+		String loginUrl = property.getProperty(StaticConst.LOGIN_URL);
+		//邮件主题
+		String subject = "重置密码通知";
+		//收件人地址
+		String toMail = user.get("mail1").toString();
+		//使用模板发送邮件
+		String str = MailTemplateUtils.getContentByTemplate(StaticConst.MAIL_RESTPWD_CONTENT);
+		//内容
+		String content = PlaceholderConfigurer.formatText(str, user.get("userName").toString(),
+				user.get("loginName").toString(),user.get("oriPass").toString(),loginUrl,loginUrl);
+		
+		if (retValue < 1) {
+			result.setSuccess(false);
+		}else{
+			//发送邮件
+			SimpleMailSender.sendHtmlMail(toMail, subject, content);
+			result.setSuccess(true);
+		}
+		return result;
+	}
 	
 
 }
