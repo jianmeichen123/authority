@@ -189,7 +189,7 @@ public class UserController {
 		
 		if(CUtils.get().mapIsNotEmpty(map)){
 			map.put("userId", CUtils.get().object2String(map.get("id")));
-			map.put("password", CUtils.get().object2String(map.get("password")));
+			map.put("password", PWDUtils.genernateNewPassword(CUtils.get().object2String(map.get("password"))));
 		}
 		map.put("companyId", StaticConst.COMPANY_ID);
 		return service.resetPasswordForApp(map);
