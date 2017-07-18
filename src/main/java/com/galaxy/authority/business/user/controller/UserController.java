@@ -188,7 +188,7 @@ public class UserController {
 		Map<String,Object> map = CUtils.get().jsonString2map(userString);
 		
 		if(CUtils.get().mapIsNotEmpty(map)){
-			map.put("id", CUtils.get().object2String(map.get("id")));
+			map.put("userId", CUtils.get().object2String(map.get("id")));
 			map.put("password", CUtils.get().object2String(map.get("password")));
 		}
 		map.put("companyId", StaticConst.COMPANY_ID);
