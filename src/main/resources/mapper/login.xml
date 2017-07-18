@@ -24,34 +24,13 @@
 	
 	<!-- 用于APP登录 -->
 	<select id="getUserLoginInfoForApp" resultType="java.util.HashMap" parameterType="Map">
-		<!-- SELECT 
+		SELECT 
 			u.id,
 			u.login_name loginName,
 			u.user_name realName,
 		    d.id departmentId,
 		    d.dep_name departmentName,
 		    r.role_code roleCode,
-		    r.role_name roleName
-		FROM user u
-		left join rel_dep_user rdu on u.id=rdu.user_id
-		left join department d on d.id=rdu.dep_id
-		left join rel_pos_user rpu on u.id=rpu.user_id
-		left join position p on p.id=rpu.pos_id
-		left join rel_role_user rru on rru.user_id=u.id
-		left join role r on r.id=rru.role_id 
-		where u.company_id=d.company_id
-		and u.company_id=p.company_id
-		and u.company_id=#{companyId}
-		and u.is_del=0
-		and r.is_outtage=2
-		and login_name=#{userName} and `password` =#{passWord}; -->
-		SELECT 
-			u.id,
-			u.login_name nickName,
-			u.user_name realName,
-		    d.id departmentId,
-		    d.dep_name departmentName,
-		    r.id roleId,
 		    r.role_name roleName
 		FROM user u
 		left join rel_dep_user rdu on u.id=rdu.user_id
