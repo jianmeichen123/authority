@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -186,13 +188,33 @@ public class UserController {
 	@ResponseBody
 	public Object resetPasswordForApp(@RequestBody String userString){
 		Map<String,Object> map = CUtils.get().jsonString2map(userString);
-		
-		if(CUtils.get().mapIsNotEmpty(map)){
-			map.put("userId", CUtils.get().object2String(map.get("id")));
-			map.put("password", PWDUtils.genernateNewPassword(CUtils.get().object2String(map.get("password"))));
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+		try {
+			//验证新密码是否符合规范
+			String regex = "^(?=.*[0-9])(?=.*[a-z|A-Z])((/D)*).{8,}$";
+			Pattern p = Pattern.compile(regex); 
+		  	Matcher m = p.matcher(CUtils.get().object2String(map.get("password")));
+		  	if(m.matches()){
+		  		if(CUtils.get().mapIsNotEmpty(map)){
+					map.put("userId", CUtils.get().object2String(map.get("id")));
+					map.put("password", PWDUtils.genernateNewPassword(CUtils.get().object2String(map.get("password"))));
+				}
+				map.put("companyId", StaticConst.COMPANY_ID);
+		  		if(service.resetPasswordForApp(map).isSuccess()){
+		  			result.setSuccess(true);
+					result.setMessage("密码已修改!");
+		  		}else{
+		  			result.setSuccess(false);
+					result.setMessage("密码修改失败!");
+		  		}
+		  	}else{
+		  		result.setMessage("新密码必须包含字母数字，可以包含特殊字符，8位及以上!");
+		  	}
+		} catch (Exception e) {
+			result.setMessage("服务器异常，密码修改失败!");
 		}
-		map.put("companyId", StaticConst.COMPANY_ID);
-		return service.resetPasswordForApp(map);
+		return result;
 	}
 	
 	/*---------------------对外服务接口----------------------*/
