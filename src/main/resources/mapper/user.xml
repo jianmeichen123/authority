@@ -150,6 +150,7 @@
 			u.mobile_phone mobilePhone,
 			u.email1 email1,
 		    u.sex sex,
+		    u.is_admin isAdmin,
 		    u.is_outtage isOuttage,
 		    u.create_id createId,
 		    u.create_time createTime,
@@ -194,7 +195,8 @@
 		    u.sex=#{sex},
 		    u.employ_no=#{employNo},
 		    u.telphone=#{telPhone},
-		    u.address=#{address}
+		    u.address=#{address},
+		    u.is_admin=#{isAdmin}
 		where u.id=${userId}
 		and u.company_id=${companyId};
 	</update>
@@ -218,6 +220,7 @@
 			`update_id`,
 			`update_time`,
 			`address`,
+			`is_admin`,
 			`company_id` 
 		)VALUES(
 			#{loginName}, 
@@ -236,6 +239,7 @@
 			#{updateId}, 
 			#{updateTime},
 			#{address},
+			#{isAdmin},
 			#{companyId}
 		);
 		<selectKey keyProperty="id" resultType="long" order="AFTER">  
@@ -345,6 +349,20 @@
 	<!-- 获取所有用户id -->
 	<select id="getUserIdList"  resultType="Integer">
 		SELECT id FROM user WHERE is_del=0 and is_outtage=0 and is_show=0 and company_id=1;
+	</select>
+	
+	<!-- 检测账号是否绑定角色 -->
+	<select id="checkBindRole" resultType="Integer" parameterType="Map">
+		select count(1)
+			from user u,role r,rel_role_user ru
+			where u.company_id=r.company_id
+			and u.company_id=ru.company_id
+			and u.id=ru.user_id
+			and r.id=ru.role_id
+			and r.is_del=0
+			and r.is_outtage=0
+			and u.id=#{userId}
+			and r.company_id=#{companyId};
 	</select>
 
 </mapper>

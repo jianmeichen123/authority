@@ -437,5 +437,26 @@ public class UserController {
 		return rtn;
 	}
 	
+	/**
+	 * 检测用户是否绑定角色
+	 * @param mapString
+	 * @return
+	 */
+	@RequestMapping("checkBindRole")
+	@ResponseBody
+	public Object checkBindRole(@RequestBody String mapString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(true);
+		
+		Map<String,Object> paramMap = CUtils.get().jsonString2map(mapString);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		if(CUtils.get().mapIsNotEmpty(paramMap)){
+			if(service.checkBindRole(paramMap)){
+				result.setSuccess(false);
+			}
+		}
+		return result;
+	}
+	
 
 }

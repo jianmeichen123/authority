@@ -35,4 +35,6 @@ public interface IUserService {
 	public List<Map<String,Object>> getResources(Map<String,Object> params);
 	//app 修改密码
 	ResultBean resetPasswordForApp(Map<String, Object> map);
+	//检测用户是否绑定角色
+	boolean checkBindRole(Map<String, Object> paramMap);
 }

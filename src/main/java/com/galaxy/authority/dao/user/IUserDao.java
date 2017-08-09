@@ -36,4 +36,5 @@ public interface IUserDao {
 	
 	List<Map<String,Object>> getResources(Map<String,Object> paramMap);
 	List<Long> getUserIdList();
+	int checkBindRole(Map<String, Object> paramMap);
 }

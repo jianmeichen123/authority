@@ -93,7 +93,7 @@
 	<select id="getcurrNodeByDeptId" parameterType="hashmap" resultType="hashmap">
 		select id,d.dep_name name,d.parent_id parentId
 		from department d 
-		where d.id=#{parentId} and d.is_del=0 and is_outtage=0 and is_show=0 and company_id=#{companyId} 
+		where d.id=#{parentId} and d.is_del=0 and is_outtage=0 and company_id=#{companyId} 
 		order by index_no;
 	</select>
 	

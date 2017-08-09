@@ -55,6 +55,7 @@ public class UserServiceImpl implements IUserService{
 		userBean.setEmail1(CUtils.get().object2String(map.get("email1")));
 		userBean.setCompanyId(StaticConst.COMPANY_ID);
 		userBean.setSex(CUtils.get().object2Integer(map.get("sex")));
+		userBean.setIsAdmin(CUtils.get().object2Integer(map.get("isAdmin")));
 		userBean.setEmployNo(CUtils.get().object2String(map.get("employNo")));
 		userBean.setTelphone(CUtils.get().object2String(map.get("telPhone")));
 		userBean.setAddress(CUtils.get().object2String(map.get("address")));
@@ -369,6 +370,15 @@ public class UserServiceImpl implements IUserService{
 			result.setSuccess(true);
 		}
 		return result;
+	}
+
+	/**
+	 * 检测用户是否绑定角色
+	 */
+	@Override
+	public boolean checkBindRole(Map<String, Object> paramMap) {
+		int count = dao.checkBindRole(paramMap);
+		return count>0;
 	}
 	
 

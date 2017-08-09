@@ -25,6 +25,7 @@ public class UserBean {
 	private long updateId;
 	private long companyId;
 	private String address;
+	private int isAdmin;
 	
 	public UserBean(){
 		this.loginName = " ";
@@ -167,5 +168,13 @@ public class UserBean {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public int getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(int isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 }
