@@ -15,7 +15,7 @@
 	<!-- 列表查询条件 -->
 	<sql id="getRoleListWhere" >
 		where r.is_del=0
-		and r.is_outtage=0
+		<!-- and r.is_outtage=0 -->
 		<if test="companyId != null ">and r.company_id=#{companyId}</if>
 	</sql>
 	
