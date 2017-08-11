@@ -209,5 +209,7 @@ public interface IRoleService {
 	 * @param query
 	 * @return
 	 */
+
 	List<String> getRoleCodeByUserId(Map<String, Object> query);
+
 }

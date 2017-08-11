@@ -55,4 +55,5 @@ public interface IRoleDao {
 	List<String> selectRoleCodeByUserId(Map<String, Object> paramMap);
 	//获取角色code
 	public List<String> getRoleCodeByUserId(Map<String, Object> query);
+
 }
