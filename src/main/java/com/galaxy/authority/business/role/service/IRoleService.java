@@ -204,4 +204,10 @@ public interface IRoleService {
 	 * @return
 	 */
 	List<String> selectRoleCodeByUserId(Map<String, Object> paramMap);
+	/**
+	 * 获取角色code
+	 * @param query
+	 * @return
+	 */
+	List<Map<String, Object>> getRoleCodeByUserId(Map<String, Object> query);
 }
