@@ -219,11 +219,7 @@
 	</select>
 	
 	<!-- 获取角色code 临时角色的is_outtage=2 -->
-<<<<<<< HEAD
 	<select id="getRoleCodeByUserId" parameterType="hashmap" resultType="String">
-=======
-	<select id="getRoleCodeByUserId" parameterType="hashmap" resultType="hashmap">
->>>>>>> branch 'master' of http://git.gi.com/galaxy_app/authority.git
 		SELECT 
 		DISTINCT r.role_code
 		FROM role r
