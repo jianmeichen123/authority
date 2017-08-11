@@ -594,4 +594,25 @@ public class RoleController {
 		query.put("userId", userId);
 		return service.selectRoleCodeByUserId(query);
 	}
+	
+	/**
+	 * 获取用户的角色code
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping("getRoleCodeByUserId")
+	@ResponseBody
+	public Object getRoleCodeByUserId(@RequestBody String paramString)
+	{
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+		Map<String,Object> map = CUtils.get().jsonString2map(paramString);
+		map.put("companyId", StaticConst.COMPANY_ID);
+		List<String> info =service.getRoleCodeByUserId(map);
+		if(!info.isEmpty() && info.size()>0){
+			result.setSuccess(true);
+			result.setValue(info);
+		}
+		return result;
+	}
 }
