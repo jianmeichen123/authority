@@ -211,7 +211,7 @@
 	<select id="getCareerLineList" resultType="hashmap">
 		select 
 			d.id,
-		    d.dep_name depName
+		    d.dep_name name
 		from department d
 		where d.is_careerline=1
 		and d.is_del=0
