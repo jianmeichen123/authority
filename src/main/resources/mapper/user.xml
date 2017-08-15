@@ -221,6 +221,7 @@
 			`update_time`,
 			`address`,
 			`is_admin`,
+			`employ_no`,
 			`company_id` 
 		)VALUES(
 			#{loginName}, 
@@ -240,6 +241,7 @@
 			#{updateTime},
 			#{address},
 			#{isAdmin},
+			#{employNo},
 			#{companyId}
 		);
 		<selectKey keyProperty="id" resultType="long" order="AFTER">  
