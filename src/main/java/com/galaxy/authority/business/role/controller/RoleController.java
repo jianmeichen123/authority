@@ -263,6 +263,8 @@ public class RoleController {
 				userIdStr = paramJson.getString("userIdStr");
 			}
 		}
+		//角色id获取角色信息
+		RoleBean roleBean = service.getRoleById(CUtils.get().object2Long(roleId));
 		
 		String str[] = userIdStr.split(",");
 		for(int i=0;i<str.length;i++){
@@ -279,6 +281,7 @@ public class RoleController {
 					bean = new RelRoleUser();
 					bean.setRoleId(roleId);
 					bean.setUserId(str[i]);
+					bean.setIsOuttage(roleBean.getIsOuttage());
 					bean.setCompanyId(StaticConst.COMPANY_ID);
 					listBean.add(bean);
 				}

@@ -19,6 +19,11 @@
 		<if test="companyId != null ">and r.company_id=#{companyId}</if>
 	</sql>
 	
+	<!-- 通过id获取角色信息 -->
+	<select id="getRoleById" resultType="com.galaxy.authority.bean.role.RoleBean" parameterType="long">
+		select id roleId,role_code roleCode, role_name roleName,is_outtage isOuttage  from role where id=#{id};
+	</select>
+	
 	<!-- 获取角色的列表 -->
 	<select id="getRoleList" parameterType="hashmap" resultType="hashmap">
 		<include refid="getRoleListHeader"/>
@@ -79,7 +84,7 @@
 	<select id="getUserListByRoleId" parameterType="hashmap" resultType="hashmap">
 		select u.user_name userName from `user` u
 		left join rel_role_user ru on u.id = ru.user_id
-		WHERE ru.role_id=#{id} and ru.is_del=0 and ru.is_outtage=0 and ru.company_id=#{companyId};
+		WHERE ru.role_id=#{id} and ru.is_del=0 and ru.company_id=#{companyId};
 	</select>
 	
 	<!--通过部门id获取子部门list-->
@@ -112,7 +117,7 @@
 		left join rel_role_user ru on u.id = ru.user_id
 		left join rel_pos_user pu on u.id = pu.user_id
 		left join position p on pu.pos_id = p.id 
-		where ru.is_del=0 and ru.is_outtage=0 and ru.role_id=#{id} and ru.company_id=#{companyId} 
+		where ru.is_del=0 and ru.role_id=#{id} and ru.company_id=#{companyId} 
 		limit #{startNo},#{pageSize};
 	</select>
 	
@@ -202,12 +207,25 @@
 	<!-- 已选用户判断是否已经绑定角色-->
 	<select id="isRelRoleUser" parameterType="hashmap" resultType="hashmap">
 		SELECT u.id, u.user_name name,
+			case ru.flag
+			WHEN 0 THEN 0
+			WHEN 2 THEN 2
+			else 1
+			end flag
+			FROM (
+				SELECT COUNT(1) flag 
+				FROM rel_role_user ru 
+				LEFT JOIN role r on r.id=ru.role_id 
+				WHERE user_id=#{userId} and r.is_outtage in(0,2) 
+			) ru,user u
+		WHERE u.id=#{userId} and u.is_del=0 and u.is_outtage=0 and u.company_id =#{companyId};
+		<!-- SELECT u.id, u.user_name name,
 		case ru.flag
 		WHEN 0 THEN 0
 		else 1
 		end flag
 		FROM (SELECT COUNT(1) flag FROM rel_role_user WHERE user_id=#{userId}) ru,user u
-		WHERE u.id=#{userId} and u.is_del=0 and u.is_outtage=0 and u.company_id =#{companyId};
+		WHERE u.id=#{userId} and u.is_del=0 and u.is_outtage=0 and u.company_id =#{companyId}; -->
 	</select>
 	
 	<select id="selectRoleCodeByUserId" parameterType="hashmap" resultType="string">
