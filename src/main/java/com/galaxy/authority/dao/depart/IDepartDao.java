@@ -21,4 +21,5 @@ public interface IDepartDao {
 	List<Map<String,Object>> getCareerLineList();
 	List<Map<String,Object>> selectUserDep(Map<String,Object> paramMap);
 	List<Map<String, Object>> getDeptIdByDeptName(Map<String, Object> map);
+	List<Map<String, Object>> getDeptInfo(Map<String, Object> map);
 }

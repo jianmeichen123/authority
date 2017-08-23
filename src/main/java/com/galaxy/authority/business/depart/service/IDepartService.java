@@ -20,4 +20,5 @@ public interface IDepartService {
 	int isExitDepartment(String depName);
 	List<Map<String,Object>> getCareerLineList();
 	List<Map<String, Object>> getDeptIdByDeptName(Map<String, Object> map);
+	List<Map<String, Object>> getDeptInfo(Map<String, Object> map);
 }

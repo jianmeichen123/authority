@@ -278,6 +278,26 @@ public class DepartController {
 		return result;
 	}
 	
+	/**
+	 * 根据部门id获取部门名称
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("getDeptInfo")
+	@ResponseBody
+	public Object getDeptInfo(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+		Map<String,Object> map = CUtils.get().jsonString2map(paramString);
+		map.put("companyId", StaticConst.COMPANY_ID);
+		List<Map<String,Object>> info =service.getDeptInfo(map);
+		if(!info.isEmpty() && info.size()>0){
+			result.setSuccess(true);
+			result.setValue(info);
+		}
+		return result;
+	}
+	
 	
 
 }

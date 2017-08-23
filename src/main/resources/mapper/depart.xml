@@ -238,5 +238,12 @@
 		from department 
 		WHERE dep_name=#{deptName} and is_del=0 and company_id=#{companyId};
 	</select>
+	
+	<!-- 根据部门id获取部门名称 -->
+	<select id="getDeptInfo" parameterType="hashmap" resultType="hashmap">
+		SELECT id deptId,dep_name deptName 
+		from department 
+		WHERE id=#{deptId} and is_del=0 and company_id=#{companyId};
+	</select>
 
 </mapper>
