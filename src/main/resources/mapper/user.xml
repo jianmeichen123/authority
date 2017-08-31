@@ -362,7 +362,7 @@
 			and u.id=ru.user_id
 			and r.id=ru.role_id
 			and r.is_del=0
-			and r.is_outtage=0
+			and r.is_outtage in (0,2)
 			and u.id=#{userId}
 			and r.company_id=#{companyId};
 	</select>

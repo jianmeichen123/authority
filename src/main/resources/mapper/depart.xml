@@ -211,7 +211,8 @@
 	<select id="getCareerLineList" resultType="hashmap">
 		select 
 			d.id,
-		    d.dep_name name
+		    d.dep_name name,
+		    d.parent_id parentId
 		from department d
 		where d.is_careerline=1
 		and d.is_del=0
