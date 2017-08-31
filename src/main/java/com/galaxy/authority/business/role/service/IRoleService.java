@@ -197,7 +197,7 @@ public interface IRoleService {
 	 * @param paramMap
 	 * @return
 	 */
-	Map<String, Object> isRelRoleUser(Map<String, Object> paramMap);
+	List<Map<String,Object>> isRelRoleUser(Map<String, Object> paramMap);
 	/**
 	 * 获取用户的角色code
 	 * @param paramMap

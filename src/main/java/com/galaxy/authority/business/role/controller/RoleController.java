@@ -570,8 +570,8 @@ public class RoleController {
 			String str[] = userIdStr.split(",");
 			for(int i=0;i<str.length;i++){
 				paramMap.put("userId", str[i]);
-				Map<String,Object> list = service.isRelRoleUser(paramMap);
-				dataList.add(list);
+				List<Map<String,Object>> list = service.isRelRoleUser(paramMap);
+				dataList.addAll(list);
 			}
 			if(dataList!=null){
 				result.setSuccess(true);
