@@ -41,6 +41,7 @@ public class LoginServiceImpl implements ILoginService{
 			if(roleCodes != null && roleCodes.size() >0)
 			{
 				userInfo.put("roleId", roleCodes.iterator().next());
+				userInfo.put("roleIds", roleCodes);
 			}
 			
 			//设置部门信息
