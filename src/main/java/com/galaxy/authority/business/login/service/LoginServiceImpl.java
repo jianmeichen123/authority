@@ -3,6 +3,7 @@ package com.galaxy.authority.business.login.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -57,15 +58,7 @@ public class LoginServiceImpl implements ILoginService{
 			if(res != null)
 			{
 				//数据权限
-				List<Map<String, Object>> scopeList = userService.getUserScope(query);
-				Map<String,Object> userIdsMap = new HashMap<>();
-				for(Map<String, Object> item : scopeList)
-				{
-					if(item.containsKey("userIds"))
-					{
-						userIdsMap.put(item.get("resourceMark")+"", item.get("userIds"));
-					}
-				}
+				Map<String,Set<Integer>> userIdsMap = userService.getUserResourceScope(query);
 				for(Map<String, Object> item : res)
 				{
 					String key = item.get("resourceMark")+"";

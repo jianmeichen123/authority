@@ -2,9 +2,11 @@ package com.galaxy.authority.business.user.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -234,6 +236,61 @@ public class UserServiceImpl implements IUserService{
 		}
 		
 		return list;
+	}
+	/**
+	 * 获取用户相应资源的数据权限
+	 * @param paramMap resourceMark:{uid1,uid2......}
+	 * @return
+	 */
+	public Map<String,Set<Integer>> getUserResourceScope(Map<String,Object> paramMap)
+	{
+		Map<String,Set<Integer>> map = new HashMap<>();
+		List<Map<String,Object>> list = dao.getUserScope(paramMap);
+		if(list == null || list.size() ==0)
+		{
+			return map;
+		}
+		for(Map<String,Object> item : list)
+		{
+			if(handlers == null)
+			{
+				return map;
+			}
+			//如果是所有人，取最大范围
+			Set<Integer> everyOneSet = new HashSet<>();
+			for(ScopeHandler handler : handlers)
+			{
+				if(handler.support(item))
+				{
+					List<Integer> userIds = handler.handle(item);
+					String resourceMark = (String)item.get("resourceMark");
+					Integer spId = (Integer)item.get("spId");
+					//所有人
+					if(everyOneSet.contains(spId))
+					{
+						map.remove(resourceMark);
+						break;
+					}
+					if("2".equals(spId))
+					{
+						everyOneSet.add(spId);
+					}
+					Set<Integer> ids = null;
+					if(!map.containsKey(resourceMark))
+					{
+						ids = new HashSet<>();
+						map.put(resourceMark, ids);
+					}
+					else
+					{
+						ids = map.get(resourceMark);
+					}
+					ids.addAll(userIds);
+					break;
+				}
+			}
+		}
+		return map;
 	}
 	
 	@PostConstruct
