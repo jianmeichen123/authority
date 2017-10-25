@@ -205,15 +205,38 @@
  		and r.is_del=0 and r.is_outtage in(0,2) and r.company_id=#{companyId};
 	</select>
 	
-	<!-- 已选用户判断是否已经绑定角色-->
+	<!-- 已选用户判断是否已经绑定角色 -->
 	<select id="isRelRoleUser" parameterType="hashmap" resultType="hashmap">
-		SELECT u.id, u.user_name name,
+		SELECT u.id, u.user_name name,ru.is_outtage isOuttage,ru.nums 
+		from user u
+		left join (
+					SELECT r.is_outtage,COUNT(1) nums,ru.user_id
+					FROM rel_role_user ru 
+					LEFT JOIN role r on r.id=ru.role_id 
+					WHERE ru.user_id=#{userId}
+					GROUP BY r.is_outtage
+					) ru on ru.user_id=u.id 
+		WHERE u.id=#{userId} and u.is_del=0 and u.is_outtage=0 and u.company_id =#{companyId};
+		<!-- SELECT u.id, u.user_name name,
+			case ru.flag
+			WHEN 0 THEN 0
+			WHEN 2 THEN 2
+			else 1
+			end flag
+			FROM (
+				SELECT COUNT(1) flag 
+				FROM rel_role_user ru 
+				LEFT JOIN role r on r.id=ru.role_id 
+				WHERE user_id=#{userId} and r.is_outtage in(0,2) 
+			) ru,user u
+		WHERE u.id=#{userId} and u.is_del=0 and u.is_outtage=0 and u.company_id =#{companyId}; -->
+		<!-- SELECT u.id, u.user_name name,
 		case ru.flag
 		WHEN 0 THEN 0
 		else 1
 		end flag
 		FROM (SELECT COUNT(1) flag FROM rel_role_user WHERE user_id=#{userId}) ru,user u
-		WHERE u.id=#{userId} and u.is_del=0 and u.is_outtage=0 and u.company_id =#{companyId};
+		WHERE u.id=#{userId} and u.is_del=0 and u.is_outtage=0 and u.company_id =#{companyId}; -->
 	</select>
 	
 	<select id="selectRoleCodeByUserId" parameterType="hashmap" resultType="string">

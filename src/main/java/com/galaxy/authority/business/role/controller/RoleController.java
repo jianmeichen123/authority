@@ -547,7 +547,7 @@ public class RoleController {
 	
 	
 	/**
-	 * 已选用户判断是否已经绑定角色
+	 * 已选用户判断是否已经绑定角色（已经去掉）
 	 * @param paramString
 	 * @return
 	 */
