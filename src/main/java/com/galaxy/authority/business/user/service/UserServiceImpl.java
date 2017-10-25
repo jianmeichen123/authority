@@ -312,15 +312,15 @@ public class UserServiceImpl implements IUserService{
 		String userIds="";
 		List<Long> list = new ArrayList<Long>();
 		
-		List<Map<String,Object>> scope =this.getUserScope(map);
+		Map<String, Set<Integer>> info =this.getUserResourceScope(map);
 		//获取数据范围下的所有相关用户id并做处理
-		if(!scope.isEmpty()&&scope.size()>0){
-			for(Map<String,Object> info:scope){
-				if(info.get("resourceMark").toString().contains("callOn_shareUser")){
-					if(Integer.valueOf(info.get("spId").toString())==2){
+		if(!info.isEmpty()&&info.size()>0){
+			//for(Map<String,Object> info:scope){
+				if(info.containsKey("callOn_shareUser")){
+					/*if(Integer.valueOf(info.get("spId").toString())==2){
 						list = dao.getUserIdList();
-					}else{
-						userIds = info.get("userIds").toString();
+					}else{*/
+						userIds = info.get("callOn_shareUser").toString();
 						userIds = userIds.replace(" ", "");
 						if(userIds.startsWith("[")){
 							userIds = userIds.substring(1);
@@ -328,9 +328,9 @@ public class UserServiceImpl implements IUserService{
 						if(userIds.endsWith("]")){
 							userIds = userIds.substring(0,userIds.length()-1);
 						}
-					}
+					//}
 				}
-			}
+			//}
 		}
 		//分割放在list
 		if(!userIds.isEmpty()){
