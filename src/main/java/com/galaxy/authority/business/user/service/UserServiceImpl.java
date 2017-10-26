@@ -246,34 +246,34 @@ public class UserServiceImpl implements IUserService{
 	{
 		Map<String,Set<Integer>> map = new HashMap<>();
 		List<Map<String,Object>> list = dao.getUserScope(paramMap);
-		if(list == null || list.size() ==0)
+		if(list == null || list.size() ==0 || handlers == null)
 		{
 			return map;
 		}
+		//如果是所有人，取最大范围
+		Set<String> everyOneSet = new HashSet<>();
 		for(Map<String,Object> item : list)
 		{
-			if(handlers == null)
-			{
-				return map;
-			}
-			//如果是所有人，取最大范围
-			Set<Integer> everyOneSet = new HashSet<>();
 			for(ScopeHandler handler : handlers)
 			{
 				if(handler.support(item))
 				{
 					List<Integer> userIds = handler.handle(item);
+					if(userIds == null || userIds.size() ==0)
+					{
+						break;
+					}
 					String resourceMark = (String)item.get("resourceMark");
 					Integer spId = (Integer)item.get("spId");
 					//所有人
-					if(everyOneSet.contains(spId))
+					if(everyOneSet.contains(resourceMark))
 					{
 						map.remove(resourceMark);
 						break;
 					}
-					if("2".equals(spId))
+					if(spId != null && spId.intValue()==2)
 					{
-						everyOneSet.add(spId);
+						everyOneSet.add(resourceMark);
 					}
 					Set<Integer> ids = null;
 					if(!map.containsKey(resourceMark))
