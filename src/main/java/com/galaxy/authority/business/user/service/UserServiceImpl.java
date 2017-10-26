@@ -259,21 +259,22 @@ public class UserServiceImpl implements IUserService{
 				if(handler.support(item))
 				{
 					List<Integer> userIds = handler.handle(item);
-					if(userIds == null || userIds.size() ==0)
-					{
-						break;
-					}
-					String resourceMark = (String)item.get("resourceMark");
+					String resourceMark = item.get("resourceMark")+"";
 					Integer spId = (Integer)item.get("spId");
 					//所有人
 					if(everyOneSet.contains(resourceMark))
 					{
 						map.remove(resourceMark);
 						break;
-					}
-					if(spId != null && spId.intValue()==2)
+					}else if(spId != null && spId.intValue()==2)
 					{
 						everyOneSet.add(resourceMark);
+						map.remove(resourceMark);
+						break;
+					}
+					if(userIds == null || userIds.size() ==0)
+					{
+						break;
 					}
 					Set<Integer> ids = null;
 					if(!map.containsKey(resourceMark))
