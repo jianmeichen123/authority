@@ -45,7 +45,7 @@
 		and u.is_del=0
 		and u.is_outtage=0
 		and r.is_outtage=2
-		and login_name=#{userName} and `password` =#{passWord};
+		and login_name=#{userName} and `password` =#{passWord} LIMIT 1;
 	</select>
 	
 	<!-- 权限系统内部登录 -->
