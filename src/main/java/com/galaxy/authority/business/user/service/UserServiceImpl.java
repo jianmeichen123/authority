@@ -250,8 +250,6 @@ public class UserServiceImpl implements IUserService{
 		{
 			return map;
 		}
-		//如果是所有人，取最大范围
-		Set<String> everyOneSet = new HashSet<>();
 		for(Map<String,Object> item : list)
 		{
 			for(ScopeHandler handler : handlers)
@@ -260,18 +258,6 @@ public class UserServiceImpl implements IUserService{
 				{
 					List<Integer> userIds = handler.handle(item);
 					String resourceMark = item.get("resourceMark")+"";
-					Integer spId = (Integer)item.get("spId");
-					//所有人
-					if(everyOneSet.contains(resourceMark))
-					{
-						map.remove(resourceMark);
-						break;
-					}else if(spId != null && spId.intValue()==2)
-					{
-						everyOneSet.add(resourceMark);
-						map.remove(resourceMark);
-						break;
-					}
 					if(userIds == null || userIds.size() ==0)
 					{
 						break;
