@@ -31,7 +31,8 @@
 		    d.id departmentId,
 		    d.dep_name departmentName,
 		    r.role_code roleCode,
-		    r.role_name roleName
+		    r.role_name roleName,
+		    p.pos_name posName
 		FROM user u
 		left join rel_dep_user rdu on u.id=rdu.user_id
 		left join department d on d.id=rdu.dep_id
