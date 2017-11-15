@@ -1,6 +1,7 @@
 package com.galaxy.authority.business.login.service;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,12 +60,18 @@ public class LoginServiceImpl implements ILoginService{
 			{
 				//数据权限
 				Map<String,Set<Integer>> userIdsMap = userService.getUserResourceScope(query);
+				Set<Integer> defaultScope = new HashSet<>(1);
+				defaultScope.add(0);
 				for(Map<String, Object> item : res)
 				{
 					String key = item.get("resourceMark")+"";
 					if(userIdsMap.containsKey(key))
 					{
 						item.put("userIds", userIdsMap.get(key));
+					}
+					else
+					{
+						item.put("userIds", defaultScope);
 					}
 				}
 			}
