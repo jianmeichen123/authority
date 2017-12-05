@@ -1,6 +1,7 @@
 package com.galaxy.authority.common.mybatis;
 
 import javax.sql.DataSource;
+
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -10,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+
 import com.alibaba.druid.pool.DruidDataSource;
 
 /**
@@ -46,14 +49,14 @@ public class MyBatisConfig {
         return fb.getObject();
     }
     
-//    /**
-//	 * @Title: transactionManager   
-//	 * @Description: 配置事务管理器
-//	 */
-//	@Bean
-//	public DataSourceTransactionManager transactionManager(DataSource dataSource) throws Exception {
-//		return new DataSourceTransactionManager(dataSource);
-//	}
+    /**
+	 * @Title: transactionManager   
+	 * @Description: 配置事务管理器
+	 */
+	@Bean
+	public DataSourceTransactionManager transactionManager(DataSource dataSource) throws Exception {
+		return new DataSourceTransactionManager(dataSource);
+	}
 }
 
 
