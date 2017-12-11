@@ -85,33 +85,47 @@ public class LoginServiceImpl implements ILoginService{
 	 */
 	@Override
 	public Map<String,Object> userLoginForApp(Map<String, Object> paramMap) {
-		Map<String,Object> userInfo = dao.getUserLoginInfoForApp(paramMap);
+		Map<String,Object> userInfo = dao.getUserLoginInfo(paramMap);
 		if(userInfo != null && userInfo.containsKey("id"))
 		{
 			Map<String, Object> query = new HashMap<>();
 			query.put("userId", userInfo.get("id"));
 			query.put("companyId", userInfo.get("companyId"));
 			query.put("productType", paramMap.get("productType"));
+			List<String> roleCodes = roleDao.getRoleCodeByUserId(query);
+			//设置角色信息
+			if(roleCodes != null && roleCodes.size() >0)
+			{
+				userInfo.put("roleId", roleCodes.iterator().next());
+				userInfo.put("roleIds", roleCodes);
+			}
+			
+			//设置部门信息
+			List<Map<String,Object>> departs = deptDao.selectUserDep(query);
+			if(departs != null && departs.size() >0)
+			{
+				Map<String,Object> depart = departs.iterator().next();
+				userInfo.put("departmentId", depart.get("departmentId"));
+				userInfo.put("departmentName", depart.get("departmentName"));
+			}
 			//资源权限
 			List<Map<String, Object>> res = userService.getUserResources(query);
 			if(res != null)
 			{
 				//数据权限
-				List<Map<String, Object>> scopeList = userService.getUserScope(query);
-				Map<String,Object> userIdsMap = new HashMap<>();
-				for(Map<String, Object> item : scopeList)
-				{
-					if(item.containsKey("userIds"))
-					{
-						userIdsMap.put(item.get("resourceMark")+"", item.get("userIds"));
-					}
-				}
+				Map<String,Set<Integer>> userIdsMap = userService.getUserResourceScope(query);
+				Set<Integer> defaultScope = new HashSet<>(1);
+				defaultScope.add(0);
 				for(Map<String, Object> item : res)
 				{
 					String key = item.get("resourceMark")+"";
 					if(userIdsMap.containsKey(key))
 					{
 						item.put("userIds", userIdsMap.get(key));
+					}
+					else
+					{
+						item.put("userIds", defaultScope);
 					}
 				}
 			}
