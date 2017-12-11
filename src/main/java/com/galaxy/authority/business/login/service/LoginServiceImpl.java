@@ -85,14 +85,14 @@ public class LoginServiceImpl implements ILoginService{
 	 */
 	@Override
 	public Map<String,Object> userLoginForApp(Map<String, Object> paramMap) {
-		Map<String,Object> userInfo = dao.getUserLoginInfo(paramMap);
+		Map<String,Object> userInfo = dao.getUserLoginInfoForApp(paramMap);
 		if(userInfo != null && userInfo.containsKey("id"))
 		{
 			Map<String, Object> query = new HashMap<>();
 			query.put("userId", userInfo.get("id"));
 			query.put("companyId", userInfo.get("companyId"));
 			query.put("productType", paramMap.get("productType"));
-			List<String> roleCodes = roleDao.getRoleCodeByUserId(query);
+			List<String> roleCodes = roleDao.selectRoleCodeByUserId(query);
 			//设置角色信息
 			if(roleCodes != null && roleCodes.size() >0)
 			{
