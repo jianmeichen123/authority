@@ -92,7 +92,7 @@ public class LoginServiceImpl implements ILoginService{
 			query.put("userId", userInfo.get("id"));
 			query.put("companyId", userInfo.get("companyId"));
 			query.put("productType", paramMap.get("productType"));
-			List<String> roleCodes = roleDao.selectRoleCodeByUserId(query);
+			List<String> roleCodes = roleDao.getRoleCodeByUserId(query);
 			//设置角色信息
 			if(roleCodes != null && roleCodes.size() >0)
 			{
