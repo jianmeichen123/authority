@@ -166,4 +166,27 @@ public class LoginController {
 			
 			return result;
 		}
+		
+		
+		//获取用户数据范围
+		@RequestMapping("/allResourceToUser")
+		@ResponseBody
+		public Object allResourceToUser(@RequestBody String paramString){
+			ResultBean result = ResultBean.instance();
+			result.setSuccess(false);
+			
+			try {
+				Map<String, Object> paramMap = CUtils.get().jsonString2map(paramString);
+				Map<String,Object> userInfo = service.allResourceToUser(paramMap);
+				if(userInfo != null && userInfo.size() >0){
+					result.setSuccess(true);
+					result.setValue(userInfo);
+				}else{
+					result.setSuccess(false);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
 }

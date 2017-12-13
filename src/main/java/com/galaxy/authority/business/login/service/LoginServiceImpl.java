@@ -139,6 +139,63 @@ public class LoginServiceImpl implements ILoginService{
 		return dao.loginSelf(paramMap);
 	}
 
+	/**
+	 * 获取用户数据范围
+	 */
+	@Override
+	public Map<String, Object> allResourceToUser(Map<String, Object> paramMap) {
+		
+		Map<String,Object> userInfo = new HashMap<String,Object>();
+		
+			try {
+				Map<String, Object> query = new HashMap<>();
+				query.put("userId", paramMap.get("userId"));
+				query.put("companyId",1);
+				query.put("productType", paramMap.get("productType"));
+				List<String> roleCodes = roleDao.getRoleCodeByUserId(query);
+				//设置角色信息
+				if(roleCodes != null && roleCodes.size() >0)
+				{
+					userInfo.put("roleId", roleCodes.iterator().next());
+					userInfo.put("roleIds", roleCodes);
+				}
+				
+				//设置部门信息
+				List<Map<String,Object>> departs = deptDao.selectUserDep(query);
+				if(departs != null && departs.size() >0)
+				{
+					Map<String,Object> depart = departs.iterator().next();
+					userInfo.put("departmentId", depart.get("departmentId"));
+					userInfo.put("departmentName", depart.get("departmentName"));
+				}
+				//资源权限
+				List<Map<String, Object>> res = userService.getUserResources(query);
+				if(res != null)
+				{
+					//数据权限
+					Map<String,Set<Integer>> userIdsMap = userService.getUserResourceScope(query);
+					Set<Integer> defaultScope = new HashSet<>(1);
+					defaultScope.add(0);
+					for(Map<String, Object> item : res)
+					{
+						String key = item.get("resourceMark")+"";
+						if(userIdsMap.containsKey(key))
+						{
+							item.put("userIds", userIdsMap.get(key));
+						}
+						else
+						{
+							item.put("userIds", defaultScope);
+						}
+					}
+				}
+				userInfo.put("allResourceToUser", res);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return userInfo;
+	}
+
 
 	
 

@@ -25,4 +25,11 @@ public interface ILoginService {
 	 */
 	Map<String,Object> loginSelf(Map<String,Object> paramMap);
 
+	/**
+	 * 获取用户的数据范围信息
+	 * @param paramMap
+	 * @return
+	 */
+	Map<String, Object> allResourceToUser(Map<String, Object> paramMap);
+
 }
