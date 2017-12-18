@@ -1,9 +1,7 @@
 package com.galaxy.authority.business.brain.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +30,8 @@ public class BrainController {
 	public Object selectDepIdByUserId(@RequestBody String paramString)
 	{
 		Long id = 0L;
-		Map<String,Object> paramMap = new HashMap<>();
-		JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
+		Map<String,Object> paramMap  = CUtils.get().jsonString2map(paramString);
 		try {
-			if(paramJson!=null && paramJson.has("userId")){
-				paramMap.put("userId", paramJson.getLong("userId"));
-			}
 			id = service.selectDepIdByUserId(paramMap);
 		} catch (Exception e) {
 			log.error(BrainController.class.getName() + "selectDepIdByUserId",e);

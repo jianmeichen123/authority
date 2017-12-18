@@ -22,4 +22,6 @@ public interface IDepartDao {
 	List<Map<String,Object>> selectUserDep(Map<String,Object> paramMap);
 	List<Map<String, Object>> getDeptIdByDeptName(Map<String, Object> map);
 	List<Map<String, Object>> getDeptInfo(Map<String, Object> map);
+	//根据 用户id 查询返回部门id
+	public Long selectDepIdByUserId(Map<String, Object> paramMap);
 }

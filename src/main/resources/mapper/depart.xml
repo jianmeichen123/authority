@@ -248,7 +248,7 @@
 	</select>
 	
 	<!-- 根据用户id获取部门id-->
-	<select id="selectDepIdByUserId" parameterType="hashmap" resultType="hashmap">
+	<select id="selectDepIdByUserId" parameterType="hashmap" resultType="long">
 		SELECT ru.dep_id departmentId 
 		FROM rel_dep_user ru
 		WHERE ru.user_id=#{userId} and ru.is_outtage =0
