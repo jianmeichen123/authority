@@ -55,5 +55,7 @@ public interface IRoleDao {
 	List<String> selectRoleCodeByUserId(Map<String, Object> paramMap);
 	//获取角色code
 	public List<String> getRoleCodeByUserId(Map<String, Object> query);
+	//根据 用户id 查询返回部门id
+	public Long selectDepIdByUserId(Map<String, Object> paramMap);
 
 }

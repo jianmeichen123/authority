@@ -246,5 +246,12 @@
 		from department 
 		WHERE id=#{deptId} and is_del=0 and company_id=#{companyId};
 	</select>
+	
+	<!-- 根据用户id获取部门id-->
+	<select id="selectDepIdByUserId" parameterType="hashmap" resultType="hashmap">
+		SELECT ru.dep_id departmentId 
+		FROM rel_dep_user ru
+		WHERE ru.user_id=#{userId} and ru.is_outtage =0
+	</select>
 
 </mapper>
