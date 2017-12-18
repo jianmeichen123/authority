@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.galaxy.authority.business.brain.service.IBrainService;
 
 @Controller
-@RequestMapping("brain")
+@RequestMapping("/brain")
 public class BrainController {
 	private Logger log = LoggerFactory.getLogger(BrainController.class);
 	@Autowired
@@ -27,7 +27,7 @@ public class BrainController {
 	 */
 	@RequestMapping("selectDepIdByUserId")
 	@ResponseBody
-	public Object selectDepIdByUserId(@RequestBody Long userId)
+	public Object selectDepIdByUserId(@RequestBody String userId)
 	{
 		Long id = 0L;
 		Map<String,Object> paramMap = new HashMap<>();
