@@ -256,4 +256,29 @@
 		WHERE ru.user_id=#{userId} and r.is_del=0 and r.is_outtage in(0,2); 
 	</select>
 	
+	<!-- 获取指定部门下具有特定角色的所有用户的集合 -->
+	<select id="getUserFromDepartRole" parameterType="hashmap" resultType="hashmap">
+		select 
+			u.id userId,
+		    u.login_name loginName,
+		    u.user_name userName,
+		    r.id roleId,
+		    r.role_code roleCode,
+		    r.role_name roleName,
+		    dep.id depId,
+		    dep.dep_name depName
+		 from user u
+		left join rel_dep_user rdu on rdu.user_id=u.id
+		left join department dep on rdu.dep_id=dep.id
+		left join rel_role_user rru on u.id=rru.user_id
+		left join role r on rru.role_id=r.id
+		left join rel_role_resource rrr on r.id=rrr.role_id
+		left join resource rs on rs.id=rrr.res_id
+		where rs.resource_code=#{resourceCode}
+		and dep.id=#{depId}
+		group by u.id;
+	
+	</select>
+	
+	
 </mapper>

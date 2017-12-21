@@ -611,6 +611,7 @@ public class RoleController {
 		result.setSuccess(false);
 		Map<String,Object> map = CUtils.get().jsonString2map(paramString);
 		map.put("companyId", StaticConst.COMPANY_ID);
+		
 		List<String> info =service.getRoleCodeByUserId(map);
 		if(!info.isEmpty() && info.size()>0){
 			result.setSuccess(true);
@@ -618,4 +619,35 @@ public class RoleController {
 		}
 		return result;
 	}
+	
+	/**
+	 * 获取指定部门下具有特定角色的所有用户的集合
+	 * 	如：获取人工智能部门下所有的投资经理
+	 */
+	@RequestMapping("getUserFromDepartRole")
+	@ResponseBody
+	public Object getUserFromDepartRole(@RequestBody String paramString) {
+		ResultBean resultBean = new ResultBean();
+		try {
+			if(CUtils.get().stringIsNotEmpty(paramString)) {
+				Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
+				
+				if(paramMap!=null && !paramMap.isEmpty()) {
+					if(!paramMap.containsKey("resourceCode")) {
+						paramMap.put("resourceCode", "project_receive_person");
+					}
+					
+					List<Map<String,Object>> dataList = service.getUserFromDepartRole(paramMap);
+					if(dataList!=null && dataList.size()>0) {
+						resultBean.setSuccess(true);
+						resultBean.setValue(dataList); 
+					}
+				}
+			}
+		}catch(Exception e) {
+			
+		}
+		return resultBean;
+	}
+	
 }

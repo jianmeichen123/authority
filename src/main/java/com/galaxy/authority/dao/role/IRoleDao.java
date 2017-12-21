@@ -56,5 +56,8 @@ public interface IRoleDao {
 	//获取角色code
 	public List<String> getRoleCodeByUserId(Map<String, Object> query);
 	
+	//获取指定部门下具有特定角色的所有用户的集合
+	public List<Map<String,Object>> getUserFromDepartRole(Map<String,Object> parmaMap);
+	
 
 }

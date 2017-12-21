@@ -614,5 +614,12 @@ public class RoleServiceImpl implements IRoleService{
 		return dao.getRoleCodeByUserId(query);
 	}
 	
+	/**
+	 * 获取指定部门下具有特定角色的所有用户的集合
+	 */
+	@Override
+	public List<Map<String, Object>> getUserFromDepartRole(Map<String, Object> paramMap) {
+		return dao.getUserFromDepartRole(paramMap);
+	}
 	
 }
