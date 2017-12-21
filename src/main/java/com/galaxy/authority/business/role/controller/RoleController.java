@@ -628,6 +628,7 @@ public class RoleController {
 	@ResponseBody
 	public Object getUserFromDepartRole(@RequestBody String paramString) {
 		ResultBean resultBean = new ResultBean();
+		resultBean.setSuccess(false);
 		try {
 			if(CUtils.get().stringIsNotEmpty(paramString)) {
 				Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
