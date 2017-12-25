@@ -246,6 +246,36 @@ public class UserController {
 	}
 	
 	/**
+	 * 判断用户是否存在
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("isExitUser")
+	@ResponseBody
+	public Object isExitUser(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+			
+		Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
+		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		
+		if(paramMap.containsKey("userName")){
+			String loginName = CUtils.get().object2String(paramMap.get("userName"));
+			int res = service.isExitUser(loginName);
+			if(res>0){
+				result.setSuccess(true);
+				result.setValue(res);
+				result.setMessage("登录账号存在");
+			}else{
+				result.setSuccess(true);
+				result.setValue(res);
+				result.setMessage("登录账号不存在");
+			}
+		}
+		return result;
+	}
+	
+	/**
 	 * 传入用户ID返回用户信息
 	 * @param paramString
 	 * @return
