@@ -500,12 +500,10 @@ public class UserController {
 		result.setSuccess(false);
 			
 		Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
-		if(paramMap.containsKey("deptId")){
-			List<Map<String, Object>> list = service.getTZJLByDepId(paramMap);
-			if(list!=null){
-				result.setSuccess(true);
-				result.setValue(list);
-			}
+		List<Map<String, Object>> list = service.getTZJLByDepId(paramMap);
+		if(list!=null){
+			result.setSuccess(true);
+			result.setValue(list);
 		}
 		return result;
 	}

@@ -382,7 +382,8 @@
 		and u.is_outtage=0
 		and u.is_show=0
 		and u.company_id=1
-		and d.id=#{deptId} and r.role_code ='4';
+		and r.role_code ='4'
+		<if test="flag != 0"> and d.id = #{deptId}</if>;
 	</select>
 
 </mapper>
