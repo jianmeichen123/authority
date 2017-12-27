@@ -424,6 +424,11 @@ public class UserServiceImpl implements IUserService{
 		int count = dao.checkBindRole(paramMap);
 		return count>0;
 	}
+
+	@Override
+	public List<Map<String, Object>> getTZJLByDepId(Map<String, Object> paramMap) {
+		return dao.getTZJLByDepId(paramMap);
+	}
 	
 
 }

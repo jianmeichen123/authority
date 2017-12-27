@@ -366,5 +366,23 @@
 			and u.id=#{userId}
 			and r.company_id=#{companyId};
 	</select>
+	
+	<!-- 获取部门下的所有投资经理 -->
+	<select id="getTZJLByDepId" parameterType="hashmap" resultType="hashmap">
+		select 
+			u.id userId,
+		    u.user_name userName
+		from user u
+		left join rel_dep_user rdu on u.id=rdu.user_id
+		left join department d on d.id=rdu.dep_id
+		LEFT JOIN rel_role_user  rru on rru.user_id=u.id
+		LEFT JOIN role r on rru.role_id=r.id
+		where u.company_id=d.company_id
+		and u.is_del=0
+		and u.is_outtage=0
+		and u.is_show=0
+		and u.company_id=1
+		and d.id=#{deptId} and r.role_code ='4';
+	</select>
 
 </mapper>

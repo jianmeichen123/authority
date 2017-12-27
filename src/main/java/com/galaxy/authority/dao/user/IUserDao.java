@@ -37,4 +37,6 @@ public interface IUserDao {
 	List<Map<String,Object>> getResources(Map<String,Object> paramMap);
 	List<Integer> getUserIdList();
 	int checkBindRole(Map<String, Object> paramMap);
+	//获取部门下所有投资经理
+	List<Map<String, Object>> getTZJLByDepId(Map<String, Object> paramMap);
 }

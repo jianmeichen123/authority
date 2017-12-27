@@ -488,5 +488,27 @@ public class UserController {
 		return result;
 	}
 	
+	/**
+	 * 根据传入的部门ID返回对应的所有投资经理
+	 * @param paramString
+	 * @return
+	 */
+	@RequestMapping("getTZJLByDepId")
+	@ResponseBody
+	public Object getTZJLByDepId(@RequestBody String paramString){
+		ResultBean result = ResultBean.instance();
+		result.setSuccess(false);
+			
+		Map<String,Object> paramMap = CUtils.get().jsonString2map(paramString);
+		if(paramMap.containsKey("deptId")){
+			List<Map<String, Object>> list = service.getTZJLByDepId(paramMap);
+			if(list!=null){
+				result.setSuccess(true);
+				result.setValue(list);
+			}
+		}
+		return result;
+	}
+	
 
 }

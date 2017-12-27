@@ -40,4 +40,6 @@ public interface IUserService {
 	ResultBean resetPasswordForApp(Map<String, Object> map);
 	//检测用户是否绑定角色
 	boolean checkBindRole(Map<String, Object> paramMap);
+	//获取部门下所有投资经理
+	List<Map<String, Object>> getTZJLByDepId(Map<String, Object> paramMap);
 }
