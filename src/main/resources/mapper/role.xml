@@ -151,7 +151,7 @@
 		left join 
     		(SELECT * FROM resource WHERE id=#{parentId}) t
 		on r.id = t.id
-		where r.parent_id=#{parentId} OR r.id=#{parentId}
+		where (r.parent_id=#{parentId} OR r.id=#{parentId})
 		and r.is_del=0 and r.is_outtage=0 and r.company_id=#{companyId} 
 		order by r.resource_order asc;
 	</select>
