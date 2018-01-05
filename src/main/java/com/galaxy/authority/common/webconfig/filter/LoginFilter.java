@@ -31,7 +31,7 @@ public class LoginFilter implements Filter{
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain) throws IOException, ServletException {
 			HttpServletRequest request = (HttpServletRequest)req;
 		
-		@SuppressWarnings("unchecked")
+		/*@SuppressWarnings("unchecked")
 		RedisCacheImpl<String,Object> cache = (RedisCacheImpl<String,Object>)StaticConst.ctx.getBean("cache");
 		String uri = request.getRequestURI();
 		if(uri != null && excludes != null && excludes.length > 0)
@@ -69,7 +69,8 @@ public class LoginFilter implements Filter{
 				
 				CUtils.get().outputJson(resp,result);
 			}
-		}
+		}*/
+			filterChain.doFilter(req, resp);
 	}
 
 	@Override
