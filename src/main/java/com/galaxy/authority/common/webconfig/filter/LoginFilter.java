@@ -9,12 +9,18 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.common.CUtils;
 import com.galaxy.authority.common.StaticConst;
 import com.galaxy.authority.common.redisconfig.RedisCacheImpl;
 
 public class LoginFilter implements Filter{
+	private Logger log = LoggerFactory.getLogger(LoginFilter.class);
+
 
 	private static String[] excludes;
 	@Override
@@ -42,11 +48,11 @@ public class LoginFilter implements Filter{
 		
 		boolean flag = false;
 		String sessionId = request.getHeader(StaticConst.CONST_SESSION_ID_KEY);
-		
+		log.error(request.getRequestURI()+"================"+sessionId);
 		if(request.getRequestURI().indexOf(StaticConst.FILTER_WHITE_LOGIN)>0){
 			filterChain.doFilter(req, resp);
 		}else{
-			if(CUtils.get().stringIsNotEmpty(sessionId) && cache.hasKey(sessionId)){
+			if(CUtils.get().stringIsNotEmpty(sessionId) && !"NULL".equals(sessionId.toUpperCase()) && cache.hasKey(sessionId)){
 				if(CUtils.get().stringIsNotEmpty(cache.get(sessionId))){
 					flag = true;
 				}
