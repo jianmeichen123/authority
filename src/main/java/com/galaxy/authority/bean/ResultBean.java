@@ -36,6 +36,12 @@ public class ResultBean {
 	public void setValue(Object value) {
 		this.value = value;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "ResultBean [success=" + success + ", errorCode=" + errorCode + ", message=" + message + ", value=" + value + "]";
+	}
 	
 	
 }

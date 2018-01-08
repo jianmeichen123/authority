@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +28,8 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping("/login")
 public class LoginController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
 	@Autowired
 	private ILoginService service;
@@ -84,6 +88,10 @@ public class LoginController {
 		String productType="0";
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("companyId", StaticConst.COMPANY_ID);
+		if (logger.isInfoEnabled())
+		{
+			logger.info("ReciveInfo : %s"+paramString);
+		}
 		
 		if(CUtils.get().stringIsNotEmpty(paramString)){
 			JSONObject paramJson = CUtils.get().object2JSONObject(paramString);
@@ -106,7 +114,15 @@ public class LoginController {
 			result.setSuccess(false);
 			result.setMessage("用户名或密码不能为空！");
 		}else{
+			if (logger.isInfoEnabled())
+			{
+				logger.info("Start query user info");
+			}
 			Map<String,Object> userInfo = service.userLogin(paramMap);
+			if (logger.isInfoEnabled())
+			{
+				logger.info("Get user info:"+userInfo);
+			}
 			if(userInfo != null && userInfo.size() >0){
 				result.setSuccess(true);
 				result.setValue(userInfo);
@@ -116,7 +132,10 @@ public class LoginController {
 				result.setMessage("用户名或密码错误！");
 			}
 		}
-		
+		if (logger.isInfoEnabled())
+		{
+			logger.info("Result : %s"+result.toString());
+		}
 		return result;
 	}
 	
