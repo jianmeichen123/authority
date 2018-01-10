@@ -2,11 +2,11 @@ package com.galaxy.authority.business.user.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.galaxy.authority.bean.Page;
 import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.bean.user.UserBean;
+import com.galaxy.authority.business.login.entity.Resource;
 
 public interface IUserService {
 	boolean saveUser(Map<String,Object> map);
@@ -25,7 +25,7 @@ public interface IUserService {
 	List<Map<String,Object>> getUsersByKey(Map<String,Object> paramMap);
 	List<Map<String,Object>> getUserResources(Map<String,Object> paramMap);
 	public List<Map<String,Object>> getUserScope(Map<String,Object> paramMap);
-	public Map<String,Set<Integer>> getUserResourceScope(Map<String,Object> paramMap);
+	public Map<String,Resource> getUserResourceScope(Map<String,Object> paramMap);
 	//获取共享用户list
 	List<Map<String, Object>> getShareUserList(Map<String, Object> map);
 	//根据用户id获取用户名和所在部门

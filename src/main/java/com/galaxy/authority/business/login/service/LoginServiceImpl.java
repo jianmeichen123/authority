@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.galaxy.authority.business.login.entity.Resource;
 import com.galaxy.authority.business.user.service.IUserService;
 import com.galaxy.authority.dao.depart.IDepartDao;
 import com.galaxy.authority.dao.login.ILoginDao;
@@ -59,7 +60,7 @@ public class LoginServiceImpl implements ILoginService{
 			if(res != null)
 			{
 				//数据权限
-				Map<String,Set<Integer>> userIdsMap = userService.getUserResourceScope(query);
+				Map<String,Resource> userIdsMap = userService.getUserResourceScope(query);
 				Set<Integer> defaultScope = new HashSet<>(1);
 				defaultScope.add(0);
 				for(Map<String, Object> item : res)
@@ -67,7 +68,8 @@ public class LoginServiceImpl implements ILoginService{
 					String key = item.get("resourceMark")+"";
 					if(userIdsMap.containsKey(key))
 					{
-						item.put("userIds", userIdsMap.get(key));
+						item.put("userIds", userIdsMap.get(key).getUserIds());
+						item.put("depIds", userIdsMap.get(key).getDepIds());
 					}
 					else
 					{
@@ -113,7 +115,7 @@ public class LoginServiceImpl implements ILoginService{
 			if(res != null)
 			{
 				//数据权限
-				Map<String,Set<Integer>> userIdsMap = userService.getUserResourceScope(query);
+				Map<String,Resource> userIdsMap = userService.getUserResourceScope(query);
 				Set<Integer> defaultScope = new HashSet<>(1);
 				defaultScope.add(0);
 				for(Map<String, Object> item : res)
@@ -121,7 +123,7 @@ public class LoginServiceImpl implements ILoginService{
 					String key = item.get("resourceMark")+"";
 					if(userIdsMap.containsKey(key))
 					{
-						item.put("userIds", userIdsMap.get(key));
+						item.put("userIds", userIdsMap.get(key).getUserIds());
 					}
 					else
 					{
@@ -173,7 +175,7 @@ public class LoginServiceImpl implements ILoginService{
 				if(res != null)
 				{
 					//数据权限
-					Map<String,Set<Integer>> userIdsMap = userService.getUserResourceScope(query);
+					Map<String,Resource> userIdsMap = userService.getUserResourceScope(query);
 					Set<Integer> defaultScope = new HashSet<>(1);
 					defaultScope.add(0);
 					for(Map<String, Object> item : res)
@@ -181,7 +183,7 @@ public class LoginServiceImpl implements ILoginService{
 						String key = item.get("resourceMark")+"";
 						if(userIdsMap.containsKey(key))
 						{
-							item.put("userIds", userIdsMap.get(key));
+							item.put("userIds", userIdsMap.get(key).getUserIds());
 						}
 						else
 						{

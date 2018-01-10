@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -21,6 +22,7 @@ import com.galaxy.authority.bean.ResultBean;
 import com.galaxy.authority.bean.depart.RelDepUser;
 import com.galaxy.authority.bean.position.RelPosUser;
 import com.galaxy.authority.bean.user.UserBean;
+import com.galaxy.authority.business.login.entity.Resource;
 import com.galaxy.authority.business.user.component.ScopeHandler;
 import com.galaxy.authority.common.CUtils;
 import com.galaxy.authority.common.PWDUtils;
@@ -239,16 +241,16 @@ public class UserServiceImpl implements IUserService{
 	}
 	/**
 	 * 获取用户相应资源的数据权限
-	 * @param paramMap resourceMark:{uid1,uid2......}
+	 * @param paramMap resourceMark:{}
 	 * @return
 	 */
-	public Map<String,Set<Integer>> getUserResourceScope(Map<String,Object> paramMap)
+	public Map<String,Resource> getUserResourceScope(Map<String,Object> paramMap)
 	{
-		Map<String,Set<Integer>> map = new HashMap<>();
+		Map<String,Resource> rtn = new HashMap<>();
 		List<Map<String,Object>> list = dao.getUserScope(paramMap);
 		if(list == null || list.size() ==0 || handlers == null)
 		{
-			return map;
+			return rtn;
 		}
 		for(Map<String,Object> item : list)
 		{
@@ -258,26 +260,40 @@ public class UserServiceImpl implements IUserService{
 				{
 					List<Integer> userIds = handler.handle(item);
 					String resourceMark = item.get("resourceMark")+"";
+					String isDep = item.get("isDep")+"";
+					String otherId = item.get("otherId")+"";
 					if(userIds == null || userIds.size() ==0)
 					{
 						break;
 					}
 					Set<Integer> ids = null;
-					if(!map.containsKey(resourceMark))
+					Resource rec = null;
+					if(!rtn.containsKey(resourceMark))
 					{
 						ids = new HashSet<>();
-						map.put(resourceMark, ids);
+						rec = new Resource();
+						rtn.put(resourceMark, rec);
 					}
 					else
 					{
-						ids = map.get(resourceMark);
+						rec = rtn.get(resourceMark);
 					}
 					ids.addAll(userIds);
+					rec.getUserIds().addAll(userIds);
+					//部门
+					if("0".equals(isDep) && StringUtils.isNotEmpty(otherId))
+					{
+						String[] depIds = otherId.split(",");
+						for(String depId : depIds)
+						{
+							rec.getDepIds().add(Integer.valueOf(depId));
+						}
+					}
 					break;
 				}
 			}
 		}
-		return map;
+		return rtn;
 	}
 	
 	@PostConstruct
@@ -299,7 +315,7 @@ public class UserServiceImpl implements IUserService{
 		String userIds="";
 		List<Long> list = new ArrayList<Long>();
 		
-		Map<String, Set<Integer>> info =this.getUserResourceScope(map);
+		Map<String, Resource> info = getUserResourceScope(map);
 		//获取数据范围下的所有相关用户id并做处理
 		if(!info.isEmpty()&&info.size()>0){
 			//for(Map<String,Object> info:scope){
@@ -307,7 +323,7 @@ public class UserServiceImpl implements IUserService{
 					/*if(Integer.valueOf(info.get("spId").toString())==2){
 						list = dao.getUserIdList();
 					}else{*/
-						userIds = info.get("callOn_shareUser").toString();
+						userIds = info.get("callOn_shareUser").getUserIds().toString();
 						userIds = userIds.replace(" ", "");
 						if(userIds.startsWith("[")){
 							userIds = userIds.substring(1);
