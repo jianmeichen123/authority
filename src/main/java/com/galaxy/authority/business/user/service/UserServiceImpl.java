@@ -2,11 +2,9 @@ package com.galaxy.authority.business.user.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -262,15 +260,14 @@ public class UserServiceImpl implements IUserService{
 					String resourceMark = item.get("resourceMark")+"";
 					String isDep = item.get("isDep")+"";
 					String otherId = item.get("otherId")+"";
+					String spId = item.get("spId")+"";
 					if(userIds == null || userIds.size() ==0)
 					{
 						break;
 					}
-					Set<Integer> ids = null;
 					Resource rec = null;
 					if(!rtn.containsKey(resourceMark))
 					{
-						ids = new HashSet<>();
 						rec = new Resource();
 						rtn.put(resourceMark, rec);
 					}
@@ -278,16 +275,38 @@ public class UserServiceImpl implements IUserService{
 					{
 						rec = rtn.get(resourceMark);
 					}
-					ids.addAll(userIds);
 					rec.getUserIds().addAll(userIds);
-					//部门
-					if("0".equals(isDep) && StringUtils.isNotEmpty(otherId))
+					if(scopeOrder.containsKey(spId))
 					{
-						String[] depIds = otherId.split(",");
-						for(String depId : depIds)
+						Integer originalSpId = rec.getSpId();
+						boolean changed = false;
+						if(originalSpId == null)
 						{
-							rec.getDepIds().add(Integer.valueOf(depId));
+							rec.setSpId(Integer.valueOf(spId));
+							changed = true;
 						}
+						else
+						{
+							Integer originalOrder = scopeOrder.get(originalSpId+"");
+							Integer currOrder = scopeOrder.get(spId);
+							if(currOrder.intValue() > originalOrder.intValue())
+							{
+								rec.setSpId(Integer.valueOf(spId));
+								changed = true;
+							}
+						}
+						if(changed)
+						{
+							if("0".equals(isDep) && StringUtils.isNotEmpty(otherId))
+							{
+								String[] depIds = otherId.split(",");
+								for(String depId : depIds)
+								{
+									rec.getDepIds().add(Integer.valueOf(depId));
+								}
+							}
+						}
+						
 					}
 					break;
 				}
@@ -295,10 +314,15 @@ public class UserServiceImpl implements IUserService{
 		}
 		return rtn;
 	}
-	
+	private Map<String,Integer> scopeOrder = new HashMap<>();
 	@PostConstruct
 	public void afterPropertiesSet() throws Exception 
 	{
+		scopeOrder.put("2", 60);//所有人
+		scopeOrder.put("6", 50);//其他
+		scopeOrder.put("3", 40);//本部门
+		scopeOrder.put("1", 10);//本人
+		
 		Map<String, ScopeHandler> map = BeanFactoryUtils.beansOfTypeIncludingAncestors(context, ScopeHandler.class, true, false);
 		 if(map != null)
 		 {
