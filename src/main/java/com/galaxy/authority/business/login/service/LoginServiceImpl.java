@@ -185,6 +185,8 @@ public class LoginServiceImpl implements ILoginService{
 						if(userIdsMap.containsKey(key))
 						{
 							item.put("userIds", userIdsMap.get(key).getUserIds());
+							item.put("depIds", userIdsMap.get(key).getDepIds());
+							item.put("spId", userIdsMap.get(key).getSpId());
 						}
 						else
 						{
