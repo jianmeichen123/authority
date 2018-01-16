@@ -11,6 +11,7 @@ public class Resource
 	private Integer isDep;
 	private Set<Integer> userIds = new HashSet<>();
 	private Set<Integer> depIds = new HashSet<>();
+	private Set<String> depNames = new HashSet<>();
 	public Long getId()
 	{
 		return id;
@@ -58,6 +59,12 @@ public class Resource
 	public void setDepIds(Set<Integer> depIds)
 	{
 		this.depIds = depIds;
+	}
+	public Set<String> getDepNames() {
+		return depNames;
+	}
+	public void setDepNames(Set<String> depNames) {
+		this.depNames = depNames;
 	}
 	
 }

@@ -29,6 +29,7 @@ import com.galaxy.authority.common.StaticConst;
 import com.galaxy.authority.common.mail.MailTemplateUtils;
 import com.galaxy.authority.common.mail.PlaceholderConfigurer;
 import com.galaxy.authority.common.mail.SimpleMailSender;
+import com.galaxy.authority.dao.depart.IDepartDao;
 import com.galaxy.authority.dao.position.IRelPosUserDao;
 import com.galaxy.authority.dao.user.IRelDepUserDao;
 import com.galaxy.authority.dao.user.IUserDao;
@@ -41,6 +42,9 @@ public class UserServiceImpl implements IUserService{
 	private IRelDepUserDao rDao;
 	@Autowired
 	private IRelPosUserDao pDao;
+	
+	@Autowired
+	private IDepartDao dDao;
 	@Autowired
 	ApplicationContext context;
 
@@ -301,7 +305,11 @@ public class UserServiceImpl implements IUserService{
 							{
 								String[] depIds = otherId.split(",");
 								for(String depId : depIds)
-								{
+								{	Map<String,Object> map =new HashMap<String,Object>();
+									List<Map<String, Object>> mList = dDao.getDeptInfo(map);
+									for(Map<String, Object> m :mList){
+										rec.getDepNames().add(CUtils.get().object2String(m.get("deptName")));
+									}
 									rec.getDepIds().add(Integer.valueOf(depId));
 								}
 							}
