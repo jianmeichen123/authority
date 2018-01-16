@@ -306,6 +306,8 @@ public class UserServiceImpl implements IUserService{
 								String[] depIds = otherId.split(",");
 								for(String depId : depIds)
 								{	Map<String,Object> map =new HashMap<String,Object>();
+									map.put("deptId", depId);
+									map.put("companyId", 1);
 									List<Map<String, Object>> mList = dDao.getDeptInfo(map);
 									for(Map<String, Object> m :mList){
 										rec.getDepNames().add(CUtils.get().object2String(m.get("deptName")));
