@@ -293,7 +293,7 @@ public class UserServiceImpl implements IUserService{
 						{
 							Integer originalOrder = scopeOrder.get(originalSpId+"");
 							Integer currOrder = scopeOrder.get(spId);
-							if(currOrder.intValue() > originalOrder.intValue())
+							if(currOrder.intValue() >= originalOrder.intValue())
 							{
 								rec.setSpId(Integer.valueOf(spId));
 								changed = true;
