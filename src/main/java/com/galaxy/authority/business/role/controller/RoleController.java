@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +34,9 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping("/role")
 public class RoleController {
+	
+	private Logger log = LoggerFactory.getLogger(RoleController.class);
+
 
 	@Autowired
 	private IRoleService service;
@@ -609,13 +614,18 @@ public class RoleController {
 	{
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
-		Map<String,Object> map = CUtils.get().jsonString2map(paramString);
-		map.put("companyId", StaticConst.COMPANY_ID);
-		
-		List<String> info =service.getRoleCodeByUserId(map);
-		if(!info.isEmpty() && info.size()>0){
-			result.setSuccess(true);
-			result.setValue(info);
+		try {
+			Map<String,Object> map = CUtils.get().jsonString2map(paramString);
+			map.put("companyId", StaticConst.COMPANY_ID);
+			
+			List<String> info =service.getRoleCodeByUserId(map);
+			if(!info.isEmpty() && info.size()>0){
+				result.setSuccess(true);
+				result.setValue(info);
+			}
+		} catch (Exception e) {
+			log.error("getRoleCodeByUserId",e);
+			e.printStackTrace();
 		}
 		return result;
 	}

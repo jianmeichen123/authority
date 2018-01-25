@@ -8,6 +8,8 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +37,8 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	private Logger log = LoggerFactory.getLogger(UserController.class);
+
 	@Autowired
 	private IUserService service;
 	
@@ -430,12 +434,17 @@ public class UserController {
 	public Object getCreadIdInfo(@RequestBody String paramString){
 		ResultBean result = ResultBean.instance();
 		result.setSuccess(false);
-		Map<String,Object> map = CUtils.get().jsonString2map(paramString);
-		map.put("companyId", StaticConst.COMPANY_ID);
-		List<Map<String,Object>> info =service.getCreadIdInfo(map);
-		if(!info.isEmpty() && info.size()>0){
-			result.setSuccess(true);
-			result.setValue(info);
+		try {
+			Map<String,Object> map = CUtils.get().jsonString2map(paramString);
+			map.put("companyId", StaticConst.COMPANY_ID);
+			List<Map<String,Object>> info =service.getCreadIdInfo(map);
+			if(!info.isEmpty() && info.size()>0){
+				result.setSuccess(true);
+				result.setValue(info);
+			}
+		} catch (Exception e) {
+			log.error("getCreadIdInfo",e);
+			e.printStackTrace();
 		}
 		return result;
 	}
