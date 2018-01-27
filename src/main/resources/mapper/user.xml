@@ -352,7 +352,9 @@
 	<select id="getUserIdList"  resultType="Integer">
 		SELECT id FROM user WHERE is_del=0 and is_outtage=0 and is_show=0 and company_id=1;
 	</select>
-	
+	<select id="getAllUserIds"  resultType="Integer">
+		SELECT id FROM user WHERE is_del=0 and is_show=0 and company_id=1;
+	</select>
 	<!-- 检测账号是否绑定角色 -->
 	<select id="checkBindRole" resultType="Integer" parameterType="Map">
 		select count(1)
