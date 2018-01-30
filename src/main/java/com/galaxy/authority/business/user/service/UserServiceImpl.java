@@ -328,6 +328,7 @@ public class UserServiceImpl implements IUserService{
 	@PostConstruct
 	public void afterPropertiesSet() throws Exception 
 	{
+		scopeOrder.put("7", 70);//所有人
 		scopeOrder.put("2", 60);//所有人
 		scopeOrder.put("6", 50);//其他
 		scopeOrder.put("3", 40);//本部门
