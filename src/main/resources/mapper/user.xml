@@ -320,7 +320,7 @@
 		FROM user u
 		LEFT JOIN rel_dep_user rdu on u.id=rdu.user_id
 		LEFT JOIN department d ON d.id= rdu.dep_id
-		WHERE u.id=#{createdId} and u.is_del=0 and u.is_show=0 and u.company_id=#{companyId};
+		WHERE u.id=#{createdId} and u.is_del=0 and u.company_id=#{companyId};
 	</select>
 	
 	<!-- 登录账号是否存在 -->
