@@ -316,10 +316,17 @@
 	
 	<!-- 根据用户id获取用户名和所在部门-->
 	<select id="getCreadIdInfo" parameterType="hashmap" resultType="hashmap">
-		SELECT u.id uId,u.user_name userName,d.id deptId,d.dep_name deptName
+		SELECT 
+			u.id uId,
+			u.user_name userName,
+			d.id deptId,
+			d.dep_name deptName,
+			d.dep_manager depManager,
+			u1.user_name depManagerUser
 		FROM user u
 		LEFT JOIN rel_dep_user rdu on u.id=rdu.user_id
 		LEFT JOIN department d ON d.id= rdu.dep_id
+		LEFT JOIN user u1 on d.dep_manager=u1.id
 		WHERE u.id=#{createdId} and u.is_del=0 and u.company_id=#{companyId};
 	</select>
 	
