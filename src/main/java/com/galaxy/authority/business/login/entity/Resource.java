@@ -1,7 +1,8 @@
 package com.galaxy.authority.business.login.entity;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ public class Resource
 	private Set<Integer> userIds = new HashSet<>();
 	private Set<Integer> depIds = new HashSet<>();
 	private Set<String> depNames = new HashSet<>();
-	private Map<String,Object> dept = new HashMap<String,Object>();
+	private List<Map<String, Object>> dept = new ArrayList<Map<String, Object>>();
 	public Long getId()
 	{
 		return id;
@@ -69,11 +70,10 @@ public class Resource
 	public void setDepNames(Set<String> depNames) {
 		this.depNames = depNames;
 	}
-	public Map<String,Object> getDept() {
+	public List<Map<String, Object>> getDept() {
 		return dept;
 	}
-	public void setDept(Map<String,Object> dept) {
+	public void setDept(List<Map<String, Object>> dept) {
 		this.dept = dept;
 	}
-	
 }

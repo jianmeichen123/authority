@@ -311,9 +311,9 @@ public class UserServiceImpl implements IUserService{
 									List<Map<String, Object>> mList = dDao.getDeptInfo(map);
 									for(Map<String, Object> m :mList){
 										rec.getDepNames().add(CUtils.get().object2String(m.get("deptName")));
-										rec.getDept().put("deptName", m.get("deptName"));
+										map.put("deptName", m.get("deptName"));
 									}
-									rec.getDept().put("deptId", depId);
+									rec.getDept().add(map);
 									rec.getDepIds().add(Integer.valueOf(depId));
 								}
 							}
