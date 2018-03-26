@@ -287,7 +287,7 @@
 		INNER JOIN data_scope s ON s.id = rs.sp_id
 		LEFT JOIN rel_sp_users su ON su.rel_role_scope_id = rs.id
 		WHERE rec.resource_code IS NOT NULL
-		and u.id=#{userId} and rec.is_del=0 and rec.is_outtage=0 
+		and u.id=#{userId} and rec.is_del=0 
 		<if test="productType != null"> and rec.product_type = #{productType}</if>
 		<if test="companyId != null"> and rec.company_id = #{companyId}</if>
 	</select>
