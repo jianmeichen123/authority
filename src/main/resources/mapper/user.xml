@@ -66,6 +66,7 @@
 		where u.company_id=d.company_id
 		and u.is_del=0
 		and u.is_outtage=0
+		and u.is_show=0
 		<if test="companyId != null">and u.company_id=#{companyId} </if>
 		<if test="depId != null">and d.id=#{depId} </if>
 		<if test="depIds != null">
