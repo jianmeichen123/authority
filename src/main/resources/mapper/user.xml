@@ -308,7 +308,10 @@
 	<select id="getUserNameList" parameterType="hashmap" resultType="hashmap">
 		select u.id toUid,u.user_name toUname
 		from user u 
-		where u.id in
+		where u.is_del=0
+			and u.is_outtage=0
+			and u.is_show=0 
+			and u.id in
 		<foreach item="item" index="index" collection="userIdList" open="(" separator="," close=")">  
 			  #{item}  
 		</foreach>
