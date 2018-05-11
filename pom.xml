@@ -55,9 +55,6 @@
 			<properties>
 				<activatedProperties>local</activatedProperties>
 			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 		</profile>
 
 		<profile>
@@ -84,6 +81,9 @@
 			<properties>
 				<activatedProperties>online</activatedProperties>
 			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 		</profile>
 	</profiles>
 
