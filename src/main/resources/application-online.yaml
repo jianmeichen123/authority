@@ -4,7 +4,7 @@ server:
 
 datasource: 
   type: com.alibaba.druid.pool.DruidDataSource  
-  url: jdbc:mysql://10.9.21.225:3306/power?characterEncoding=utf-8
+  url: jdbc:mysql://10.9.21.225:3306/power?zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;characterEncoding=utf-8
   username: root
   password: 'Qiao#19810817'
   driver-class-name: com.mysql.jdbc.Driver
